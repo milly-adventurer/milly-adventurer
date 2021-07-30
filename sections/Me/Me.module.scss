@@ -1,0 +1,92 @@
+@import '../../styles/sassVaribales.scss';
+
+.section {
+  background: url('../../assets/img/me-bg.jpg') center center;
+  background-size: cover;
+  padding: 50px 0;
+  @media (max-width: $tablet) {
+    background: url('../../assets/img/me-milly-mob.jpg') top right;
+    background-size: cover;
+    padding: 50px 0;
+  }
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 700px 1fr;
+  column-gap: 20px;
+  align-items: center;
+  @media (max-width: $desktop) {
+    grid-template-columns: none;
+    justify-content: center;
+    display: flex;
+    gap: 0;
+  }
+  @media (max-width: $tablet) {
+    display: block;
+  }
+}
+
+.textContainer {
+  @media (max-width: $desktop) {
+    margin-right: 10px;
+  }
+  @media (max-width: $tablet) {
+    margin-right: 0;
+  }
+}
+
+.img {
+  width: 390px;
+  height: 390px;
+  border-radius: 50%;
+  background: url('../../assets/img/me-milly.jpg');
+  background-size: cover;
+  @media (max-width: $desktop) {
+    width: 230px;
+    height: 230px;
+  }
+  @media (max-width: $tablet) {
+    display: none;
+  }
+}
+
+.title {
+  margin-bottom: 5px;
+  @media (max-width: $tablet) {
+    margin-bottom: 10px;
+    max-width: 190px;
+  }
+}
+
+.features {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
+  @media (max-width: $tablet) {
+    display: none;
+  }
+}
+
+.features strong {
+  font-size: 20px;
+  margin-bottom: 5px;
+  @media (max-width: $desktop) {
+    font-size: 15px;
+  }
+}
+
+.features strong:not(:last-child) {
+  margin-right: 15px;
+}
+
+.description {
+  margin-bottom: 25px;
+  font-size: 25px;
+  max-width: 400px;
+  font-weight: 300;
+  @media (max-width: $tablet) {
+    font-size: 14px;
+    max-width: 200px;
+  }
+}

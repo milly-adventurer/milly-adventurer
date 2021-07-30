@@ -1,0 +1,52 @@
+@import '../../styles/sassVaribales.scss';
+
+.section {
+  padding: 60px 0 90px 0;
+  @media (max-width: $desktop) {
+    padding: 40px 0 70px 0;
+  }
+  @media (max-width: $tablet) {
+    padding: 30px 0 30px 0;
+  }
+}
+
+.title {
+  margin-bottom: 60px;
+  text-align: center;
+  @media (max-width: $desktop) {
+    margin-bottom: 40px;
+  }
+  @media (max-width: $tablet) {
+    margin-bottom: 30px;
+  }
+}
+
+.cellsContainer {
+  display: grid;
+  grid-template: min-content 1fr / 1fr 1fr;
+  gap: 10px;
+  @media (max-width: $tablet) {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+.cell {
+  background-size: cover;
+  min-height: 450px;
+  background-color: rgb(19, 37, 56);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+
+  @media (max-width: $desktop) {
+    min-height: 400px;
+  }
+  @media (max-width: $tablet) {
+    margin-bottom: 12px;
+    min-height: 300px;
+    width: 100%;
+  }
+}

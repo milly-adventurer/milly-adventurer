@@ -1,0 +1,50 @@
+@import '../../styles/sassVaribales.scss';
+
+.section {
+  text-align: center;
+  color: var(--t-c);
+  padding-bottom: 20px;
+}
+
+.title {
+  margin-bottom: 10px;
+  @media (max-width: $tablet) {
+    font-size: 20px;
+  }
+}
+
+.description {
+  max-width: 700px;
+  margin: 0 auto 20px auto;
+  font-size: 22px;
+  @media (max-width: $tablet) {
+    display: none;
+  }
+}
+
+.btns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  max-width: 850px;
+  gap: 20px;
+  margin: 0 auto;
+  @media (max-width: $tablet) {
+    font-size: 14px;
+    grid-template-columns: none;
+    grid-template-rows: min-content 1fr;
+    gap: 5px;
+  }
+}
+
+.btn {
+  color: var(--t-c);
+  border-color: var(--t-c);
+  @media (max-width: $tablet) {
+    font-size: 14px;
+  }
+}
+
+.btn:hover {
+  background-color: var(--t-c);
+  color: var(--t-c-alt);
+}

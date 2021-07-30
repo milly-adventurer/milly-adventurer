@@ -1,0 +1,13 @@
+@import '../../styles/sassVaribales.scss';
+
+.container {
+  margin: 0 auto;
+  max-width: 1200px;
+  @media (max-width: $desktop) {
+    padding: 0 20px;
+  }
+}
+
+.noPaddings {
+  padding: 0 !important;
+}

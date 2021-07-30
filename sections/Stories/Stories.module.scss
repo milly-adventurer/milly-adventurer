@@ -1,0 +1,59 @@
+@import '../../styles/sassVaribales.scss';
+
+.section {
+  padding: 100px 0;
+  @media (max-width: $tablet) {
+    padding: 50px 0;
+  }
+}
+
+.title {
+  margin: 0 auto 60px auto;
+  max-width: 700px;
+  text-align: center;
+  @media (max-width: $tablet) {
+    margin-bottom: 30px;
+  }
+}
+
+.content {
+  display: grid;
+  grid-template: min-content 1fr / 1fr 1fr;
+  gap: 30px 40px;
+  color: var(--t-c);
+  @media (max-width: $tablet) {
+    display: block;
+  }
+}
+
+.card {
+  @media (max-width: $tablet) {
+    padding: 0 10px;
+  }
+}
+
+.imgContainer {
+  margin-bottom: 15px;
+}
+
+.img {
+  border-radius: 6px;
+}
+
+.name {
+  font-size: 25px;
+  margin-bottom: 5px;
+  display: block;
+  font-weight: 700;
+}
+
+.comment {
+  font-size: 20px;
+  font-weight: 200;
+  margin-bottom: 10px;
+}
+
+.link {
+  font-size: 22px;
+  font-weight: 400;
+}

@@ -1,0 +1,24 @@
+@import '../../styles/sassVaribales.scss';
+
+.container {
+  height: 70px;
+  overflow-y: auto;
+}
+
+.list {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 16px;
+  min-width: 768px;
+  @media (max-width: $tablet) {
+    justify-content: unset;
+  }
+}
+
+.item {
+  @media (max-width: $tablet) {
+    margin-right: 50px;
+  }
+}

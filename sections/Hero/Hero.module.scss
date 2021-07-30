@@ -1,0 +1,11 @@
+.section {
+  height: 100vh;
+  color: inherit;
+  position: relative;
+}
+
+.content {
+  position: absolute;
+  top: calc(50vh + 35px);
+  transform: translateY(-50%);
+}

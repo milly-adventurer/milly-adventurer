@@ -1,0 +1,110 @@
+@import '../../styles/sassVaribales.scss';
+
+.buttonsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  @media (max-width: $tablet) {
+    padding: 0 20px;
+  }
+}
+
+.section {
+  padding: 10px 0 100px 0;
+  @media (max-width: $tablet) {
+    padding: 10px 0 60px 0;
+  }
+}
+
+.title {
+  margin-bottom: 30px;
+  @media (max-width: $tablet) {
+    padding: 0 20px;
+    margin-bottom: 20px;
+  }
+}
+
+.button {
+  margin: 0 15px 10px 0;
+  padding: 16px 0 14px 0;
+  min-width: 200px;
+  @media (max-width: $tablet) {
+    margin: 0 5px 5px 0;
+    font-size: 14px;
+    padding: 12px 0;
+    min-width: 135px;
+  }
+
+  &:hover {
+    background-color: var(--brand-c);
+    color: var(--t-c-alt);
+  }
+}
+
+.unactiveButton {
+  background-color: #D3D3D3;
+  color: #6F6F6F;
+}
+
+.buttonsContainer {
+  margin-bottom: 50px;
+  @media (max-width: $tablet) {
+    margin-bottom: 30px;
+  }
+}
+
+.description {
+  margin-bottom: 30px;
+  max-width: 870px;
+  font-weight: 200;
+  font-size: 22px;
+  color: #000000;
+  @media (max-width: $tablet) {
+    margin-bottom: 10px;
+    font-size: 15px;
+    padding: 0 20px;
+  }
+}
+
+.imgs {
+  display: grid;
+  grid-template: min-content 1fr / 1fr 1fr;
+  gap: 15px;
+  @media (max-width: $tablet) {
+    display: block;
+  }
+  margin-bottom: 20px;
+}
+
+.img {
+  height: 300px;
+  border-radius: 6px;
+  background-size: cover;
+  @media (max-width: $tablet) {
+    height: 250px;
+    border-radius: 0;
+  }
+}
+
+@media (max-width: $tablet) {
+  .img:not(:first-child) {
+    display: none;
+  }
+}
+
+.showMore {
+  margin: 0 auto;
+  color: var(--brand-c);
+  font-size: 25px;
+  border: none;
+  background: none;
+  font-weight: 400;
+  @media (max-width: $tablet) {
+    font-size: 15px;
+  }
+}
+
+.showMoreWrapper {
+  display: flex;
+  justify-content: center;
+}
