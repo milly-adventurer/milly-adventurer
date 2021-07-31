@@ -1,7 +1,13 @@
+@import '../../styles/sassVaribales.scss';
+
 .section {
   height: 100vh;
   color: inherit;
   position: relative;
+  background-size: cover !important;
+  @media (max-width: $tablet) {
+    background-position-x: center;
+  }
 }
 
 .content {

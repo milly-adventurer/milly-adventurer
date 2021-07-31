@@ -20,7 +20,6 @@ const Hero = ({
   return (
     <section className={styles.section} style={backgroundImage ? {
       backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: 'cover',
       ...style,
     } : style}>
       <SectionContainer>

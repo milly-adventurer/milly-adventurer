@@ -21,6 +21,7 @@
   @media (max-width: $tablet) {
     padding: 0 20px;
     margin-bottom: 20px;
+    font-size: 20px;
   }
 }
 
@@ -49,7 +50,7 @@
 .buttonsContainer {
   margin-bottom: 50px;
   @media (max-width: $tablet) {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
   }
 }
 
@@ -61,8 +62,9 @@
   color: #000000;
   @media (max-width: $tablet) {
     margin-bottom: 10px;
-    font-size: 15px;
+    font-size: 16px;
     padding: 0 20px;
+    line-height: 1.2;
   }
 }
 
@@ -79,7 +81,7 @@
 .img {
   height: 300px;
   border-radius: 6px;
-  background-size: cover;
+  background-size: cover !important;
   @media (max-width: $tablet) {
     height: 250px;
     border-radius: 0;

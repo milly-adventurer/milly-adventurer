@@ -47,8 +47,8 @@ const Stories = () => {
     <section className={styles.section}>
       <SectionContainer>
         <h2 className={styles.title}>Истории клиентов</h2>
-        <DivOrSlider options={{ infinite: true, slidesPerRow: 1, arrows: false, centerMode: true, centerPadding: '0px' }} isSlider={!!isMobile} className={styles.content}>
-          {Array(4).fill(null).map(() => <Comment />)}
+        <DivOrSlider options={{ speed: 0, waitForAnimate: false, infinite: true, slidesPerRow: 1, arrows: false, centerMode: true, centerPadding: '0px' }} isSlider={!!isMobile} className={styles.content}>
+          {Array(4).fill(null).map((_, i) => <Comment key={i}/>)}
         </DivOrSlider>
       </SectionContainer>
     </section>

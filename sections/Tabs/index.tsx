@@ -17,13 +17,13 @@ const Tabs = () => {
         <h2 className={styles.title}>Как это было в прошлый раз</h2>
         <div className={styles.buttonsContainer}>
           {['Дагестан', 'Алтай', 'Крым', 'Байкал'].map((item, i) => (
-            <Button size={Size.SMALL} type={Type.FILLED} className={`${activeButton !== i ? styles.unactiveButton : ''} ${styles.button}`} label={item} onClick={() => setActiveButton(i)}/>
+            <Button key={i} size={Size.SMALL} type={Type.FILLED} className={`${activeButton !== i ? styles.unactiveButton : ''} ${styles.button}`} label={item} onClick={() => setActiveButton(i)}/>
           ))}
         </div>
         <p className={styles.description}>Дагестан один из уникальнейших регионов России, богатейший по своей многовековой истории и поражающий удивительным разнообразием природы.</p>
         <div className={styles.imgs}>
-          {Array(4).fill(null).map(() => (
-            <div className={styles.img} style={{
+          {Array(4).fill(null).map((_, i) => (
+            <div key={i} className={styles.img} style={{
               background: `url(${someImage.src}) center center`
             }}/>
           ))}

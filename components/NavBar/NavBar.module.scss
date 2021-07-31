@@ -22,3 +22,12 @@
     margin-right: 50px;
   }
 }
+
+.item a {
+  color: var(--t-c-alt) !important;
+  cursor: pointer;
+}
+
+.item:hover a {
+  color: #dcdcdc !important;
+}

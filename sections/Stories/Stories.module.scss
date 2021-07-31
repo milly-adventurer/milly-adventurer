@@ -12,7 +12,8 @@
   max-width: 700px;
   text-align: center;
   @media (max-width: $tablet) {
-    margin-bottom: 30px;
+    margin-bottom: 20px;
+    font-size: 20px;
   }
 }
 
@@ -45,15 +46,24 @@
   margin-bottom: 5px;
   display: block;
   font-weight: 700;
+  @media (max-width: $tablet) {
+    font-size: 20px;
+  }
 }
 
 .comment {
   font-size: 20px;
   font-weight: 200;
   margin-bottom: 10px;
+  @media (max-width: $tablet) {
+    font-size: 16px;
+  }
 }
 
 .link {
   font-size: 22px;
   font-weight: 400;
+  @media (max-width: $tablet) {
+    font-size: 16px;
+  }
 }
