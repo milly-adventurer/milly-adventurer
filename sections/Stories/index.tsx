@@ -2,13 +2,14 @@ import Image from 'next/image';
 import Link from 'next/link';
 import SectionContainer from '../../components/SectionContainer';
 import styles from './Stories.module.scss';
+import arrow from '../../assets/img/arrow.svg';
 
 import commentImage from '../../assets/img/comment.jpg';
 import { PropsWithChildren, useContext } from 'react';
 import Slider, { Settings } from 'react-slick';
 import { WindowWidthContext } from '../../contexts/WindowWidth';
 
-const Comment = () => <article className={styles.card}>
+const Comment = ({ isMobile }: { isMobile: boolean }) => <article className={styles.card}>
   <div className={styles.imgContainer}>
     <Image src={commentImage} className={styles.img} />
   </div>
@@ -17,6 +18,12 @@ const Comment = () => <article className={styles.card}>
   <Link href="/">
     <a className={styles.link}>
       Прочитать
+      <div style={{
+        marginLeft: '10px',
+        display: 'flex',
+      }}>
+        <Image src={arrow} width={isMobile ? undefined : 30} height={isMobile ? undefined : 20}/>
+      </div>
     </a>
   </Link>
 </article>;
@@ -48,7 +55,7 @@ const Stories = () => {
       <SectionContainer>
         <h2 className={styles.title}>Истории клиентов</h2>
         <DivOrSlider options={{ speed: 0, waitForAnimate: false, infinite: true, slidesPerRow: 1, arrows: false, centerMode: true, centerPadding: '0px' }} isSlider={!!isMobile} className={styles.content}>
-          {Array(4).fill(null).map((_, i) => <Comment key={i}/>)}
+          {Array(4).fill(null).map((_, i) => <Comment isMobile={isMobile} key={i}/>)}
         </DivOrSlider>
       </SectionContainer>
     </section>

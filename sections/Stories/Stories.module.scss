@@ -63,6 +63,8 @@
 .link {
   font-size: 22px;
   font-weight: 400;
+  display: flex;
+  align-items: center;
   @media (max-width: $tablet) {
     font-size: 16px;
   }

@@ -85,7 +85,7 @@ const Home = () => {
         <Me />
       </div>
       <section className={cn('slideSection')}>
-        <SectionContainer paddings={!!isMobile}>
+        <SectionContainer paddings={true}>
           <h2 className={cn('slideSectionTitle')}>Мои душевные авторские путешествия это</h2>
           <div className={cn('content')}>
             <Slider speed={0} waitForAnimate={false} arrows={false} centerMode centerPadding={isMobile ? '20px' : '90px'} slidesToShow={1} infinite>
