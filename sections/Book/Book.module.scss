@@ -1,0 +1,88 @@
+@import '../../styles/sassVaribales.scss';
+
+.section {
+  background-size: cover !important;
+}
+
+.content {
+  padding: 80px 0;
+}
+
+.titleB {
+  display: grid;
+  grid-template-rows: min-content 1fr;
+  row-gap: 10px;
+  justify-content: center;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.titleB h2 {
+  font-size: 45px;
+  color: var(--t-c-alt);
+  font-weight: bold;
+  @media (max-width: $desktop) {
+    font-size: 40px;
+  }
+
+  @media (max-width: $tablet) {
+    font-size: 20px;
+  }
+}
+
+.titleB p {
+  font-size: 25px;
+  max-width: 500px;
+  @media (max-width: $desktop) {
+    font-size: 20px;
+  }
+
+  @media (max-width: $tablet) {
+    font-size: 16px;
+  }
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.option {
+  margin-bottom: 15px;
+  padding: 15px 25px;
+  display: grid;
+  width: 100%;
+  max-width: 580px;
+  border-radius: 6px;
+  grid-template-columns: min-content 1fr;
+  font-size: 23px;
+  align-items: center;
+  cursor: pointer;
+
+  @media (max-width: $desktop) {
+    font-size: 20px;
+  }
+
+  @media (max-width: $tablet) {
+    font-size: 15px;
+    
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.option p {
+  justify-self: center;
+  transform: translateY(3px);
+  @media (max-width: $tablet) {
+    transform: translateY(2px);
+  }
+}
+
+.option svg {
+  width: 30px;
+  height: 30px;
+}

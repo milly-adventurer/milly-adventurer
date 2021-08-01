@@ -2,6 +2,7 @@ import React, { PropsWithChildren, useEffect, useRef, useState } from "react";
 
 export const WindowWidthContext = React.createContext<{
   isMobile: boolean | null;
+  onResize?(): void;
 }>({
   isMobile: null,
 });
@@ -17,6 +18,7 @@ const WindowWidthProvider = ({ children }: PropsWithChildren<{}>) => {
 
   useEffect(() => {
     const onResize = (event: UIEvent) => {
+
       setState({
         ...state,
         isMobile: (event.target as Window).innerWidth <= MAX_MOBILE_WIDTH,

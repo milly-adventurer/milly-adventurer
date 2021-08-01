@@ -10,9 +10,9 @@ import Slider, { Settings } from 'react-slick';
 import { WindowWidthContext } from '../../contexts/WindowWidth';
 
 const Comment = ({ isMobile }: { isMobile: boolean }) => <article className={styles.card}>
-  <div className={styles.imgContainer}>
-    <Image src={commentImage} className={styles.img} />
-  </div>
+  <div className={styles.img} style={{
+    background: `url(${commentImage.src})`,
+  }}/>
   <strong className={styles.name}>Ирина Ивановна</strong>
   <p className={styles.comment}>Этот тур стал для меня настоящим открытием и приключением</p>
   <Link href="/">

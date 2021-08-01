@@ -18,9 +18,6 @@ import { useContext, useMemo } from 'react';
 import Me from '../sections/Me';
 import SectionContainer from '../components/SectionContainer';
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-
 import Slider from 'react-slick';
 import Stories from '../sections/Stories';
 import Tabs from '../sections/Tabs';

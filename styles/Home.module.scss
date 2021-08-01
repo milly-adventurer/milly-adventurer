@@ -64,7 +64,7 @@
   background-size: cover !important;
   border-top-left-radius: 6px;
   border-top-right-radius: 6px;
-  aspect-ratio: 2 / 0.9;
+  padding-top: 45%;
   max-width: 100%;
 }
 
@@ -78,8 +78,7 @@
   justify-content: center;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
-  padding: 40px 0 ;
-  aspect-ratio: 1 / 0.1;
+  padding: 40px 0;
   max-width: 100%;
   @media (max-width: $tablet) {
     padding: 20px 22px;

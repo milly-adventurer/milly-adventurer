@@ -33,12 +33,11 @@
   }
 }
 
-.imgContainer {
-  margin-bottom: 15px;
-}
-
 .img {
+  margin-bottom: 15px;
   border-radius: 6px;
+  padding-top: 50%;
+  background-size: cover !important;
 }
 
 .name {

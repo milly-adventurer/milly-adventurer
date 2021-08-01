@@ -10,6 +10,7 @@ export type Content = {
   backgroundImage?: string;
   child?: ReactChild;
   className?: string;
+  darken?: boolean
 }[];
 
 interface Props {
@@ -28,9 +29,9 @@ const Grid = ({
       <SectionContainer>
         <h2 className={cn('title')}>{title}</h2>
         <div className={cn('cellsContainer')}>
-          {slicedContent.map(({ backgroundImage, child, className }, i) => (
+          {slicedContent.map(({ backgroundImage, child, className, darken = false }, i) => (
             <article style={{
-              backgroundImage: `url(${backgroundImage})`
+              background: darken ? `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${backgroundImage}) center center` : `url(${backgroundImage}) center center`
             }} key={i} className={`${cn('cell')} ${className}`}>
               {child}
             </article>
