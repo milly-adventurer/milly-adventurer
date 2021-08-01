@@ -90,7 +90,7 @@ const Tour = () => {
           <h2 className={cn('sliderSectionTitle')}>Куда же мы отправимся?</h2>
           <Slider speed={0} waitForAnimate={false} centerMode centerPadding={isMobile ? '10px' : '100px'} arrows={false} slidesToShow={1} infinite>
             {Array(3).fill('null').map((_, i) => (
-              <article className={cn('slide')}>
+              <article key={i} className={cn('slide')}>
                 <div className={cn('slideContainer')} style={{
                   background: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${mountainImg.src}) center center`
                 }}>
