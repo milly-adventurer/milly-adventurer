@@ -1,0 +1,22 @@
+@import '../../styles/sassVaribales.scss';
+
+.section {
+  background-color: #474747;
+}
+
+.footer {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 40px;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 0;
+}
+
+.desc {
+  max-width: 1000px;
+  font-size: 24px;
+  @media (max-width: $tablet) {
+    font-size: 14px;
+  }
+}
