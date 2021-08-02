@@ -71,7 +71,7 @@ const Program = () => {
           <SectionContainer paddings={true}>
             <h2 className={cn('programTitle')}>Программа тура на Байкал</h2>
             {Array(6).fill(null).map((_, i) => (
-              <article className={cn('day')}>
+              <article key={i} className={cn('day')}>
                 <div className={cn('left')}>
                   <h3 className={cn('dayTitle')}>День {i} - прибытие на Байкал</h3>
                   <p className={cn('dayDesc')}>◇ Утром я встречаю вас в аэропорту Горно-Алтайска
