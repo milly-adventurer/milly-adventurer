@@ -8,7 +8,7 @@ const cn = getClassNames(styles);
 
 const Footer = () => {
   return (
-    <section className={cn('section')}>
+    <footer className={cn('section')}>
       <SectionContainer>
         <div className={cn('footer')}>
           <div>
@@ -17,7 +17,7 @@ const Footer = () => {
           <p className={cn('desc')}>Данная услуга не является туроператорской деятельностью. Под туром подразумевается разовая помощь в организации поездки от имени клиента согласно настоящему договору-поручению.</p>
         </div>
       </SectionContainer>
-    </section>
+    </footer>
   );
 };
 

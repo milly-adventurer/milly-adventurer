@@ -9,16 +9,18 @@ interface Props {
   navBarItems: NavBarItems;
   style?: CSSProperties;
   backgroundImage?: string; // url
+  className?: string;
 }
 
 const Hero = ({
   navBarItems,
   style,
   backgroundImage,
-  children
+  children,
+  className = '',
 }: PropsWithChildren<Props>) => {
   return (
-    <section className={styles.section} style={backgroundImage ? {
+    <section className={`${styles.section} ${className}`} style={backgroundImage ? {
       backgroundImage: `url(${backgroundImage})`,
       ...style,
     } : style}>

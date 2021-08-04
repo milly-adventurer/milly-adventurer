@@ -4,15 +4,13 @@ import Image from 'next/image';
 import Hero from '../sections/Hero';
 
 import homeBg from '../assets/img/home-bg.jpg';
-import cellBg from '../assets/img/cell-del.jpg';
-import cell2Bg from '../assets/img/cell-2-del.jpg';
-import cell3Bg from '../assets/img/cell-3-del.jpg';
+import casctleBg from '../assets/img/castle.jpg';
 
 import styles from '../styles/Program.module.scss';
 import Button, { Size, Type } from '../components/Button';
 import Grid, { Content } from '../sections/Grid';
 import getClassNames from '../helpers/classNames';
-import { useContext } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import SectionContainer from '../components/SectionContainer';
 
 import { WindowWidthContext } from '../contexts/WindowWidth';
@@ -21,6 +19,7 @@ import baikalImg from '../assets/img/baikal.jpg';
 import Book from '../sections/Book';
 import Questions from '../sections/Questions';
 import Footer from '../sections/Footer';
+import Popup from 'reactjs-popup';
 
 const cn = getClassNames(styles);
 
@@ -31,34 +30,36 @@ const sections = [
   ['Забронировать', 'book'],
 ];
 
-const bgs = [cellBg, cell2Bg, cell3Bg, cell2Bg];
-
-const gridContent: Content = Array(4).fill(null).map(() => ({
-  darken: true,
-  child: (
-    <div className={cn('cell')}>
-      <strong className={cn('cellTitle')}>
-        Что включено?
-      </strong>
-      <Button label="Подробнее" onClick={() => {}} type={Type.OUTLINE} size={Size.LARGE} />
-    </div>
-  ),
-  className: cn('cellWrapper'),
-  backgroundImage: baikalImg.src,
-}));
-
 const Program = () => {
   const { isMobile } = useContext(WindowWidthContext);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const gridContent: Content = useMemo(() => Array(4).fill(null).map(() => ({
+    darken: true,
+    child: (
+      <div className={cn('cell')}>
+        <strong className={cn('cellTitle')}>
+          Что включено?
+        </strong>
+        <Button label="Подробнее" onClick={() => {setIsOpen(true)}} type={Type.OUTLINE} size={Size.LARGE} />
+      </div>
+    ),
+    className: cn('cellWrapper'),
+    backgroundImage: baikalImg.src,
+  })), []);
 
   return (
     <>
+      <Popup open={isOpen}>
+        aksdjfklasjfkajsdfk
+      </Popup>
       <Head>
         <title>Milly adventurer - туры в России</title>
         <meta name="description" content="Туры и экспедиции по России" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Hero backgroundImage={homeBg.src} navBarItems={sections}>
-        <div>
+      <Hero backgroundImage={homeBg.src} navBarItems={sections} className={styles.hero}>
+        <div className={cn('heroDiv')}>
           <small className={cn('date')}>23-27 июня</small>
           <h3 className={cn('title')}>Отправиться в путешествие</h3>
           <p className={cn('desc')}>Глубокие эмоции и истинный восторг
@@ -72,31 +73,33 @@ const Program = () => {
             <h2 className={cn('programTitle')}>Программа тура на Байкал</h2>
             {Array(6).fill(null).map((_, i) => (
               <article key={i} className={cn('day')}>
-                <div className={cn('left')}>
-                  <h3 className={cn('dayTitle')}>День {i} - прибытие на Байкал</h3>
-                  <p className={cn('dayDesc')}>◇ Утром я встречаю вас в аэропорту Горно-Алтайска
-                    <br />
-                    ◇ Знакомимся и едем путешествовать по Чемальскому району
-                    Сегодня мы увидим много интересного:
-                    <br />
-                    - Зубы Дракона
-                    <br />
-                    - Остров Патмос
-                    <br />
-                    - Ворота Сартакпая
-                    <br />
-                    - Ороктойский мост
-                    <br />
-                    - Долину горных Духов и урочище Че-Чкыш
-                    <br />
-                    ◇ Будем провожать закат на смотровой площадке с потрясающим видом на Катунь
-                    <br />
-                    ◇ Ночь проведем на уютной турбазе в посёлке Чемал.
-                  </p>
+                <div className={cn('text')}>
+                  <SectionContainer>
+                    <h3 className={cn('dayTitle')}>День {i} - прибытие на Байкал</h3>
+                    <p className={cn('dayDesc')}>◇ Утром я встречаю вас в аэропорту Горно-Алтайска
+                      <br />
+                      ◇ Знакомимся и едем путешествовать по Чемальскому району
+                      Сегодня мы увидим много интересного:
+                      <br />
+                      - Зубы Дракона
+                      <br />
+                      - Остров Патмос
+                      <br />
+                      - Ворота Сартакпая
+                      <br />
+                      - Ороктойский мост
+                      <br />
+                      - Долину горных Духов и урочище Че-Чкыш
+                      <br />
+                      ◇ Будем провожать закат на смотровой площадке с потрясающим видом на Катунь
+                      <br />
+                      ◇ Ночь проведем на уютной турбазе в посёлке Чемал.
+                    </p>
+                  </SectionContainer>
                 </div>
-                <div className={cn('right')}>
-                  <div className={cn('dayImg')} />
-                </div>
+                <div style={{
+                  background: `url(${casctleBg.src})`,
+                }} className={cn('dayImg')} />
               </article>
             ))}
           </SectionContainer>

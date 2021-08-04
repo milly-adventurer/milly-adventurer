@@ -21,6 +21,8 @@ import altaiImage from '../assets/img/altai.jpg';
 import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel } from 'react-accessible-accordion';
 import Book from '../sections/Book';
 import Questions from '../sections/Questions';
+import Footer from '../sections/Footer';
+import Popup from 'reactjs-popup';
 
 const cn = getClassNames(styles);
 
@@ -68,9 +70,15 @@ const qa = [
 const Tour = () => {
   const { isMobile } = useContext(WindowWidthContext);
   const [openedIds, setOpenedIds] = useState<string[]>([]);
+  const [popup, setPopup] = useState({
+    isOpen: false,
+  });
 
   return (
     <>
+      <Popup open={popup.isOpen}>
+        aksdjfklasjfkajsdfk
+      </Popup>
       <Head>
         <title>Milly adventurer - туры в России</title>
         <meta name="description" content="Туры и экспедиции по России" />
@@ -141,6 +149,7 @@ const Tour = () => {
         marginBottom: 30,
       }}></div>
       <Questions />
+      <Footer />
     </>
   );
 };

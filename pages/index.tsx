@@ -24,6 +24,7 @@ import Tabs from '../sections/Tabs';
 import Questions from '../sections/Questions';
 import { WindowWidthContext } from '../contexts/WindowWidth';
 import NextLink from 'next/link';
+import Footer from '../sections/Footer';
 
 const cn = getClassNames(styles);
 
@@ -111,6 +112,7 @@ const Home = () => {
       <div id="qa">
         <Questions />
       </div>
+      <Footer />
     </>
   );
 };

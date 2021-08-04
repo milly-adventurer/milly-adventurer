@@ -12,6 +12,15 @@
 .title {
   margin-bottom: 15px;
   font-weight: 400;
+  @media (max-width: $tablet) {
+    font-size: 30px;
+  }
+}
+
+.heroDiv {
+  @media (max-width: $tablet) {
+    padding-right: 10px;
+  }
 }
 
 .desc {
@@ -29,21 +38,46 @@
 .programTitle {
   margin: 100px 0 100px 0;
   text-align: center;
+  @media (max-width: $tablet) {
+    margin: 60px 0 60px 0;
+    font-size: 28px;
+  }
 }
 
 .day {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-rows: max-content 1fr;
+  row-gap: 50px;
+  margin-bottom: 100px;
+  @media (max-width: $tablet) {
+    row-gap: 30px;
+    margin-bottom: 60px;
+  }
 }
 
 .dayTitle {
   color: var(--t-c);
   font-size: 36px;
+  margin-bottom: 20px;
+  @media (max-width: $desktop) {
+    font-size: 34px;
+  }
+  @media (max-width: $tablet) {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
 }
 
 .dayDesc {
   color: var(--t-c);
   font-size: 27px;
+  line-height: 2;
+  @media (max-width: $desktop) {
+    font-size: 22px;
+  }
+  @media (max-width: $tablet) {
+    font-size: 14px;
+  }
 }
 
 .cellWrapper {
@@ -64,5 +98,14 @@
   font-weight: bold;
   @media (max-width: $tablet) {
     font-size: 20px;
+  }
+}
+
+.dayImg {
+  width: 100%;
+  padding-top: 40%;
+  background-size: cover !important;
+  @media (max-width: $desktop) {
+    padding-top: 50%;
   }
 }
