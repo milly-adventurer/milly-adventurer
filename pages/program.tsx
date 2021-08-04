@@ -26,7 +26,6 @@ const cn = getClassNames(styles);
 const sections = [
   ['Программа', 'program'],
   ['Дополнительная инормация', 'info'],
-  ['Отзывы клиентов', 'reviews'],
   ['Забронировать', 'book'],
 ];
 
