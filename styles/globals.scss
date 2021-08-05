@@ -114,3 +114,19 @@ button {
     border-radius: 3px;
   }
 }
+
+.popupContent {
+  width: 1200px;
+  border-radius: 3px;
+  background-color: white;
+  padding: 70px 50px;
+  color: var(--t-c);
+  @media (max-width: $desktop) {
+    width: calc(100vw - 20px);
+  }
+
+  @media (max-width: $tablet) {
+    width: 100vw;
+    padding: 50px 20px;
+  }
+}

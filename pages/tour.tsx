@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Hero from '../sections/Hero';
 import mountainImg from '../assets/img/mountain.jpg';
-import React, { useState } from 'react';
+import React, { ReactChild, useMemo, useState } from 'react';
 import Button, { Size, Type } from '../components/Button';
 import styles from '../styles/Tour.module.scss';
 import getClassNames from '../helpers/classNames';
@@ -22,7 +22,8 @@ import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, Ac
 import Book from '../sections/Book';
 import Questions from '../sections/Questions';
 import Footer from '../sections/Footer';
-import Popup from 'reactjs-popup';
+import Popup from '../components/Popup';
+import Gallery from '../components/Popup/Gallery';
 
 const cn = getClassNames(styles);
 
@@ -33,18 +34,6 @@ const sections = [
   ['Фотографии', ''],
   ['Ответы на вопросы', ''],
 ];
-
-const gridContent: Content = Array(4).fill(null).map((_, i) => ({
-  backgroundImage: altaiImage.src,
-  child: i === 3 ? (
-    <div className={styles.gridItem}>
-      <p>+50 фотографий</p>
-      <Button label="Открыть" onClick={() => {}} size={Size.MEDIUM} type={Type.OUTLINE} />
-    </div>
-  ) : undefined,
-  className: styles.gridItem,
-  darken: i === 3,
-}));
 
 const qa = [
   ['Что входит в тур помимо программы?', `Встреча в аэропорту
@@ -70,14 +59,31 @@ const qa = [
 const Tour = () => {
   const { isMobile } = useContext(WindowWidthContext);
   const [openedIds, setOpenedIds] = useState<string[]>([]);
-  const [popup, setPopup] = useState({
+
+  const [popup, setPopup] = useState<{
+    isOpen: boolean;
+    content: ReactChild | null;
+  }>({
     isOpen: false,
+    content: <Gallery onClose={() => setPopup({ ...popup, isOpen: false })} label="Алтай фотографии" imgs={Array(10).fill(mountainImg.src)} />,
   });
+
+  const gridContent: Content = useMemo(() => Array(4).fill(null).map((_, i) => ({
+    backgroundImage: altaiImage.src,
+    child: i === 3 ? (
+      <div className={styles.gridItem}>
+        <p>+50 фотографий</p>
+        <Button label="Открыть" onClick={() => setPopup(prev => ({...popup, isOpen: !prev.isOpen, }))} size={Size.MEDIUM} type={Type.OUTLINE} />
+      </div>
+    ) : undefined,
+    className: styles.gridItem,
+    darken: i === 3,
+  })), []);
 
   return (
     <>
-      <Popup open={popup.isOpen}>
-        aksdjfklasjfkajsdfk
+      <Popup onClose={() => setPopup({...popup, isOpen: false, })} open={popup.isOpen}>
+        {popup.content}
       </Popup>
       <Head>
         <title>Milly adventurer - туры в России</title>
@@ -146,7 +152,7 @@ const Tour = () => {
       </section>
       <Book />
       <div style={{
-        marginBottom: 30,
+        marginBottom: isMobile ? 30 : 60,
       }}></div>
       <Questions />
       <Footer />

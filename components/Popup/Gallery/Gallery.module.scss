@@ -1,0 +1,53 @@
+@import '../../../styles/sassVaribales.scss';
+
+.popupContent {
+  height: 100vh;
+  @media (max-width: $tablet) {
+    padding: 30px 20px;
+  }
+}
+
+.imgsBlock {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  overflow-y: auto;
+  height: 80vh;
+
+  @media (max-width: $tablet) {
+    grid-template-columns: unset;
+    height: 82vh;
+  }
+}
+
+.img {
+  padding-top: 50%;
+  border-radius: 6px;
+}
+
+.title {
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 30px;
+  @media (max-width: $tablet) {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+}
+
+.buttonClose {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  @media (max-width: $tablet) {
+    top: 15px;
+    right: 10px;
+  }
+  
+  & svg {
+    @media (max-width: $tablet) {
+      width: 15px;
+      height: 15px;
+    }
+  }
+}

@@ -14,7 +14,7 @@ import styles from '../styles/Home.module.scss';
 import Button, { Size, Type } from '../components/Button';
 import Grid, { Content } from '../sections/Grid';
 import getClassNames from '../helpers/classNames';
-import { useContext, useMemo } from 'react';
+import React, { ReactChild, useContext, useMemo, useState } from 'react';
 import Me from '../sections/Me';
 import SectionContainer from '../components/SectionContainer';
 
@@ -25,6 +25,8 @@ import Questions from '../sections/Questions';
 import { WindowWidthContext } from '../contexts/WindowWidth';
 import NextLink from 'next/link';
 import Footer from '../sections/Footer';
+
+import Gallery from '../components/Popup/Gallery';
 
 const cn = getClassNames(styles);
 

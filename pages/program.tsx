@@ -30,7 +30,6 @@ const sections = [
 ];
 
 const Program = () => {
-  const { isMobile } = useContext(WindowWidthContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const gridContent: Content = useMemo(() => Array(4).fill(null).map(() => ({
