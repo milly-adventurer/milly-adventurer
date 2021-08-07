@@ -10,16 +10,15 @@ import styles from '../styles/Program.module.scss';
 import Button, { Size, Type } from '../components/Button';
 import Grid, { Content } from '../sections/Grid';
 import getClassNames from '../helpers/classNames';
-import { useContext, useMemo, useState } from 'react';
+import { ReactChild, useContext, useMemo, useState } from 'react';
 import SectionContainer from '../components/SectionContainer';
-
-import { WindowWidthContext } from '../contexts/WindowWidth';
 
 import baikalImg from '../assets/img/baikal.jpg';
 import Book from '../sections/Book';
 import Questions from '../sections/Questions';
 import Footer from '../sections/Footer';
-import Popup from 'reactjs-popup';
+import Popup from '../components/Popup';
+import WhatIncluded from '../components/Popup/WhatIncluded';
 
 const cn = getClassNames(styles);
 
@@ -30,16 +29,145 @@ const sections = [
 ];
 
 const Program = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [popup, setPopup] = useState<{
+    isOpen: boolean;
+    content: ReactChild | null;
+  }>({
+    isOpen: false,
+    content: null,
+  });
 
-  const gridContent: Content = useMemo(() => Array(4).fill(null).map(() => ({
+  const popups = useMemo(() => [
+    {
+      q: 'Что включено?',
+      c: (
+        <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label="Что включено?" text={`
+          ♡ Встреча в аэропорту
+          </br>
+          ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
+          </br>
+          ♡ Проживание в гостевых домах и на турбазах по программе
+          </br>
+          ♡ Завтраки, обеды и ужины
+          </br>
+          ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
+          </br>
+          ♡ Сопровождение опытным гидом-водителем и организатором
+          </br>
+          ♡ Входные билеты
+          </br>
+          ♡ Паромная переправа
+          </br>
+          ♡ Заброски на труднодоступные локации на внедорожниках
+          </br>
+          ♡ Трансфер в аэропорт
+          </br>
+          ♡ Страховка от укуса клеща
+          </br>
+          ♡ Горячий чай, кофе, вода, перекус в дорогу.`}
+        />
+      ),
+    },
+    {
+      q: 'Какие расходы?',
+      c: (
+        <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label="Какие расходы?" text={`
+          ♡ Встреча в аэропорту
+          </br>
+          ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
+          </br>
+          ♡ Проживание в гостевых домах и на турбазах по программе
+          </br>
+          ♡ Завтраки, обеды и ужины
+          </br>
+          ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
+          </br>
+          ♡ Сопровождение опытным гидом-водителем и организатором
+          </br>
+          ♡ Входные билеты
+          </br>
+          ♡ Паромная переправа
+          </br>
+          ♡ Заброски на труднодоступные локации на внедорожниках
+          </br>
+          ♡ Трансфер в аэропорт
+          </br>
+          ♡ Страховка от укуса клеща
+          </br>
+          ♡ Горячий чай, кофе, вода, перекус в дорогу.`}
+        />
+      )
+    },
+    {
+      q: 'Частые вопросы',
+      c: (
+        <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label="Частые вопросы" text={`
+          ♡ Встреча в аэропорту
+          </br>
+          ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
+          </br>
+          ♡ Проживание в гостевых домах и на турбазах по программе
+          </br>
+          ♡ Завтраки, обеды и ужины
+          </br>
+          ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
+          </br>
+          ♡ Сопровождение опытным гидом-водителем и организатором
+          </br>
+          ♡ Входные билеты
+          </br>
+          ♡ Паромная переправа
+          </br>
+          ♡ Заброски на труднодоступные локации на внедорожниках
+          </br>
+          ♡ Трансфер в аэропорт
+          </br>
+          ♡ Страховка от укуса клеща
+          </br>
+          ♡ Горячий чай, кофе, вода, перекус в дорогу.`}
+        />
+      )
+    },
+    {
+      q: 'Какова цена?',
+      c: (
+        <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label="Какие расходы?" text={`
+          ♡ Встреча в аэропорту
+          </br>
+          ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
+          </br>
+          ♡ Проживание в гостевых домах и на турбазах по программе
+          </br>
+          ♡ Завтраки, обеды и ужины
+          </br>
+          ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
+          </br>
+          ♡ Сопровождение опытным гидом-водителем и организатором
+          </br>
+          ♡ Входные билеты
+          </br>
+          ♡ Паромная переправа
+          </br>
+          ♡ Заброски на труднодоступные локации на внедорожниках
+          </br>
+          ♡ Трансфер в аэропорт
+          </br>
+          ♡ Страховка от укуса клеща
+          </br>
+          ♡ Горячий чай, кофе, вода, перекус в дорогу.`}
+        />
+      )
+    }
+  ], []);
+
+  const gridContent: Content = useMemo(() => popups.map((o, i) => ({
     darken: true,
     child: (
       <div className={cn('cell')}>
         <strong className={cn('cellTitle')}>
-          Что включено?
+          {o.q}
         </strong>
-        <Button label="Подробнее" onClick={() => {setIsOpen(true)}} type={Type.OUTLINE} size={Size.LARGE} />
+        <Button label="Подробнее" onClick={() => {setPopup(prev => ({ content: o.c, isOpen: !prev.isOpen }))}} type={Type.OUTLINE} size={Size.LARGE} />
       </div>
     ),
     className: cn('cellWrapper'),
@@ -48,8 +176,8 @@ const Program = () => {
 
   return (
     <>
-      <Popup open={isOpen}>
-        aksdjfklasjfkajsdfk
+      <Popup open={popup.isOpen}>
+        {popup.content}
       </Popup>
       <Head>
         <title>Milly adventurer - туры в России</title>

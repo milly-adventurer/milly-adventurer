@@ -111,7 +111,7 @@ const Tour = () => {
                 <div className={cn('slideTextContainer')}>
                   <h3 className={cn('slideTitle')}>{i + 1} день - прибытие</h3>
                   <p className={cn('slideDescription')}>Мы посетим старейшую гору Алтая - Адыр Кайя, с которой совершим полет на парапланах и увидим множество мелких деревушек над нами. А пока вы будете наслаждаться полетом, вас будет снимать наш профессиональный фотограф.</p>
-                  <Link href="#">
+                  <Link href="/program">
                     <a>
                       <Button className={styles.slideButton} label="Узнать больше" onClick={() => {}} size={Size.MEDIUM} type={Type.OUTLINE} />
                     </a>
