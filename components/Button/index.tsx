@@ -1,4 +1,3 @@
-import { useMemo } from 'react';
 import getClassNames from '../../helpers/classNames';
 import styles from './Button.module.scss';
 
