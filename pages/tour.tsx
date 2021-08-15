@@ -24,15 +24,17 @@ import Questions from '../sections/Questions';
 import Footer from '../sections/Footer';
 import Popup from '../components/Popup';
 import Gallery from '../components/Popup/Gallery';
+import { NavBarItems } from '../components/NavBar';
+import { Link as ScrollLink } from 'react-scroll';
 
 const cn = getClassNames(styles);
 
-const sections = [
-  ['Обо мне', ''],
-  ['Мои туры', ''],
-  ['Отзывы клиентов', ''],
-  ['Фотографии', ''],
-  ['Ответы на вопросы', ''],
+const sections: NavBarItems = [
+  [<Link href="/">Главная</Link>, ''],
+  ['Программа', 'tour_program'],
+  ['Обо мне', 'tour_me'],
+  ['Фотографии', 'tour_photo'],
+  ['Ответы на вопросы', 'tour_qa'],
 ];
 
 const qa = [
@@ -96,10 +98,12 @@ const Tour = () => {
           <h3 className={cn('title')}>Горный Алтай</h3>
           <p className={cn('desc')}>Глубокие эмоции и истинный восторг
             в увлекательном летнем путешествии по самым невероятным и впечатляющим пейзажам и сакральным местам силы Алтая.</p>
-          <Button className={styles.cellButton} label="Отправиться в путешествие" onClick={() => {}} type={Type.FILLED} size={Size.LARGE} />
+            <ScrollLink to="tour_program" spy smooth color="white">
+              <Button className={styles.cellButton} label="Отправиться в путешествие" onClick={() => {}} type={Type.FILLED} size={Size.LARGE} />
+            </ScrollLink>
         </div>
       </Hero>
-      <section className={cn('sliderSection')}>
+      <section id="tour_program" className={cn('sliderSection')}>
         <SectionContainer paddings={true}>
           <h2 className={cn('sliderSectionTitle')}>Куда же мы отправимся?</h2>
           <Slider speed={0} waitForAnimate={false} centerMode centerPadding={isMobile ? '10px' : '100px'} arrows={false} slidesToShow={1} infinite>
@@ -123,10 +127,14 @@ const Tour = () => {
           </Slider>
         </SectionContainer>
       </section>
-      <Me />
+      <div id="tour_me">
+        <Me />
+      </div>
       <Stories />
-      <Grid content={gridContent} title="Как это было в прошлый раз" />
-      <section>
+      <div id="tour_photo">
+        <Grid content={gridContent} title="Как это было в прошлый раз" />
+      </div>
+      <section id="tour_qa">
         <SectionContainer>
           <h2 className={styles.accordionSectionTitle}>Ответы на ваши вопросы</h2>
           <div>

@@ -2,8 +2,6 @@ import Image from 'next/image';
 import React from 'react';
 import ButtonClose from '../../ButtonClose';
 
-import milly from '../../../assets/img/milly-incl.jpg';
-
 import styles from './WhatIncluded.module.scss';
 
 interface Props {

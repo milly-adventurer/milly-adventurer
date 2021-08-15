@@ -1,9 +1,9 @@
-import { ReactChild } from "react";
+import { ReactChild, ReactNode } from "react";
 import { Link } from "react-scroll";
 
 import styles from './NavBar.module.scss';
 
-export type NavBarItems = string[][];
+export type NavBarItems = [ReactNode, string][];
 
 interface Props {
   items: NavBarItems;

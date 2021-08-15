@@ -4,6 +4,10 @@
   background-size: cover !important;
 }
 
+.options a {
+  color: white !important;
+}
+
 .content {
   padding: 80px 0;
 }
@@ -53,12 +57,13 @@
   padding: 15px 25px;
   display: grid;
   width: 100%;
-  max-width: 580px;
+  max-width: 530px;
   border-radius: 6px;
   grid-template-columns: min-content 1fr;
   font-size: 23px;
   align-items: center;
   cursor: pointer;
+  transition: 0.3s;
 
   @media (max-width: $desktop) {
     font-size: 20px;
@@ -66,11 +71,15 @@
 
   @media (max-width: $tablet) {
     font-size: 15px;
-    
+    padding: 12px 25px;
   }
 
   &:last-child {
     margin-bottom: 0;
+  }
+
+  &:hover {
+    transform: scale(1.05);
   }
 }
 

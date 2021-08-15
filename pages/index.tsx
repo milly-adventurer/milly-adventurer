@@ -14,7 +14,7 @@ import styles from '../styles/Home.module.scss';
 import Button, { Size, Type } from '../components/Button';
 import Grid, { Content } from '../sections/Grid';
 import getClassNames from '../helpers/classNames';
-import React, { ReactChild, useContext, useMemo, useState } from 'react';
+import React, { ReactNode, useContext, useMemo } from 'react';
 import Me from '../sections/Me';
 import SectionContainer from '../components/SectionContainer';
 
@@ -25,12 +25,11 @@ import Questions from '../sections/Questions';
 import { WindowWidthContext } from '../contexts/WindowWidth';
 import NextLink from 'next/link';
 import Footer from '../sections/Footer';
-
-import Gallery from '../components/Popup/Gallery';
+import { Link } from 'react-scroll';
 
 const cn = getClassNames(styles);
 
-const sections = [
+const sections: [ReactNode, string][] = [
   ['Мои туры', 'tours'],
   ['Обо мне', 'about'],
   ['Отзывы клиентов', 'reviews'],
@@ -76,7 +75,9 @@ const Home = () => {
           <Image src={logo} alt="Logo" />
         </div>
         <h1 className={styles.title}>Душевные авторские туры и экспедиции по России</h1>
-        <Button onClick={onSeeToursClick} label="Посмотреть туры" size={Size.LARGE} />
+        <Link to="tours" spy smooth color="white">
+          <Button onClick={onSeeToursClick} label="Посмотреть туры" size={Size.LARGE} />
+        </Link>
       </Hero>
       <div id="tours">
         <Grid title="Мои авторские туры" content={toursContent} />

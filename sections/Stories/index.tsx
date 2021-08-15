@@ -50,7 +50,7 @@ const DivOrSlider = ({
 const Stories = () => {
   const { isMobile } = useContext(WindowWidthContext);
 
-  return isMobile === null ? <></> : (
+  return isMobile === null || true ? <></> : (
     <section className={styles.section}>
       <SectionContainer>
         <h2 className={styles.title}>Истории клиентов</h2>

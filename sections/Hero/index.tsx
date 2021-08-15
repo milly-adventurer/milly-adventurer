@@ -21,7 +21,7 @@ const Hero = ({
 }: PropsWithChildren<Props>) => {
   return (
     <section className={`${styles.section} ${className}`} style={backgroundImage ? {
-      backgroundImage: `url(${backgroundImage})`,
+      backgroundImage: `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${backgroundImage})`,
       ...style,
     } : style}>
       <SectionContainer>
