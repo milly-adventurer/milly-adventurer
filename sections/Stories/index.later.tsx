@@ -10,8 +10,22 @@ import Slider, { Settings } from 'react-slick';
 import { WindowWidthContext } from '../../contexts/WindowWidth';
 
 const Comment = ({ isMobile }: { isMobile: boolean }) => <article className={styles.card}>
+  <div className={styles.img} style={{
+    background: `url(${commentImage.src})`,
+  }}/>
   <strong className={styles.name}>Ирина Ивановна</strong>
-  <p className={styles.comment}>Этот тур стал для меня настоящим открытием и приключением. Этот тур стал для меня настоящим открытием и приключением Этот тур стал для меня настоящим открытием и приключением</p>
+  <p className={styles.comment}>Этот тур стал для меня настоящим открытием и приключением</p>
+  <Link href="/">
+    <a className={styles.link}>
+      Прочитать
+      <div style={{
+        marginLeft: '10px',
+        display: 'flex',
+      }}>
+        <Image src={arrow} width={isMobile ? undefined : 30} height={isMobile ? undefined : 20}/>
+      </div>
+    </a>
+  </Link>
 </article>;
 
 const DivOrSlider = ({
@@ -25,7 +39,7 @@ const DivOrSlider = ({
   className?: string;
 }>) => {
   return isSlider ?
-    <Slider className={className} dots {...options}>
+    <Slider className={className} {...options}>
       {children}
     </Slider> :
     <div className={className}>

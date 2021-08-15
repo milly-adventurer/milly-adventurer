@@ -106,7 +106,7 @@ const Tour = () => {
       <section id="tour_program" className={cn('sliderSection')}>
         <SectionContainer paddings={true}>
           <h2 className={cn('sliderSectionTitle')}>Куда же мы отправимся?</h2>
-          <Slider speed={0} waitForAnimate={false} centerMode centerPadding={isMobile ? '10px' : '100px'} arrows={false} slidesToShow={1} infinite>
+          <Slider dots speed={0} waitForAnimate={false} centerMode centerPadding={isMobile ? '10px' : '100px'} arrows={false} slidesToShow={1} infinite>
             {Array(3).fill('null').map((_, i) => (
               <article key={i} className={cn('slide')}>
                 <div className={cn('slideContainer')} style={{
@@ -128,7 +128,7 @@ const Tour = () => {
         </SectionContainer>
       </section>
       <div id="tour_me">
-        <Me />
+        <Me needPopupButtons={false}/>
       </div>
       <Stories />
       <div id="tour_photo">

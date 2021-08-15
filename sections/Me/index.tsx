@@ -10,7 +10,11 @@ import ButtonClose from '../../components/ButtonClose';
 
 const cn = getClassNames(styles);
 
-const Me = () => {
+const Me = ({
+  needPopupButtons = true,
+}:{
+  needPopupButtons?: boolean;
+}) => {
   const [popup, setPopup] = useState<{
     isOpen: boolean;
     content: ReactChild | null;
@@ -38,19 +42,31 @@ const Me = () => {
             }}/>
           </div>
           <h4 className={cn('popupTitle')}>Немного фактов обо мне</h4>
-          <p className={cn('popupDesc', 'popupAboutDesc')}>
+          <p className={cn('popupDesc', 'popupAboutDesc')} style={!needPopupButtons && {
+            marginBottom: 0,
+          } || undefined}>
             Встреча в аэропорту
             <br />
-            ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута<br />
-            ♡ Проживание в гостевых домах и на турбазах по программе<br />
-            ♡ Завтраки, обеды и ужины<br />
+            ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
+            <br />
+            <br />
+            ♡ Проживание в гостевых домах и на турбазах по программе
+            <br />
+            <br />
+            ♡ Завтраки, обеды и ужины
+            <br />
+            <br />
             ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
           </p>
-          <h4 className={cn('popupTitle')}>Хотите отправиться со мной  в тур?</h4>
-          <div className={cn('buttons')}>
-            <Button label="Да, хочу" onClick={() => {}} type={Type.FILLED} size={Size.MEDIUM}/>
-            <Button className={cn('outlineButton')} label="Я еще осмотрюсь" onClick={() => setPopup({ ...popup, isOpen: false })} type={Type.OUTLINE} size={Size.MEDIUM}/>
-          </div>
+          {needPopupButtons && (
+            <>
+              <h4 className={cn('popupTitle')}>Хотите отправиться со мной  в тур?</h4>
+              <div className={cn('buttons')}>
+                <Button label="Да, хочу" onClick={() => {}} type={Type.FILLED} size={Size.MEDIUM}/>
+                <Button className={cn('outlineButton')} label="Я еще осмотрюсь" onClick={() => setPopup({ ...popup, isOpen: false })} type={Type.OUTLINE} size={Size.MEDIUM}/>
+              </div>
+            </>
+          )} 
         </div>
       </div>
     ),
