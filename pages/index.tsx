@@ -14,7 +14,7 @@ import styles from '../styles/Home.module.scss';
 import Button, { Size, Type } from '../components/Button';
 import Grid, { Content } from '../sections/Grid';
 import getClassNames from '../helpers/classNames';
-import React, { ReactNode, useContext, useMemo } from 'react';
+import React, { ReactNode, useContext, useEffect, useMemo } from 'react';
 import Me from '../sections/Me';
 import SectionContainer from '../components/SectionContainer';
 
@@ -26,6 +26,8 @@ import { WindowWidthContext } from '../contexts/WindowWidth';
 import NextLink from 'next/link';
 import Footer from '../sections/Footer';
 import { Link } from 'react-scroll';
+import DataContext from '../contexts/Data';
+import { Tours } from '../interfaces/Tour';
 
 const cn = getClassNames(styles);
 
@@ -42,13 +44,15 @@ const bgs = [cellBg, cell2Bg, cell3Bg, cell2Bg];
 const Home = () => {
   const { isMobile } = useContext(WindowWidthContext);
 
-  const toursContent = useMemo<Content>(() => Array(4).fill(null).map((_, i) => ({
+  const { tours } = useContext(DataContext) as { tours: Tours };
+
+  const toursContent = useMemo<Content>(() => tours.map(({ date, name, description, id }, i) => ({
     child: (
       <>
-        <small className={cn('cellDate')}>21 апреля 2020 года</small>
-        <h3 className={cn('cellTitle')}>Золотая осень в горном алтае</h3>
-        <p className={cn('cellDescription')}>Для любителей гор и желтеющих деревьев</p>
-        <NextLink href='/tour'>
+        <small className={cn('cellDate')}>{date}</small>
+        <h3 className={cn('cellTitle')}>{name}</h3>
+        <p className={cn('cellDescription')}>{description}</p>
+        <NextLink href={`/tour/${id}`}>
           <a>
             <Button className={styles.cellButton} label="Узнать больше" onClick={() => {}} type={Type.OUTLINE} size={Size.LARGE} />
           </a>

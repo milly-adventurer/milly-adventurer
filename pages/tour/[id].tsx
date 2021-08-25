@@ -1,31 +1,35 @@
 import Head from 'next/head';
-import Hero from '../sections/Hero';
-import mountainImg from '../assets/img/mountain.jpg';
-import React, { ReactChild, useMemo, useState } from 'react';
-import Button, { Size, Type } from '../components/Button';
-import styles from '../styles/Tour.module.scss';
-import getClassNames from '../helpers/classNames';
-import SectionContainer from '../components/SectionContainer';
+import Hero from '../../sections/Hero';
+import mountainImg from '../../assets/img/mountain.jpg';
+import React, { ReactChild, useEffect, useMemo, useState } from 'react';
+import Button, { Size, Type } from '../../components/Button';
+import styles from '../../styles/Tour.module.scss';
+import getClassNames from '../../helpers/classNames';
+import SectionContainer from '../../components/SectionContainer';
 import { useContext } from 'react';
-import { WindowWidthContext } from '../contexts/WindowWidth';
+import { WindowWidthContext } from '../../contexts/WindowWidth';
 import Slider from 'react-slick';
 import Link from 'next/link';
 import Image from 'next/image';
-import Me from '../sections/Me';
-import Stories from '../sections/Stories';
-import Grid, { Content } from '../sections/Grid';
+import Me from '../../sections/Me';
+import Stories from '../../sections/Stories';
+import Grid, { Content } from '../../sections/Grid';
 
-import ArrowDown from '../assets/img/arrowDown.svg';
+import ArrowDown from '../../assets/img/arrowDown.svg';
 
-import altaiImage from '../assets/img/altai.jpg';
+import altaiImage from '../../assets/img/altai.jpg';
 import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel } from 'react-accessible-accordion';
-import Book from '../sections/Book';
-import Questions from '../sections/Questions';
-import Footer from '../sections/Footer';
-import Popup from '../components/Popup';
-import Gallery from '../components/Popup/Gallery';
-import { NavBarItems } from '../components/NavBar';
+import Book from '../../sections/Book';
+import Questions from '../../sections/Questions';
+import Footer from '../../sections/Footer';
+import Popup from '../../components/Popup';
+import Gallery from '../../components/Popup/Gallery';
+import { NavBarItems } from '../../components/NavBar';
 import { Link as ScrollLink } from 'react-scroll';
+import DataContext from '../../contexts/Data';
+import { Tours } from '../../interfaces/Tour';
+import { useRouter } from 'next/dist/client/router';
+import { redirect } from 'next/dist/next-server/server/api-utils';
 
 const cn = getClassNames(styles);
 
@@ -37,30 +41,19 @@ const sections: NavBarItems = [
   ['Ответы на вопросы', 'tour_qa'],
 ];
 
-const qa = [
-  ['Что входит в тур помимо программы?', `Встреча в аэропорту
-  <br/><br/>♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
-  <br/><br/>♡ Проживание в гостевых домах и на турбазах по программе
-  <br/><br/>♡ Завтраки, обеды и ужины
-  <br/><br/>♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
-  `],
-  ['Что входит в тур помимо программы?', `Встреча в аэропорту
-  <br/><br/>♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
-  <br/><br/>♡ Проживание в гостевых домах и на турбазах по программе
-  <br/><br/>♡ Завтраки, обеды и ужины
-  <br/><br/>♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
-  `],
-  ['Что входит в тур помимо программы?', `Встреча в аэропорту
-  <br/><br/>♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
-  <br/><br/>♡ Проживание в гостевых домах и на турбазах по программе
-  <br/><br/>♡ Завтраки, обеды и ужины
-  <br/><br/>♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
-  `]
-]
-
 const Tour = () => {
+  const router = useRouter();
   const { isMobile } = useContext(WindowWidthContext);
   const [openedIds, setOpenedIds] = useState<string[]>([]);
+
+  const { getTourById } = useContext(DataContext);
+  const tour = useMemo(() => getTourById(router.query.id as string), [router.query]);
+
+  useEffect(() => {
+    if (!tour) {
+      router.push('/');
+    }
+  }, [tour]);
 
   const [popup, setPopup] = useState<{
     isOpen: boolean;
@@ -82,7 +75,7 @@ const Tour = () => {
     darken: i === 3,
   })), []);
 
-  return (
+  return tour ? (
     <>
       <Popup onClose={() => setPopup({...popup, isOpen: false, })} open={popup.isOpen}>
         {popup.content}
@@ -94,10 +87,9 @@ const Tour = () => {
       </Head>
       <Hero backgroundImage={mountainImg.src} navBarItems={sections}>
         <div>
-          <small className={cn('date')}>23-27 июня</small>
-          <h3 className={cn('title')}>Горный Алтай</h3>
-          <p className={cn('desc')}>Глубокие эмоции и истинный восторг
-            в увлекательном летнем путешествии по самым невероятным и впечатляющим пейзажам и сакральным местам силы Алтая.</p>
+          <small className={cn('date')}>{tour.date}</small>
+          <h3 className={cn('title')}>{tour.name}</h3>
+          <p className={cn('desc')}>{tour.description}</p>
             <ScrollLink to="tour_program" spy smooth color="white">
               <Button className={styles.cellButton} label="Отправиться в путешествие" onClick={() => {}} type={Type.FILLED} size={Size.LARGE} />
             </ScrollLink>
@@ -107,15 +99,15 @@ const Tour = () => {
         <SectionContainer paddings={true}>
           <h2 className={cn('sliderSectionTitle')}>Куда же мы отправимся?</h2>
           <Slider dots speed={0} waitForAnimate={false} centerMode centerPadding={isMobile ? '10px' : '100px'} arrows={false} slidesToShow={1} infinite>
-            {Array(3).fill('null').map((_, i) => (
+            {tour.program_short.map(({ description, name }, i) => (
               <article key={i} className={cn('slide')}>
                 <div className={cn('slideContainer')} style={{
                   background: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${mountainImg.src}) center center`
                 }}>
                 <div className={cn('slideTextContainer')}>
-                  <h3 className={cn('slideTitle')}>{i + 1} день - прибытие</h3>
-                  <p className={cn('slideDescription')}>Мы посетим старейшую гору Алтая - Адыр Кайя, с которой совершим полет на парапланах и увидим множество мелких деревушек над нами. А пока вы будете наслаждаться полетом, вас будет снимать наш профессиональный фотограф.</p>
-                  <Link href="/program">
+                  <h3 className={cn('slideTitle')}>{i + 1} день - {name}</h3>
+                  <p className={cn('slideDescription')}>{description}</p>
+                  <Link href={`/program/${tour.id}`}>
                     <a>
                       <Button className={styles.slideButton} label="Узнать больше" onClick={() => {}} size={Size.MEDIUM} type={Type.OUTLINE} />
                     </a>
@@ -141,16 +133,16 @@ const Tour = () => {
             <Accordion preExpanded={['0']} onChange={(indexes: string[]) => {
               setOpenedIds(indexes);
             }} className={styles.accordion} allowZeroExpanded allowMultipleExpanded={false}>
-              {qa.map(([q, a], i) => (
+              {tour.qa.map(({ question, answer }, i) => (
                 <AccordionItem key={i} uuid={`${i}`} className={styles.accordionItem}>
                   <AccordionItemHeading className={styles.accordionHeader}>
                     <AccordionItemButton className={styles.accordionButton}>
-                      {q}
+                      {question}
                       <Image src={ArrowDown} width={15} className={openedIds.includes(`${i}`) ? styles.arrowUp : ''} />
                     </AccordionItemButton>
                   </AccordionItemHeading>
                   <AccordionItemPanel>
-                    <p className={styles.accordionItemDesc} dangerouslySetInnerHTML={{__html: a}} />
+                    <p className={styles.accordionItemDesc} dangerouslySetInnerHTML={{__html: answer}} />
                   </AccordionItemPanel>
                 </AccordionItem>
               ))}
@@ -158,14 +150,14 @@ const Tour = () => {
           </div>
         </SectionContainer>
       </section>
-      <Book />
+      <Book codeWord={tour.code_word} />
       <div style={{
         marginBottom: isMobile ? 30 : 60,
       }}></div>
       <Questions />
       <Footer />
     </>
-  );
+  ) : null;
 };
 
 export default Tour;
