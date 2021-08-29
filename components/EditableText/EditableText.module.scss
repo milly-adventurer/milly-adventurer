@@ -1,0 +1,32 @@
+.notEditBlock {
+	position: relative;
+}
+
+.edit {
+	width: 10px;
+	height: 10px;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.textarea {
+ border: none;
+ outline: none;
+}
+
+.btnSuccess {
+	background: green;
+	margin-right: 5px;
+}
+
+.btnError {
+	background: brown;
+}
+
+.btn {
+	font-size: 15px;
+	margin-top: 10px;
+	border-radius: 2px;
+	padding: 5px 10px;
+}

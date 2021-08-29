@@ -26,10 +26,13 @@ import Popup from '../../components/Popup';
 import Gallery from '../../components/Popup/Gallery';
 import { NavBarItems } from '../../components/NavBar';
 import { Link as ScrollLink } from 'react-scroll';
-import DataContext from '../../contexts/Data';
-import { Tours } from '../../interfaces/Tour';
+import { DataContext } from '../../contexts/Data';
 import { useRouter } from 'next/dist/client/router';
-import { redirect } from 'next/dist/next-server/server/api-utils';
+
+import EditableText from '../../components/EditableText';
+import EditContext from '../../contexts/Edit';
+import UserInfoContext from '../../contexts/UserInfo';
+import UploadImage from '../../components/UploadImage';
 
 const cn = getClassNames(styles);
 
@@ -46,8 +49,9 @@ const Tour = () => {
   const { isMobile } = useContext(WindowWidthContext);
   const [openedIds, setOpenedIds] = useState<string[]>([]);
 
-  const { getTourById } = useContext(DataContext);
-  const tour = useMemo(() => getTourById(router.query.id as string), [router.query]);
+  const { getTourById, editDay, addDay } = useContext(DataContext);
+  const { canEdit } = useContext(UserInfoContext);
+  const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query]);
 
   useEffect(() => {
     if (!tour) {
@@ -68,7 +72,7 @@ const Tour = () => {
     child: i === 3 ? (
       <div className={styles.gridItem}>
         <p>+50 фотографий</p>
-        <Button label="Открыть" onClick={() => setPopup(prev => ({...popup, isOpen: !prev.isOpen, }))} size={Size.MEDIUM} type={Type.OUTLINE} />
+        <Button label="Открыть" onClick={() => setPopup(prev => ({ ...popup, isOpen: !prev.isOpen, }))} size={Size.MEDIUM} type={Type.OUTLINE} />
       </div>
     ) : undefined,
     className: styles.gridItem,
@@ -77,7 +81,7 @@ const Tour = () => {
 
   return tour ? (
     <>
-      <Popup onClose={() => setPopup({...popup, isOpen: false, })} open={popup.isOpen}>
+      <Popup onClose={() => setPopup({ ...popup, isOpen: false, })} open={popup.isOpen}>
         {popup.content}
       </Popup>
       <Head>
@@ -90,9 +94,9 @@ const Tour = () => {
           <small className={cn('date')}>{tour.date}</small>
           <h3 className={cn('title')}>{tour.name}</h3>
           <p className={cn('desc')}>{tour.description}</p>
-            <ScrollLink to="tour_program" spy smooth color="white">
-              <Button className={styles.cellButton} label="Отправиться в путешествие" onClick={() => {}} type={Type.FILLED} size={Size.LARGE} />
-            </ScrollLink>
+          <ScrollLink to="tour_program" spy smooth color="white">
+            <Button className={styles.cellButton} label="Отправиться в путешествие" onClick={() => { }} type={Type.FILLED} size={Size.LARGE} />
+          </ScrollLink>
         </div>
       </Hero>
       <section id="tour_program" className={cn('sliderSection')}>
@@ -104,23 +108,31 @@ const Tour = () => {
                 <div className={cn('slideContainer')} style={{
                   background: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${mountainImg.src}) center center`
                 }}>
-                <div className={cn('slideTextContainer')}>
-                  <h3 className={cn('slideTitle')}>{i + 1} день - {name}</h3>
-                  <p className={cn('slideDescription')}>{description}</p>
-                  <Link href={`/program/${tour.id}`}>
-                    <a>
-                      <Button className={styles.slideButton} label="Узнать больше" onClick={() => {}} size={Size.MEDIUM} type={Type.OUTLINE} />
-                    </a>
-                  </Link>
-                </div>
+                  <div className={cn('slideTextContainer')}>
+                    <h3 className={cn('slideTitle')}>{i + 1} день - <EditableText onSave={(text: string) => editDay(Number(router.query.id), i, 'name', text)}>{name}</EditableText></h3>
+                    <p className={cn('slideDescription')}><EditableText onSave={(text: string) => editDay(Number(router.query.id), i, 'description', text)}>{description}</EditableText></p>
+                    <Link href={`/program/${router.query.id}`}>
+                      <a>
+                        <Button className={styles.slideButton} label="Узнать больше" onClick={() => { }} size={Size.MEDIUM} type={Type.OUTLINE} />
+                      </a>
+                    </Link>
+                  </div>
+                  {canEdit && (
+                    <UploadImage onUpload={(base64: string) => editDay(Number(router.query.id), i, 'image', base64)}/>
+                  )}
                 </div>
               </article>
             ))}
           </Slider>
+          {canEdit && (
+            <div style={{ marginTop: 50, margin: '50px auto' }}>
+              <Button onClick={addDay} label="Добавить день" />
+            </div>
+          )}
         </SectionContainer>
       </section>
       <div id="tour_me">
-        <Me needPopupButtons={false}/>
+        <Me needPopupButtons={false} />
       </div>
       <Stories />
       <div id="tour_photo">
@@ -142,7 +154,7 @@ const Tour = () => {
                     </AccordionItemButton>
                   </AccordionItemHeading>
                   <AccordionItemPanel>
-                    <p className={styles.accordionItemDesc} dangerouslySetInnerHTML={{__html: answer}} />
+                    <p className={styles.accordionItemDesc} dangerouslySetInnerHTML={{ __html: answer }} />
                   </AccordionItemPanel>
                 </AccordionItem>
               ))}

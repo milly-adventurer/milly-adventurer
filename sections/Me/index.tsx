@@ -58,7 +58,7 @@ const Me = ({
             <br />
             ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
           </p>
-          {needPopupButtons && (
+          {false && (
             <>
               <h4 className={cn('popupTitle')}>Хотите отправиться со мной  в тур?</h4>
               <div className={cn('buttons')}>
@@ -82,11 +82,6 @@ const Me = ({
           <article className={cn('content')}>
             <div className={cn('textContainer')}>
               <h4 className={cn('title')}>Я Милена - ваш личный гид</h4>
-              <div className={cn('features')}>
-                <strong>● 7 лет в туризме</strong>
-                <strong>● Индивидуальный подход</strong>
-                <strong>● Более 50 туров</strong>
-              </div>
               <p className={cn('description')}>Когда мне исполнилось 40 лет я влюбилась...</p>
               <Button label="В кого Милена?" onClick={() => setPopup(({ isOpen }) => ({...popup, isOpen: !isOpen}))} size={Size.MEDIUM} type={Type.FILLED} />
             </div>

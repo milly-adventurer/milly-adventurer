@@ -9,6 +9,9 @@ import cellBg from '../assets/img/cell-del.jpg';
 import cell2Bg from '../assets/img/cell-2-del.jpg';
 import cell3Bg from '../assets/img/cell-3-del.jpg';
 import millyBg from '../assets/img/milly.jpg';
+import slide2 from '../assets/img/slide_2.png';
+import slide3 from '../assets/img/slide_3.png';
+import slide4 from '../assets/img/slide_4.png';
 
 import styles from '../styles/Home.module.scss';
 import Button, { Size, Type } from '../components/Button';
@@ -26,8 +29,10 @@ import { WindowWidthContext } from '../contexts/WindowWidth';
 import NextLink from 'next/link';
 import Footer from '../sections/Footer';
 import { Link } from 'react-scroll';
-import DataContext from '../contexts/Data';
-import { Tours } from '../interfaces/Tour';
+import { DataContext } from '../contexts/Data';
+import Data from '../interfaces/Tour';
+import EditableText from '../components/EditableText';
+import { BASE_URL, URL } from '../constants/url';
 
 const cn = getClassNames(styles);
 
@@ -42,17 +47,19 @@ const sections: [ReactNode, string][] = [
 const bgs = [cellBg, cell2Bg, cell3Bg, cell2Bg];
 
 const Home = () => {
-  const { isMobile } = useContext(WindowWidthContext);
+  const { isMobile, isTablet } = useContext(WindowWidthContext);
 
-  const { tours } = useContext(DataContext) as { tours: Tours };
+  const { data, onUpdateTourInfo } = useContext(DataContext);
 
-  const toursContent = useMemo<Content>(() => tours.map(({ date, name, description, id }, i) => ({
+  if (!data) return <></>
+
+  const toursContent = useMemo<Content>(() => data.tours.map(({ date, name, description, id }, i) => ({
     child: (
       <>
-        <small className={cn('cellDate')}>{date}</small>
-        <h3 className={cn('cellTitle')}>{name}</h3>
-        <p className={cn('cellDescription')}>{description}</p>
-        <NextLink href={`/tour/${id}`}>
+        <small className={cn('cellDate')}><EditableText onSave={(text: string) => onUpdateTourInfo(i, 'date', text)}>{date}</EditableText></small>
+        <h3 className={cn('cellTitle')}><EditableText onSave={(text: string) => onUpdateTourInfo(i, 'name', text)}>{name}</EditableText></h3>
+        <p className={cn('cellDescription')}><EditableText onSave={(text: string) => onUpdateTourInfo(i, 'description', text)}>{description}</EditableText></p>
+        <NextLink href={`/tour/${i}`}>
           <a>
             <Button className={styles.cellButton} label="Узнать больше" onClick={() => {}} type={Type.OUTLINE} size={Size.LARGE} />
           </a>
@@ -61,7 +68,28 @@ const Home = () => {
     ),
     backgroundImage: bgs[i].src,
     className: styles.cellContainer,
-  })), []);
+  })), [data]);
+
+  const aboutTours = [{
+    title: 'Всегда небольшие группы из 6 человек и трепетная забота о каждом госте',
+    description: 'Организовала отдых тысячам довольных туристов, которые из года в год снова обращаются ко мне за подбором тура.',
+    img: millyBg.src,
+  },
+  {
+    title: 'Творческий подход к путешествию и спокойный, расслабленный темп',
+    description: 'В турах я создаю аутентичную атмосферу того места где мы находимся. Через общение с местными, их рассказы, истории и т.д. Все это создает невероятную и уникальную атмосферу.',
+    img: slide2.src,
+  },
+  {
+    title: 'Безупречная организация и комфорт',
+    description: 'Беру все сложности логистики на себя. Вам остается только расслабиться и настроиться на потрясающее путешествие.',
+    img: slide3.src,
+  },
+  {
+    title: 'Эксклюзивные и лично проверенные маршруты',
+    description: 'Все маршруты и отели я проверяю самостоятельно. Так что возможность каких-то казусов сведена к минимуму.',
+    img: slide4.src,
+  }];
 
   const onSeeToursClick = () => {
 
@@ -93,19 +121,19 @@ const Home = () => {
         <SectionContainer paddings={true}>
           <h2 className={cn('slideSectionTitle')}>Мои душевные авторские путешествия это</h2>
           <div className={cn('content')}>
-            <Slider speed={0} waitForAnimate={false} arrows={false} centerMode centerPadding={isMobile ? '20px' : '90px'} slidesToShow={1} infinite>
-              {Array(3).fill(null).map((_, i) => (
+            <Slider speed={0} waitForAnimate={false} arrows={false} centerMode centerPadding={isMobile ? '20px' : isTablet ? '50px' : '300px'} slidesToShow={1} infinite>
+              {aboutTours.map(({ title, description, img }, i) => (
                 <article key={i} className={cn('slide')}>
                   <div style={{
-                    background: `url(${millyBg.src})`,
+                    background: `url(${img})`,
                   }} className={cn('slideImg')}>
                   </div>
                   <div className={cn('slideTextContainer')}>
-                    <p className={cn('slideTitle')}>Эксклюзивные и лично проверенные маршруты</p>
-                    <p className={cn('slideDescription')}>Профессиональный тревел эксперт и организатор авторских туров с многолетним опытом работы в туризме.</p>
+                    <p className={cn('slideTitle')}>{title}</p>
+                    <p className={cn('slideDescription')}>{description}</p>
                   </div>
                 </article>
-              ))}  
+              ))}
             </Slider>
           </div>
         </SectionContainer>
@@ -114,7 +142,7 @@ const Home = () => {
         <Stories />
       </div>
       <div id="photos">
-        <Tabs />
+        <Tabs tabs={data.tabs}/>
       </div>
       <div id="qa">
         <Questions />

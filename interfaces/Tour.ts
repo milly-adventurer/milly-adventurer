@@ -20,7 +20,7 @@ export interface QAItem {
   answer: string;
 }
 
-interface Tour {
+export interface Tour {
   date: string,
   name: string,
   description: string,
@@ -36,4 +36,16 @@ interface Tour {
 
 export type Tours = Tour[];
 
-export default Tour;
+export interface Tab {
+  id: string;
+  name: string;
+  description: string;
+  pictures: string[];
+}
+
+interface Data {
+  tours: Tour[];
+  tabs: Tab[];
+}
+
+export default Data;

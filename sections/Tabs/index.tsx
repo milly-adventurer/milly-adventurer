@@ -1,77 +1,54 @@
-import Image from 'next/image';
-import React, { Fragment, ReactChild, useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import Button, { Size, Type } from '../../components/Button';
 import SectionContainer from '../../components/SectionContainer';
 import styles from './Tabs.module.scss';
-import arrow from '../../assets/img/arrow.svg';
-
-import someImage from '../../assets/img/last.jpg';
-import altaiImage from '../../assets/img/altai.jpg';
-import baikalImage from '../../assets/img/baikal.jpg';
-import crimImage from '../../assets/img/crim.jpg';
-
 import { WindowWidthContext } from '../../contexts/WindowWidth';
-import Popup from '../../components/Popup';
-import Gallery from '../../components/Popup/Gallery';
+import EditableText from '../../components/EditableText';
+import { Tab } from '../../interfaces/Tour';
+import { DataContext } from '../../contexts/Data';
+import ButtonClose from '../../components/ButtonClose';
+import TabInfo from './TabInfo';
 
-const places: [string, StaticImageData][] = [
-  ['Дагестан', someImage],
-  ['Алтай', altaiImage],
-  ['Крым', baikalImage],
-  ['Байкал', crimImage],
-];
+interface Props {
+  tabs: Tab[],
+}
 
-const Tabs = () => {
+const Tabs = ({
+  // tabs,
+}: Props) => {
   const [activeButton, setActiveButton] = useState(0);
   const { isMobile } = useContext(WindowWidthContext);
 
-  const [popup, setPopup] = useState<{
-    isOpen: boolean;
-    content: ReactChild | null;
-  }>({
-    isOpen: false,
-    content: <Gallery onClose={() => setPopup({ ...popup, isOpen: false })} label="Алтай фотографии" imgs={Array(10).fill(someImage.src)} />,
-  });
+  const { deleteTab, addNewTab, updateTabInfo, data } = useContext(DataContext);
+  if (!data) return <></>;
 
   return (
-    <>
-      <Popup onClose={() => setPopup({ ...popup, isOpen: false, })} open={popup.isOpen}>
-        {popup.content}
-      </Popup>
-      <section className={styles.section}>
-        <SectionContainer paddings={!!isMobile}>
-          <h2 className={styles.title}>Как это было в прошлый раз</h2>
-          <div className={styles.buttonsContainer}>
-            {places.map(([name], i) => (
-              <Button key={i} size={Size.SMALL} type={Type.FILLED} className={`${activeButton !== i ? styles.unactiveButton : ''} ${styles.button}`} label={name} onClick={() => setActiveButton(i)} />
-            ))}
-          </div>
-          {places.filter((_, i) => i === activeButton).map(([name, img], i) => (
-            <Fragment key={i}>
-              <p className={styles.description}>Дагестан один из уникальнейших регионов России, богатейший по своей многовековой истории и поражающий удивительным разнообразием природы.</p>
-              <div className={styles.imgs}>
-                {Array(4).fill(null).map((_, i) => (
-                  <div key={i} className={styles.img} style={{
-                    background: `url(${img.src}) center center`
-                  }} />
-                ))}
+    <section className={styles.section}>
+      <SectionContainer paddings={!!isMobile}>
+        <h2 className={styles.title}>Как это было в прошлый раз</h2>
+        <div className={styles.buttonsContainer}>
+          {[...data.tabs.map(({ name }, i) => (
+            <Button key={i} size={Size.SMALL} type={Type.FILLED} className={`${activeButton !== i ? styles.unactiveButton : ''} ${styles.button}`} label={
+              <div>
+                {data.tabs.length !== 1 && (
+                  <ButtonClose height={13} width={13} onClick={() => {
+                    setTimeout(() => {
+                      setActiveButton(0);
+                      deleteTab(i);
+                    }, 0);
+                  }}
+                  className={styles.delTab}
+                  />
+                )}
+                <EditableText iColor="black" onSave={(newValue: string) => { updateTabInfo(data.tabs[i].name, 'name', newValue);  }}>{name}</EditableText>
               </div>
-              <div className={styles.showMoreWrapper}>
-                <button onClick={() => setPopup(prev => ({ ...popup, isOpen: !prev.isOpen  }))} className={styles.showMore}>
-                  Больше фотографий
-                  <div style={{
-                    marginLeft: '10px',
-                    display: 'flex',
-                  }}>
-                    <Image src={arrow} width={isMobile ? undefined : 30} height={isMobile ? undefined : 20} />
-                  </div>
-                </button>
-              </div>
-            </Fragment>
-          ))}
-        </SectionContainer>
-      </section>
-    </>
+            }
+              onClick={() => setActiveButton(i)} />
+          )), <Button size={Size.SMALL} type={Type.FILLED} className={`${styles.button} ${styles.addTab}`} label={"+"} onClick={addNewTab} />]}
+        </div>
+        <TabInfo id={data.tabs[activeButton].id} isMobile={!!isMobile} activeButton={activeButton} tab={data.tabs[activeButton]} description={data.tabs[activeButton].description} pictures={data.tabs[activeButton].pictures}/>
+      </SectionContainer>
+    </section>
   );
 };
 

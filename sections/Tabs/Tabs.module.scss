@@ -9,6 +9,12 @@
   }
 }
 
+.delTab {
+  position: absolute;
+  top: -20px;
+  right: 0;
+}
+
 .section {
   padding: 90px 0 100px 0;
   @media (max-width: $tablet) {
@@ -29,6 +35,7 @@
   margin: 0 15px 10px 0;
   padding: 16px 0 14px 0;
   min-width: 200px;
+  position: relative;
   @media (max-width: $tablet) {
     margin: 0 5px 5px 0;
     font-size: 14px;

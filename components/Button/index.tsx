@@ -1,3 +1,4 @@
+import { ReactNode } from 'react';
 import getClassNames from '../../helpers/classNames';
 import styles from './Button.module.scss';
 
@@ -17,9 +18,10 @@ const cn = getClassNames(styles);
 interface Props {
   type?: Type;
   size?: Size;
-  label: string;
-  className?: string
-  onClick(): void;
+  label: ReactNode;
+  className?: string;
+  buttonType?: "button" | "submit" | "reset";
+  onClick?(): void;
 }
 
 const Button = ({
@@ -27,10 +29,11 @@ const Button = ({
   size = Size.MEDIUM,
   label,
   className,
+  buttonType = 'button',
   onClick,
 }: Props) => {
   return (
-    <button type="button" onClick={onClick} className={`${cn('button', size, type)} ${className}`}>
+    <button type={buttonType} onClick={onClick} className={`${cn('button', size, type)} ${className}`}>
       {label}
     </button>
   );

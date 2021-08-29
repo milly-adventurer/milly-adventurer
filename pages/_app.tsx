@@ -5,37 +5,28 @@ import "slick-carousel/slick/slick-theme.css";
 
 import type { AppProps } from 'next/app';
 import WindowWidthProvider from '../contexts/WindowWidth';
-import DataContext, { initialContextValue } from '../contexts/Data';
-import { useEffect, useState } from 'react';
-import { Tours } from '../interfaces/Tour';
-import { BASE_URL, URL } from '../constants/url';
+import React from 'react';
+import UserInfoContext from '../contexts/UserInfo';
+import DataProvider from '../contexts/Data';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  const [data, setData] = useState<Tours | null>(null);
+  const canEdit = true;
 
-  useEffect(() => {
-    (async () => {
-      const response = await fetch(`${BASE_URL}${URL.TOURS}`);
-      const responseData = await response.json();
-      setData(responseData);
-    })();
-  }, []);
-
-  return data ? (
-    <DataContext.Provider value={{
-      ...initialContextValue,
-      getTourById: (tourId: string) => {
-        if (data) {
-          return data.find(({ id }) => id === tourId);
-        }
-        return null;
-      },
-      tours: data,
-    }}>
-      <WindowWidthProvider>
-        <Component {...pageProps} />
-      </WindowWidthProvider>
-    </DataContext.Provider>
+  return true ? (
+    // <EditContext.Provider value={{
+    //   data: data,
+    //   updateData: onUpdateData,
+    // }}>
+      <UserInfoContext.Provider value={{
+        canEdit: canEdit,
+      }}>
+        <DataProvider>
+          <WindowWidthProvider>
+            <Component {...pageProps} />
+          </WindowWidthProvider>
+        </DataProvider>
+      </UserInfoContext.Provider>
+    // </EditContext.Provider>
   ) : <p>Loading...</p>;
 };
 

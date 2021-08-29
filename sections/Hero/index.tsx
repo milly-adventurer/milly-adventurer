@@ -8,7 +8,7 @@ import styles from './Hero.module.scss';
 interface Props {
   navBarItems: NavBarItems;
   style?: CSSProperties;
-  backgroundImage?: string; // url
+  backgroundImage?: string;
   className?: string;
 }
 

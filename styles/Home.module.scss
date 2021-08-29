@@ -78,7 +78,7 @@
   justify-content: center;
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
-  padding: 40px 0;
+  height: 270px;
   max-width: 100%;
   @media (max-width: $tablet) {
     padding: 20px 22px;
@@ -87,7 +87,7 @@
 
 .slideSectionTitle {
   text-align: center;
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto 60px auto;
   @media (max-width: $tablet) {
     font-size: 20px;
@@ -104,7 +104,7 @@
 
 .slideTitle {
   font-size: 32px;
-  max-width: 500px;
+  max-width: 800px;
   margin-bottom: 20px;
   @media (max-width: $tablet) {
     font-size: 17px;
