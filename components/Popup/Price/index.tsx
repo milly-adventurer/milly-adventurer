@@ -1,7 +1,5 @@
-import Image from 'next/image';
 import React from 'react';
 import ButtonClose from '../../ButtonClose';
-import wallet from '../../../assets/img/wallet.svg';
 
 import styles from './Price.module.scss';
 import Button, { Size, Type } from '../../Button';

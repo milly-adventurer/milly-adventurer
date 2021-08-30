@@ -33,7 +33,7 @@ const Tabs = ({
           {[...data.tabs.map(({ name }, i) => (
             <Button key={i} size={Size.SMALL} type={Type.FILLED} className={`${activeButton !== i ? styles.unactiveButton : ''} ${styles.button}`} label={
               <div>
-                {data.tabs.length !== 1 && (
+                {data.tabs.length !== 1 && canEdit && (
                   <ButtonClose height={13} width={13} onClick={() => {
                     setTimeout(() => {
                       setActiveButton(0);

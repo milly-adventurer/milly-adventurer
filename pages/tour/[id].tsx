@@ -104,9 +104,9 @@ const Tour = () => {
       </Head>
       <Hero backgroundImage={mountainImg.src} navBarItems={sections}>
         <div>
-          <small className={cn('date')}>{tour.date}</small>
-          <h3 className={cn('title')}>{tour.name}</h3>
-          <p className={cn('desc')}>{tour.description}</p>
+          <small className={cn('date')} dangerouslySetInnerHTML={{ __html: tour.date }} />
+          <h3 className={cn('title')} dangerouslySetInnerHTML={{ __html: tour.name }} />
+          <p className={cn('desc')} dangerouslySetInnerHTML={{ __html: tour.description }} />
           <ScrollLink to="tour_program" spy smooth color="white">
             <Button className={styles.cellButton} label="Отправиться в путешествие" onClick={() => { }} type={Type.FILLED} size={Size.LARGE} />
           </ScrollLink>

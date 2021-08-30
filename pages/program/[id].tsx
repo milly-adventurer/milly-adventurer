@@ -24,6 +24,7 @@ import Link from 'next/link';
 import { Link as ScrollLink } from 'react-scroll';
 import { DataContext } from '../../contexts/Data';
 import { useRouter } from 'next/dist/client/router';
+import EditableText from '../../components/EditableText';
 
 const cn = getClassNames(styles);
 
@@ -36,7 +37,7 @@ const sections: [ReactNode, string][] = [
 
 const Program = () => {
   const router = useRouter();
-  const { getTourById, data } = useContext(DataContext);
+  const { getTourById, data, updateProgramDay } = useContext(DataContext);
   const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, data]);
 
   if (!tour) return <></>;
@@ -60,35 +61,68 @@ const Program = () => {
 
     return [
       info[0] && {
-        question: info[0].question,
+        question: 'Что включено?',  // info[0].question,
         content: (
-          <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label={info[0].question} text={info[0].content}
+          <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label={'Что включено'} text={`♡ Встреча в аэропорту
+          ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
+          ♡ Проживание в гостевых домах и на турбазах по программе
+          ♡ Завтраки, обеды и ужины
+          ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
+          ♡ Сопровождение опытным гидом-водителем и организатором
+          ♡ Входные билеты
+          ♡ Паромная переправа
+          ♡ Заброски на труднодоступные локации на внедорожниках
+          ♡ Трансфер в аэропорт
+          ♡ Страховка от укуса клеща
+          ♡ Горячий чай, кофе, вода, перекус в дорогу.`}
           />
         ),
       },
       info[1] && {
-        question: info[1].question,
+        question: 'Какие расходы?',  // info[1].question,
         content: (
-          <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label={info[1].question} text={info[1].content}
+          <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какие расходы'} text={`♡ Встреча в аэропорту
+          ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
+          ♡ Проживание в гостевых домах и на турбазах по программе
+          ♡ Завтраки, обеды и ужины
+          ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
+          ♡ Сопровождение опытным гидом-водителем и организатором
+          ♡ Входные билеты
+          ♡ Паромная переправа
+          ♡ Заброски на труднодоступные локации на внедорожниках
+          ♡ Трансфер в аэропорт
+          ♡ Страховка от укуса клеща
+          ♡ Горячий чай, кофе, вода, перекус в дорогу.`}
           />
         ),
       },
       info[2] && {
-        question: info[2].question,
+        question: 'Частые вопросы', // info[2].question,
         content: (
-          <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label={info[2].question} text={info[2].content}
+          <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какие расходы'} text={`♡ Встреча в аэропорту
+          ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
+          ♡ Проживание в гостевых домах и на турбазах по программе
+          ♡ Завтраки, обеды и ужины
+          ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
+          ♡ Сопровождение опытным гидом-водителем и организатором
+          ♡ Входные билеты
+          ♡ Паромная переправа
+          ♡ Заброски на труднодоступные локации на внедорожниках
+          ♡ Трансфер в аэропорт
+          ♡ Страховка от укуса клеща
+          ♡ Горячий чай, кофе, вода, перекус в дорогу.`}
           />
         ),
       },
       info[3] && {
-        question: info[3].question,
+        question: 'Какова цена?',  // info[3].question,
         content: (
-          <Price price={tour.price} onGoClick={() => setPopup({ isOpen: true, content: <BookPopup codeWord={tour.code_word} onClose={() => setPopup({ ...popup, isOpen: false })} /> })} onClose={() => setPopup({ ...popup, isOpen: false })} label={info[3].question} text={info[3].content}
+          <Price price={'35 тысяч рублей'} onGoClick={() => setPopup({ isOpen: true, content: <BookPopup codeWord={tour.code_word} onClose={() => setPopup({ ...popup, isOpen: false })} /> })} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какая цена'} text={`Я предлагаю вам незабываемое путешествие, в котором вы  сможете отдонхнуть и т.д. Вообщем надо описать так чтобы еще раз напомнить человеку что за такое не жалко отдать денег.`}
           />
         )
       }
     ]
-  }, [popup]);
+  }, [popup, data]);
 
   const gridContent: Content = useMemo(() => popups.map((item, i) => item ? ({
     darken: true,
@@ -116,9 +150,9 @@ const Program = () => {
       </Head>
       <Hero backgroundImage={homeBg.src} navBarItems={sections} className={styles.hero}>
         <div className={cn('heroDiv')}>
-          <small className={cn('date')}>{tour.date}</small>
-          <h3 className={cn('title')}>{tour.name}</h3>
-          <p className={cn('desc')}>{tour.description}</p>
+          <small className={cn('date')} dangerouslySetInnerHTML={{ __html: tour.date }} />
+          <h3 className={cn('title')} dangerouslySetInnerHTML={{ __html: tour.name }} />
+          <p className={cn('desc')} dangerouslySetInnerHTML={{ __html: tour.description }} />
           <ScrollLink to="program" spy smooth color="white">
             <Button className={styles.cellButton} label="Отправиться в путешествие" onClick={() => { }} type={Type.FILLED} size={Size.LARGE} />
           </ScrollLink>
@@ -132,8 +166,8 @@ const Program = () => {
               <article key={i} className={cn('day')}>
                 <div className={cn('text')}>
                   <SectionContainer>
-                    <h3 className={cn('dayTitle')}>День {i} - {name}</h3>
-                    <p className={cn('dayDesc')}>{description}</p>
+                    <h3 className={cn('dayTitle')} style={{ display: 'flex' }}>День {i + 1} - <EditableText iColor="black" onSave={(text: string) => updateProgramDay(Number(router.query.id), i, 'name', text)}>{name}</EditableText></h3>
+                    <p className={cn('dayDesc')}><EditableText iColor="black" onSave={(text: string) => updateProgramDay(Number(router.query.id), i, 'description', text)}>{description}</EditableText></p>
                   </SectionContainer>
                 </div>
                 <div style={{
