@@ -3,10 +3,12 @@ import Button, { Size } from '../Button';
 
 interface Props {
   onUpload(base64: string): void;
+  noButton?: boolean;
 }
 const allowedFileExtensions = ['jpg', 'jpeg', 'png'];
 const UploadImage = ({
   onUpload,
+  noButton = false,
 }: Props) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
@@ -44,8 +46,10 @@ const UploadImage = ({
       justifyContent: 'flex-start',
       gap: 15,
     }} id="form" onSubmit={onUploadPhoto}>
-      <input ref={inputRef} type="file" accept=".jpg, .jpeg, .png" />
-      <Button size={Size.MEDIUM} label={'Добавить фото'} buttonType="submit" />
+      <input onChange={noButton ? (event: any) => onUploadPhoto(event) : () => {}} ref={inputRef} type="file" accept=".jpg, .jpeg, .png" />
+      {!noButton && (
+        <Button size={Size.MEDIUM} label={'Добавить фото'} buttonType="submit" />
+      )}
     </form>
   );
 };

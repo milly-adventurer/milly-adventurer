@@ -1,15 +1,15 @@
 import { createContext } from "react";
 
 const initialContextValue = {
-    canEdit: false,
+	canEdit: false,
+	updateValue: () => {},
 };
 
 interface UserInfoContext {
-    canEdit: boolean;
+  canEdit: boolean;
+	updateValue(value: boolean): void;
 }
 
-const UserInfoContext = createContext<UserInfoContext>({
-    canEdit: false,
-});
+const UserInfoContext = createContext<UserInfoContext>(initialContextValue);
 
 export default UserInfoContext;

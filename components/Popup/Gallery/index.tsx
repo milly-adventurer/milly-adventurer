@@ -9,22 +9,22 @@ import styles from './Gallery.module.scss';
 
 interface Props {
   label: ReactNode;
-  tabId: number;
   imgs: string[];
+  onUpload(base64: string): void;
+  onDeleteImage(index: number): void;
   onClose(): void;
 }
 const allowedFileExtensions = ['jpg', 'jpeg', 'png'];
 const Gallery = ({
   label,
-  tabId,
+  onDeleteImage,
   imgs,
   onClose,
+  onUpload,
 }: Props) => {
   const { canEdit } = useContext(UserInfoContext);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
-
-  const { onAddImageToTab, onDeleteImageFromTab } = useContext(DataContext);
 
   const onUploadPhoto = (event: FormEvent) => {
     event.preventDefault();
@@ -42,7 +42,7 @@ const Gallery = ({
     fileReader.readAsDataURL(file);
 
     fileReader.onload = function() {
-      onAddImageToTab(tabId, fileReader.result as string);
+      onUpload(fileReader.result as string);
       formRef?.current?.reset();
     };
 
@@ -62,8 +62,8 @@ const Gallery = ({
             <div key={i} className={styles.img} style={{
               background: `url(${item})`,
             }}>
-              {canEdit && (
-                <ButtonClose width={15} height={15} className={styles.del} onClick={() => onDeleteImageFromTab(tabId, i)}/>
+              {canEdit && imgs.length > 1 && (
+                <ButtonClose width={15} height={15} className={styles.del} onClick={() => onDeleteImage(i)}/>
               )}
             </div>
           ))}

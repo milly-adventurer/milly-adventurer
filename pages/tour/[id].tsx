@@ -17,7 +17,6 @@ import Grid, { Content } from '../../sections/Grid';
 
 import ArrowDown from '../../assets/img/arrowDown.svg';
 
-import altaiImage from '../../assets/img/altai.jpg';
 import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel } from 'react-accessible-accordion';
 import Book from '../../sections/Book';
 import Questions from '../../sections/Questions';
@@ -30,9 +29,9 @@ import { DataContext } from '../../contexts/Data';
 import { useRouter } from 'next/dist/client/router';
 
 import EditableText from '../../components/EditableText';
-import EditContext from '../../contexts/Edit';
 import UserInfoContext from '../../contexts/UserInfo';
 import UploadImage from '../../components/UploadImage';
+import ButtonClose from '../../components/ButtonClose';
 
 const cn = getClassNames(styles);
 
@@ -49,9 +48,21 @@ const Tour = () => {
   const { isMobile } = useContext(WindowWidthContext);
   const [openedIds, setOpenedIds] = useState<string[]>([]);
 
-  const { getTourById, editDay, addDay } = useContext(DataContext);
+  const {
+    getTourById,
+    updateDay,
+    addDay,
+    data,
+    deleteDay,
+    addTourLastTimeImage,
+    deleteTourLastTimeImage,
+    addQA,
+    editQA,
+  } = useContext(DataContext);
   const { canEdit } = useContext(UserInfoContext);
-  const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query]);
+  const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, data]);
+
+  if (!tour) return <></>;
 
   useEffect(() => {
     if (!tour) {
@@ -61,29 +72,31 @@ const Tour = () => {
 
   const [popup, setPopup] = useState<{
     isOpen: boolean;
-    content: ReactChild | null;
   }>({
     isOpen: false,
-    content: <Gallery onClose={() => setPopup({ ...popup, isOpen: false })} label="Алтай фотографии" imgs={Array(10).fill(mountainImg.src)} />,
   });
 
-  const gridContent: Content = useMemo(() => Array(4).fill(null).map((_, i) => ({
-    backgroundImage: altaiImage.src,
-    child: i === 3 ? (
+  const popupContent = (
+    <Popup onClose={() => setPopup({ ...popup, isOpen: false, })} open={popup.isOpen}>
+      <Gallery onDeleteImage={(i: number) => deleteTourLastTimeImage(Number(router.query.id), i)} onUpload={(base64: string) => addTourLastTimeImage(Number(router.query.id), base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />;
+    </Popup>
+  );
+
+  const gridContent: Content = tour.lastPictures.slice(0, 4).map((item, i) => ({
+    backgroundImage: item,
+    child: i === tour.lastPictures.slice(0, 4).length - 1 ? (
       <div className={styles.gridItem}>
         <p>+50 фотографий</p>
         <Button label="Открыть" onClick={() => setPopup(prev => ({ ...popup, isOpen: !prev.isOpen, }))} size={Size.MEDIUM} type={Type.OUTLINE} />
       </div>
     ) : undefined,
     className: styles.gridItem,
-    darken: i === 3,
-  })), []);
+    darken: i === tour.lastPictures.slice(0, 4).length - 1,
+  }));
 
   return tour ? (
     <>
-      <Popup onClose={() => setPopup({ ...popup, isOpen: false, })} open={popup.isOpen}>
-        {popup.content}
-      </Popup>
+      {popupContent}
       <Head>
         <title>Milly adventurer - туры в России</title>
         <meta name="description" content="Туры и экспедиции по России" />
@@ -103,30 +116,35 @@ const Tour = () => {
         <SectionContainer paddings={true}>
           <h2 className={cn('sliderSectionTitle')}>Куда же мы отправимся?</h2>
           <Slider dots speed={0} waitForAnimate={false} centerMode centerPadding={isMobile ? '10px' : '100px'} arrows={false} slidesToShow={1} infinite>
-            {tour.program_short.map(({ description, name }, i) => (
+            {tour.program_short.map(({ description, name, image }, i) => (
               <article key={i} className={cn('slide')}>
                 <div className={cn('slideContainer')} style={{
-                  background: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${mountainImg.src}) center center`
+                  background: image && `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${image}) center center` || 'black',
                 }}>
                   <div className={cn('slideTextContainer')}>
-                    <h3 className={cn('slideTitle')}>{i + 1} день - <EditableText onSave={(text: string) => editDay(Number(router.query.id), i, 'name', text)}>{name}</EditableText></h3>
-                    <p className={cn('slideDescription')}><EditableText onSave={(text: string) => editDay(Number(router.query.id), i, 'description', text)}>{description}</EditableText></p>
+                    <h3 className={cn('slideTitle')} style={{ display: 'flex' }}><EditableText onSave={(text: string) => updateDay(Number(router.query.id), i, 'name', text)}>{name}</EditableText></h3>
+                    <p className={cn('slideDescription')}><EditableText onSave={(text: string) => updateDay(Number(router.query.id), i, 'description', text)}>{description}</EditableText></p>
                     <Link href={`/program/${router.query.id}`}>
                       <a>
                         <Button className={styles.slideButton} label="Узнать больше" onClick={() => { }} size={Size.MEDIUM} type={Type.OUTLINE} />
                       </a>
                     </Link>
+                    {canEdit && i !== tour.program_short.length - 1 && (
+                      <ButtonClose className={styles.delImg} onClick={() => deleteDay(Number(router.query.id), i)}/>
+                    )}
+                    {canEdit && (
+                      <div style={{ marginTop: 20 }}>
+                        <UploadImage noButton onUpload={(base64: string) => updateDay(Number(router.query.id), i, 'image', base64)}/>
+                      </div>
+                    )}
                   </div>
-                  {canEdit && (
-                    <UploadImage onUpload={(base64: string) => editDay(Number(router.query.id), i, 'image', base64)}/>
-                  )}
                 </div>
               </article>
             ))}
           </Slider>
           {canEdit && (
             <div style={{ marginTop: 50, margin: '50px auto' }}>
-              <Button onClick={addDay} label="Добавить день" />
+              <Button onClick={() => addDay(Number(router.query.id))} label="Добавить день" />
             </div>
           )}
         </SectionContainer>
@@ -145,19 +163,23 @@ const Tour = () => {
             <Accordion preExpanded={['0']} onChange={(indexes: string[]) => {
               setOpenedIds(indexes);
             }} className={styles.accordion} allowZeroExpanded allowMultipleExpanded={false}>
-              {tour.qa.map(({ question, answer }, i) => (
+              {[data?.qa.map(({ question, answer }, i) => (
                 <AccordionItem key={i} uuid={`${i}`} className={styles.accordionItem}>
                   <AccordionItemHeading className={styles.accordionHeader}>
                     <AccordionItemButton className={styles.accordionButton}>
-                      {question}
+                    <EditableText iColor="black" onSave={(text: string) => editQA(i, 'q', text)}>{question}</EditableText>
                       <Image src={ArrowDown} width={15} className={openedIds.includes(`${i}`) ? styles.arrowUp : ''} />
                     </AccordionItemButton>
                   </AccordionItemHeading>
                   <AccordionItemPanel>
-                    <p className={styles.accordionItemDesc} dangerouslySetInnerHTML={{ __html: answer }} />
+                    <p className={styles.accordionItemDesc}><EditableText iColor="black" onSave={(text: string) => editQA(i, 'a', text)}>{answer}</EditableText></p>
                   </AccordionItemPanel>
                 </AccordionItem>
-              ))}
+              )), canEdit && (
+                <div style={{ marginBottom: 40 }}>
+                  <Button onClick={addQA} label="Добавить вопрос" />
+                </div>
+              )]}
             </Accordion>
           </div>
         </SectionContainer>

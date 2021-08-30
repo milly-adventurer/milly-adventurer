@@ -13,6 +13,7 @@ export interface ProgramItem {
 export interface ProgramShortItem {
   name: string;
   description: string;
+  image: string | null;
 }
 
 export interface QAItem {
@@ -30,8 +31,8 @@ export interface Tour {
   info: InfoItem[];
   program: ProgramItem[];
   program_short: ProgramShortItem[];
+  lastPictures: string[];
   id: string;
-  qa: QAItem[];
 }
 
 export type Tours = Tour[];
@@ -46,6 +47,7 @@ export interface Tab {
 interface Data {
   tours: Tour[];
   tabs: Tab[];
+  qa: QAItem[];
 }
 
 export default Data;

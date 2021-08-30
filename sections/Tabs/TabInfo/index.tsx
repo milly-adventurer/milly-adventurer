@@ -1,5 +1,5 @@
 import Image from "next/image";
-import React, { ReactChild, useContext, useMemo, useState } from "react";
+import React, { useContext, useState } from "react";
 import EditableText from "../../../components/EditableText";
 import Popup from "../../../components/Popup";
 import Gallery from "../../../components/Popup/Gallery";
@@ -22,10 +22,9 @@ const TabInfo = ({
   pictures,
   activeButton,
   tab,
-  id,
   isMobile,
 }: Props) => {
-  const { updateTabInfo, data } = useContext(DataContext);
+  const { updateTabInfo, data, onAddImageToTab, onDeleteImageFromTab } = useContext(DataContext);
   console.log(pictures);
 
   const [popup, setPopup] = useState<{
@@ -37,8 +36,9 @@ const TabInfo = ({
   const content = (
     <Popup onClose={() => setPopup({ isOpen: false, })} open={popup.isOpen}>
       {<Gallery
+        onUpload={(base64: string) => onAddImageToTab(activeButton, base64)}
+        onDeleteImage={(index: number) => onDeleteImageFromTab(activeButton, index)}
         imgs={pictures}
-        tabId={activeButton}
         onClose={() => setPopup({ isOpen: false })}
         label={<span dangerouslySetInnerHTML={{ __html: `${tab.name} фотографии` }}/>}
       />}

@@ -22,9 +22,8 @@ import Price from '../../components/Popup/Price';
 import BookPopup from '../../components/Popup/Book';
 import Link from 'next/link';
 import { Link as ScrollLink } from 'react-scroll';
-import DataContext from '../../contexts/Data';
+import { DataContext } from '../../contexts/Data';
 import { useRouter } from 'next/dist/client/router';
-import Tour from '../../interfaces/Tour';
 
 const cn = getClassNames(styles);
 
@@ -37,11 +36,12 @@ const sections: [ReactNode, string][] = [
 
 const Program = () => {
   const router = useRouter();
-  const { getTourById } = useContext(DataContext);
-  const tour = useMemo(() => getTourById(router.query.id as string), [router.query]) as Tour;
+  const { getTourById, data } = useContext(DataContext);
+  const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, data]);
+
+  if (!tour) return <></>;
 
   useEffect(() => {
-    console.log(tour, 't');
     if (!tour) {
       router.push('/');
     }
@@ -56,7 +56,7 @@ const Program = () => {
   });
 
   const popups = useMemo(() => {
-    const info = tour?.info || {};
+    const info = tour.info || {};
 
     return [
       info[0] && {

@@ -45,10 +45,6 @@ const EditableText = ({
 	const initialValue = useRef(children as string);
 	const [value, setValue] = useState(children as string);
 	const editableRef = useRef<any>(null);
-	console.log(children);
-	if (!canEdit) {
-		return <>{children}</>;
-	}
 
 	const onSaveCustom = (data: any) => {
 		onSave(data);
@@ -85,7 +81,9 @@ const EditableText = ({
 	) :  (
 		<div className={styles.notEditBlock}>
 			<span dangerouslySetInnerHTML={{ __html: value as string }} />
-			<EditIcon onClick={() => setIsEditMode(true)} color={iColor} height={iHeight} width={iWidth} className={styles.edit}/>
+			{canEdit && (
+				<EditIcon onClick={() => setIsEditMode(true)} color={iColor} height={iHeight} width={iWidth} className={styles.edit}/>
+			)}
 		</div>
 	)
 };
