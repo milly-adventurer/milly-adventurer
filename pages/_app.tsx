@@ -24,7 +24,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
       <DataProvider>
         <WindowWidthProvider>
           <Component {...pageProps} />
-          <button onClick={() => setCanEdit(!canEdit)} style={{
+          {/* <button onClick={() => setCanEdit(!canEdit)} style={{
               position: 'fixed',
               top: 0,
               right: 0,
@@ -32,7 +32,7 @@ const MyApp = ({ Component, pageProps }: AppProps) => {
               borderRadius: 1,
               fontSize: '14px',
               padding: '4px 5px',
-            }}>{canEdit ? 'Редактирование' : 'Просмотр'}</button>
+            }}>{canEdit ? 'Редактирование' : 'Просмотр'}</button> */}
         </WindowWidthProvider>
       </DataProvider>
     </UserInfoContext.Provider>
