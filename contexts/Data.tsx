@@ -74,7 +74,8 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
 
   const getData = async () => {
     try {
-      const response = await fetch(`${BASE_URL}${URL.TOURS}`);
+      const response = await fetch(`${BASE_URL}${URL.TOURS}`, {
+      });
       const data = await response.json();
       return data;
     } catch (err) {

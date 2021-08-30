@@ -8,6 +8,7 @@ import { Tab } from '../../interfaces/Tour';
 import { DataContext } from '../../contexts/Data';
 import ButtonClose from '../../components/ButtonClose';
 import TabInfo from './TabInfo';
+import UserInfoContext from '../../contexts/UserInfo';
 
 interface Props {
   tabs: Tab[],
@@ -18,6 +19,8 @@ const Tabs = ({
 }: Props) => {
   const [activeButton, setActiveButton] = useState(0);
   const { isMobile } = useContext(WindowWidthContext);
+
+  const { canEdit } = useContext(UserInfoContext);
 
   const { deleteTab, addNewTab, updateTabInfo, data } = useContext(DataContext);
   if (!data) return <></>;
@@ -44,7 +47,7 @@ const Tabs = ({
               </div>
             }
               onClick={() => setActiveButton(i)} />
-          )), <Button size={Size.SMALL} type={Type.FILLED} className={`${styles.button} ${styles.addTab}`} label={"+"} onClick={addNewTab} />]}
+          )), canEdit && <Button size={Size.SMALL} type={Type.OUTLINE} className={`${styles.button} ${styles.addTab}`} label={"+"} onClick={addNewTab} />]}
         </div>
         <TabInfo id={data.tabs[activeButton].id} isMobile={!!isMobile} activeButton={activeButton} tab={data.tabs[activeButton]} description={data.tabs[activeButton].description} pictures={data.tabs[activeButton].pictures}/>
       </SectionContainer>
