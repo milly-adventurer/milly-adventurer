@@ -17,7 +17,7 @@ import styles from '../styles/Home.module.scss';
 import Button, { Size, Type } from '../components/Button';
 import Grid, { Content } from '../sections/Grid';
 import getClassNames from '../helpers/classNames';
-import React, { ReactNode, useContext, useEffect, useMemo } from 'react';
+import React, { ReactNode, useContext, useMemo } from 'react';
 import Me from '../sections/Me';
 import SectionContainer from '../components/SectionContainer';
 
@@ -30,9 +30,8 @@ import NextLink from 'next/link';
 import Footer from '../sections/Footer';
 import { Link } from 'react-scroll';
 import { DataContext } from '../contexts/Data';
-import Data from '../interfaces/Tour';
 import EditableText from '../components/EditableText';
-import { BASE_URL, URL } from '../constants/url';
+import heroslide2 from '../assets/img/hero-slide2.jpg';
 
 const cn = getClassNames(styles);
 
@@ -102,7 +101,7 @@ const Home = () => {
         <meta name="description" content="Туры и экспедиции по России" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Hero backgroundImage={homeBg.src} navBarItems={sections}>
+      <Hero backgroundImage={[homeBg.src, heroslide2.src]} navBarItems={sections}>
         <div className={styles.logo}>
           <Image src={logo} alt="Logo" />
         </div>
