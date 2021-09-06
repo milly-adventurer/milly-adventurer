@@ -31,7 +31,8 @@ import Footer from '../sections/Footer';
 import { Link } from 'react-scroll';
 import { DataContext } from '../contexts/Data';
 import EditableText from '../components/EditableText';
-import heroslide2 from '../assets/img/hero-slide2.jpg';
+import heroslide2 from '../assets/img/home-slide-3.jpg';
+import heroSlide3 from '../assets/img/home-slide-4.jpg';
 
 const cn = getClassNames(styles);
 
@@ -101,7 +102,7 @@ const Home = () => {
         <meta name="description" content="Туры и экспедиции по России" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Hero backgroundImage={[homeBg.src, heroslide2.src]} navBarItems={sections}>
+      <Hero backgroundImage={[homeBg.src, heroslide2.src, heroSlide3.src]} navBarItems={sections}>
         <div className={styles.logo}>
           <Image src={logo} alt="Logo" />
         </div>

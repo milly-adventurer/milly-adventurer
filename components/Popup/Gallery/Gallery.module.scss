@@ -12,7 +12,6 @@
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   overflow-y: auto;
-  height: 80vh;
 
   @media (max-width: $tablet) {
     grid-template-columns: unset;

@@ -25,7 +25,7 @@ const Hero = ({
         backgroundImage: '',
         ...style,
         } : style}>
-        <BackgroundSlider duration={6} images={backgroundImage} />
+        <BackgroundSlider transition={1} duration={6} images={backgroundImage} />
         <SectionContainer>
           <NavBar items={navBarItems} />
           <div className={styles.content}>
