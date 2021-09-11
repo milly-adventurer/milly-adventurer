@@ -57,7 +57,8 @@ p {
 }
 
 h1 {
-  font-size: 44px;
+  font-size: 40px;
+	line-height: 1.1 !important;
   @media (max-width: $tablet) {
     font-size: 20px;
   }
@@ -85,7 +86,7 @@ h3 {
 }
 
 h4 {
-  font-size: 44px;
+  font-size: 40px;
   @media (max-width: $desktop) {
     font-size: 35px;
   }

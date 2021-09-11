@@ -22,10 +22,12 @@ const Hero = ({
 }: PropsWithChildren<Props>) => {
   return (
       <section className={`${styles.section} ${className}`} style={backgroundImage ? {
-        backgroundImage: '',
+        backgroundImage: backgroundImage.length === 1 ? `url(${backgroundImage[0]})` : '',
         ...style,
         } : style}>
-        <BackgroundSlider transition={1} duration={6} images={backgroundImage} />
+				{backgroundImage.length > 1 && (
+					<BackgroundSlider transition={1} duration={6} images={backgroundImage} />
+				)}
         <SectionContainer>
           <NavBar items={navBarItems} />
           <div className={styles.content}>

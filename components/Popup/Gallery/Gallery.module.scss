@@ -1,12 +1,5 @@
 @import '../../../styles/sassVaribales.scss';
 
-.popupContent {
-  height: 100vh;
-  @media (max-width: $tablet) {
-    padding: 30px 20px;
-  }
-}
-
 .imgsBlock {
   display: grid;
   grid-template-columns: 1fr 1fr;

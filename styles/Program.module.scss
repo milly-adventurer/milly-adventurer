@@ -80,27 +80,6 @@
   }
 }
 
-.cellWrapper {
-  display: grid;
-  justify-content: center;
-  align-items: center !important;
-}
-
-.cell {
-  display: grid;
-  row-gap: 20px;
-  text-align: center;
-  grid-template-rows: min-content 1fr;
-}
-
-.cellTitle {
-  font-size: 35px;
-  font-weight: bold;
-  @media (max-width: $tablet) {
-    font-size: 20px;
-  }
-}
-
 .dayImg {
   width: 100%;
   padding-top: 40%;

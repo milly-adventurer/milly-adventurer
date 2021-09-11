@@ -23,9 +23,18 @@
   color: var(--t-c);
 }
 
-.small {
-  padding: 15px 35px;
-  font-size: 25px;
+.large {
+	padding: 18px 60px;
+	font-size: 25px;
+  @media (max-width: $desktop) {
+    padding: 15px 54px;
+    font-size: 25px;
+  }
+
+  @media (max-width: $tablet) {
+    padding: 12px 30px;
+    font-size: 15px;
+  }
 }
 
 .medium {
@@ -37,16 +46,7 @@
   }
 }
 
-.large {
-  padding: 22px 80px;
-  font-size: 28px;
-  @media (max-width: $desktop) {
-    padding: 15px 54px;
-    font-size: 25px;
-  }
-
-  @media (max-width: $tablet) {
-    padding: 12px 30px;
-    font-size: 15px;
-  }
+.small {
+  padding: 15px 35px;
+  font-size: 25px;
 }

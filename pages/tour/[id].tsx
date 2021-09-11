@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Hero from '../../sections/Hero';
 import mountainImg from '../../assets/img/mountain.jpg';
-import React, { ReactChild, useEffect, useMemo, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import Button, { Size, Type } from '../../components/Button';
 import styles from '../../styles/Tour.module.scss';
 import getClassNames from '../../helpers/classNames';
@@ -10,14 +10,12 @@ import { useContext } from 'react';
 import { WindowWidthContext } from '../../contexts/WindowWidth';
 import Slider from 'react-slick';
 import Link from 'next/link';
-import Image from 'next/image';
 import Me from '../../sections/Me';
 import Stories from '../../sections/Stories';
 import Grid, { Content } from '../../sections/Grid';
+import baikalImg from '../../assets/img/baikal.jpg';
 
-import ArrowDown from '../../assets/img/arrowDown.svg';
-
-import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel } from 'react-accessible-accordion';
+// import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel } from 'react-accessible-accordion';
 import Book from '../../sections/Book';
 import Questions from '../../sections/Questions';
 import Footer from '../../sections/Footer';
@@ -32,6 +30,9 @@ import EditableText from '../../components/EditableText';
 import UserInfoContext from '../../contexts/UserInfo';
 import UploadImage from '../../components/UploadImage';
 import ButtonClose from '../../components/ButtonClose';
+import WhatIncluded from '../../components/Popup/WhatIncluded';
+import Price from '../../components/Popup/Price';
+import BookPopup from '../../components/Popup/Book';
 
 const cn = getClassNames(styles);
 
@@ -61,6 +62,7 @@ const Tour = () => {
   } = useContext(DataContext);
   const { canEdit } = useContext(UserInfoContext);
   const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, data]);
+	const activeDayRef = useRef(0);
 
   if (!tour) return <></>;
 
@@ -72,37 +74,135 @@ const Tour = () => {
 
   const [popup, setPopup] = useState<{
     isOpen: boolean;
+		content: null | ReactNode;
   }>({
     isOpen: false,
+		content: null
   });
 
-  const popupContent = (
-    <Popup onClose={() => setPopup({ ...popup, isOpen: false, })} open={popup.isOpen}>
-      <Gallery onDeleteImage={(i: number) => deleteTourLastTimeImage(Number(router.query.id), i)} onUpload={(base64: string) => addTourLastTimeImage(Number(router.query.id), base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />;
-    </Popup>
-  );
+	const popups = useMemo(() => {
+    const info = tour.info || {};
 
-  const gridContent: Content = tour.lastPictures.slice(0, 4).map((item, i) => ({
+    return [
+			info[3] && {
+        question: 'Какова цена?',  // info[3].question,
+        content: (
+          <Price price={'35 тысяч рублей'} onGoClick={() => setPopup({ isOpen: true, content: <BookPopup codeWord={tour.code_word} onClose={() => setPopup({ ...popup, isOpen: false })} /> })} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какая цена'} text={`Я предлагаю вам незабываемое путешествие, в котором вы  сможете отдонхнуть и т.д. Вообщем надо описать так чтобы еще раз напомнить человеку что за такое не жалко отдать денег.`}
+          />
+        )
+      },
+      info[0] && {
+        question: 'Что включено?',  // info[0].question,
+        content: (
+          <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label={'Что включено'} text={`♡ Встреча в аэропорту
+          ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
+          ♡ Проживание в гостевых домах и на турбазах по программе
+          ♡ Завтраки, обеды и ужины
+          ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
+          ♡ Сопровождение опытным гидом-водителем и организатором
+          ♡ Входные билеты
+          ♡ Паромная переправа
+          ♡ Заброски на труднодоступные локации на внедорожниках
+          ♡ Трансфер в аэропорт
+          ♡ Страховка от укуса клеща
+          ♡ Горячий чай, кофе, вода, перекус в дорогу.`}
+          />
+        ),
+      },
+      info[1] && {
+        question: 'Какие расходы?',  // info[1].question,
+        content: (
+          <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какие расходы'} text={`♡ Встреча в аэропорту
+          ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
+          ♡ Проживание в гостевых домах и на турбазах по программе
+          ♡ Завтраки, обеды и ужины
+          ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
+          ♡ Сопровождение опытным гидом-водителем и организатором
+          ♡ Входные билеты
+          ♡ Паромная переправа
+          ♡ Заброски на труднодоступные локации на внедорожниках
+          ♡ Трансфер в аэропорт
+          ♡ Страховка от укуса клеща
+          ♡ Горячий чай, кофе, вода, перекус в дорогу.`}
+          />
+        ),
+      },
+      info[2] && {
+        question: 'Частые вопросы', // info[2].question,
+        content: (
+          <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какие расходы'} text={`♡ Встреча в аэропорту
+          ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
+          ♡ Проживание в гостевых домах и на турбазах по программе
+          ♡ Завтраки, обеды и ужины
+          ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
+          ♡ Сопровождение опытным гидом-водителем и организатором
+          ♡ Входные билеты
+          ♡ Паромная переправа
+          ♡ Заброски на труднодоступные локации на внедорожниках
+          ♡ Трансфер в аэропорт
+          ♡ Страховка от укуса клеща
+          ♡ Горячий чай, кофе, вода, перекус в дорогу.`}
+          />
+        ),
+      }
+    ]
+  }, [popup, data]);
+
+	// Дополнительная информация
+  const gridProgramContent: Content = useMemo(() => popups.map((item, i) => item ? ({
+    darken: true,
+    child: (
+      <div className={cn('cell')}>
+        <strong className={cn('cellTitle')}>
+          {item.question}
+        </strong>
+        <Button label="Подробнее" onClick={() => { setPopup(prev => ({ content: item.content, isOpen: true })) }} type={Type.OUTLINE} size={Size.LARGE} />
+      </div>
+    ),
+    className: cn('cellWrapper'),
+    backgroundImage: baikalImg.src,
+  }) : {}), []);
+	// Картинки последнего тура
+	const gridContent: Content = (tour.lastPictures || []).slice(0, 4).map((item, i) => ({
     backgroundImage: item,
     child: i === tour.lastPictures.slice(0, 4).length - 1 ? (
       <div className={styles.gridItem}>
         <p>+50 фотографий</p>
-        <Button label="Открыть" onClick={() => setPopup(prev => ({ ...popup, isOpen: !prev.isOpen, }))} size={Size.MEDIUM} type={Type.OUTLINE} />
+        <Button label="Открыть" onClick={() => setPopup(prev => ({ content: popupGallaryContent, isOpen: true }))} size={Size.MEDIUM} type={Type.OUTLINE} />
       </div>
     ) : undefined,
     className: styles.gridItem,
     darken: i === tour.lastPictures.slice(0, 4).length - 1,
   }));
 
+  const popupGallaryContent = (
+		<Gallery onDeleteImage={(i: number) => deleteTourLastTimeImage(Number(router.query.id), i)} onUpload={(base64: string) => addTourLastTimeImage(Number(router.query.id), base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />
+  );
+
+	const getProgramFullContent = (index: number) => (
+		<div className={`${styles.popupContent} popupContent`}>
+      <div className={styles.content}>
+				<h4>{tour.program[index].name}</h4>
+				<p>{tour.program[index].description}</p>
+				<div style={{
+					background: `url(${tour.program[index].picture})`,
+				}} className={cn('dayImg')} />
+				<ButtonClose className={styles.buttonClose} onClick={() => { setPopup({ content: null, isOpen: false }) }} />
+      </div>
+    </div>
+	);
+
   return tour ? (
     <>
-      {popupContent}
+			<Popup onClose={() => setPopup(prev => ({ ...prev, isOpen: false }))} open={popup.isOpen}>
+        {popup.content}
+      </Popup>
       <Head>
         <title>Milly adventurer - туры в России</title>
         <meta name="description" content="Туры и экспедиции по России" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Hero backgroundImage={mountainImg.src} navBarItems={sections}>
+      <Hero backgroundImage={[mountainImg.src]} navBarItems={sections}>
         <div>
           <small className={cn('date')} dangerouslySetInnerHTML={{ __html: tour.date }} />
           <h3 className={cn('title')} dangerouslySetInnerHTML={{ __html: tour.name }} />
@@ -124,11 +224,9 @@ const Tour = () => {
                   <div className={cn('slideTextContainer')}>
                     <h3 className={cn('slideTitle')} style={{ display: 'flex' }}><EditableText onSave={(text: string) => updateDay(Number(router.query.id), i, 'name', text)}>{name}</EditableText></h3>
                     <p className={cn('slideDescription')}><EditableText onSave={(text: string) => updateDay(Number(router.query.id), i, 'description', text)}>{description}</EditableText></p>
-                    <Link href={`/program/${router.query.id}`}>
-                      <a>
-                        <Button className={styles.slideButton} label="Узнать больше" onClick={() => { }} size={Size.MEDIUM} type={Type.OUTLINE} />
-                      </a>
-                    </Link>
+                    <Button className={styles.slideButton} label="Узнать больше" onClick={() => {
+											setPopup({ content: getProgramFullContent(i), isOpen: true })
+										}} size={Size.MEDIUM} type={Type.OUTLINE} />
                     {canEdit && i !== tour.program_short.length - 1 && (
                       <ButtonClose className={styles.delImg} onClick={() => deleteDay(Number(router.query.id), i)}/>
                     )}
@@ -156,34 +254,9 @@ const Tour = () => {
       <div id="tour_photo">
         <Grid content={gridContent} title="Как это было в прошлый раз" />
       </div>
-      <section id="tour_qa">
-        <SectionContainer>
-          <h2 className={styles.accordionSectionTitle}>Ответы на ваши вопросы</h2>
-          <div>
-            <Accordion preExpanded={['0']} onChange={(indexes: string[]) => {
-              setOpenedIds(indexes);
-            }} className={styles.accordion} allowZeroExpanded allowMultipleExpanded={false}>
-              {[data?.qa.map(({ question, answer }, i) => (
-                <AccordionItem key={i} uuid={`${i}`} className={styles.accordionItem}>
-                  <AccordionItemHeading className={styles.accordionHeader}>
-                    <AccordionItemButton className={styles.accordionButton}>
-                    <EditableText iColor="black" onSave={(text: string) => editQA(i, 'q', text)}>{question}</EditableText>
-                      <Image src={ArrowDown} width={15} className={openedIds.includes(`${i}`) ? styles.arrowUp : ''} />
-                    </AccordionItemButton>
-                  </AccordionItemHeading>
-                  <AccordionItemPanel>
-                    <p className={styles.accordionItemDesc}><EditableText iColor="black" onSave={(text: string) => editQA(i, 'a', text)}>{answer}</EditableText></p>
-                  </AccordionItemPanel>
-                </AccordionItem>
-              )), canEdit && (
-                <div style={{ marginBottom: 40 }}>
-                  <Button onClick={addQA} label="Добавить вопрос" />
-                </div>
-              )]}
-            </Accordion>
-          </div>
-        </SectionContainer>
-      </section>
+			<div id="info">
+        <Grid title="Дополнительная информация" content={gridProgramContent} />
+      </div>
       <Book codeWord={tour.code_word} />
       <div style={{
         marginBottom: isMobile ? 30 : 60,

@@ -33,7 +33,7 @@
 .cellDate {
   margin-bottom: 10px;
   display: block;
-  font-size: 16px;
+  font-size: 14px;
   @media (max-width: $tablet) {
     font-size: 14px;
   }
@@ -42,10 +42,13 @@
 .cellTitle {
   margin-bottom: 8px;
   line-height: 1.05;
+	@media (min-width: 1200px) {
+		font-size: 35px !important;
+	}
 }
 
 .cellDescription {
-  font-size: 20px;
+  font-size: 18px;
   margin-bottom: 25px;
   max-width: 450px;
   @media (max-width: $tablet) {
@@ -94,7 +97,7 @@
   max-width: 800px;
   margin: 0 auto 60px auto;
   @media (max-width: $tablet) {
-    font-size: 20px;
+    font-size: 24px;
     margin-bottom: 30px;
   }
 }
@@ -107,7 +110,7 @@
 }
 
 .slideTitle {
-  font-size: 32px;
+  font-size: 30px;
   max-width: 800px;
   margin-bottom: 20px;
   @media (max-width: $tablet) {
@@ -118,7 +121,7 @@
 
 .slideDescription {
   max-width: 700px;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 200;
   @media (max-width: $tablet) {
     font-size: 14px;
