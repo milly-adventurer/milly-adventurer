@@ -28,12 +28,12 @@ const Hero = ({
 				{backgroundImage.length > 1 && (
 					<BackgroundSlider transition={1} duration={6} images={backgroundImage} />
 				)}
-        <SectionContainer>
           <NavBar items={navBarItems} />
-          <div className={styles.content}>
-            {children}
-          </div>
-        </SectionContainer>
+					<SectionContainer>
+						<div className={styles.content}>
+							{children}
+						</div>
+					</SectionContainer>
       </section>
   );
 };

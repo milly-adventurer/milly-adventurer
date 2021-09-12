@@ -1,8 +1,26 @@
 @import '../../styles/sassVaribales.scss';
 
+.containerOpened {
+	@media (max-width: $tablet) {
+		background: white;
+		& button.burger div {
+			background: black !important;
+		}
+	}
+}
+
 .container {
   height: 70px;
   overflow-y: auto;
+	display: grid;
+	grid-auto-flow: column;
+	align-items: center;
+	@media (max-width: $tablet) {
+		height: auto;
+		grid-auto-flow: row;
+		row-gap: 20px;
+		padding: 20px 0;
+	}
 }
 
 .list {
@@ -12,9 +30,16 @@
   font-size: 16px;
   min-width: 768px;
   @media (max-width: $tablet) {
-    justify-content: unset;
-    min-width: max-content;
+    display: none !important;
+		row-gap: 10px;
+		min-width: unset;
   }
+}
+
+.listOpened {
+	@media (max-width: $tablet) {
+		display: grid !important;
+	}
 }
 
 .item:not(:last-child) {
@@ -27,8 +52,50 @@
 .item a {
   color: var(--t-c-alt) !important;
   cursor: pointer;
+	@media (max-width: $tablet) {
+		color: var(--t-c) !important;
+	}
 }
 
 .item:hover a {
-  color: #dcdcdc !important;
+  color: #5a5a5a !important;
 }
+
+.socials {
+	display: grid;
+	grid-template-columns: repeat(3, max-content);
+	justify-self: flex-end;
+	column-gap: 10px;
+	@media (max-width: 768px) {
+		margin-top: 10px;
+		justify-self: flex-start;
+		& .social svg {
+			width: 17px;
+			height: 17px;
+		}
+		& .social svg path {
+			fill: black;
+		}
+	}
+}
+
+.burger {
+	@media (max-width: 768px) {
+		width: fit-content;
+		height: fit-content;
+		padding: 0;
+		& div {
+			width: 30px;
+			height: 3px;
+			background: white;
+			&:nth-child(1) {
+				margin-bottom: 5px;
+			}
+
+			&:nth-child(2) {
+				margin-bottom: 5px;
+			}
+		}
+	}
+}
+

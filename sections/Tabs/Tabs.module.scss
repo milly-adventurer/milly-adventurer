@@ -23,28 +23,29 @@
 }
 
 .title {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   @media (max-width: $tablet) {
     padding: 0 20px;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
     font-size: 22px;
   }
 }
 
 .button {
   margin: 0 15px 10px 0;
-  padding: 16px 0 14px 0;
-  min-width: 200px;
+  padding: 12px 20px;
+  min-width: 150px;
   position: relative;
+	font-size: 18px;
   @media (max-width: $tablet) {
     margin: 0 5px 5px 0;
     font-size: 14px;
-    padding: 12px 0;
-    min-width: 135px;
+    padding: 10px 0;
+    min-width: 120px;
   }
 
   &:hover {
-    background-color: var(--brand-c);
+    background-color: #1f9ea9;
     color: var(--t-c-alt);
   }
 }
@@ -55,9 +56,9 @@
 }
 
 .buttonsContainer {
-  margin-bottom: 50px;
+  margin-bottom: 10px;
   @media (max-width: $tablet) {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
   }
 }
 

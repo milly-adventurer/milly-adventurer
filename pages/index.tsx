@@ -41,7 +41,6 @@ const sections: [ReactNode, string][] = [
   ['Обо мне', 'about'],
   ['Отзывы клиентов', 'reviews'],
   ['Фотографии', 'photos'],
-  ['Ответы на вопросы', 'qa'],
 ];
 
 const bgs = [cellBg, cell2Bg, cell3Bg, cell2Bg];
@@ -138,11 +137,11 @@ const Home = () => {
           </div>
         </SectionContainer>
       </section>
-      <div id="reviews">
-        <Stories />
-      </div>
       <div id="photos">
         <Tabs tabs={data.tabs}/>
+      </div>
+			<div className={styles.storiesSection} id="reviews">
+        <Stories />
       </div>
       <div id="qa">
         <Questions />

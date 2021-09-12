@@ -41,7 +41,6 @@ const sections: NavBarItems = [
   ['Программа', 'tour_program'],
   ['Обо мне', 'tour_me'],
   ['Фотографии', 'tour_photo'],
-  ['Ответы на вопросы', 'tour_qa'],
 ];
 
 const Tour = () => {
@@ -62,7 +61,6 @@ const Tour = () => {
   } = useContext(DataContext);
   const { canEdit } = useContext(UserInfoContext);
   const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, data]);
-	const activeDayRef = useRef(0);
 
   if (!tour) return <></>;
 
@@ -79,7 +77,7 @@ const Tour = () => {
     isOpen: false,
 		content: null
   });
-
+	console.log(tour);
 	const popups = useMemo(() => {
     const info = tour.info || {};
 
@@ -250,17 +248,16 @@ const Tour = () => {
       <div id="tour_me">
         <Me needPopupButtons={false} />
       </div>
-      <Stories />
       <div id="tour_photo">
         <Grid content={gridContent} title="Как это было в прошлый раз" />
       </div>
+			<div className={styles.storiesSection}><Stories /></div>
 			<div id="info">
         <Grid title="Дополнительная информация" content={gridProgramContent} />
       </div>
-      <Book codeWord={tour.code_word} />
-      <div style={{
-        marginBottom: isMobile ? 30 : 60,
-      }}></div>
+			<div className={styles.book}>
+      	<Book codeWord={tour.code_word} />
+			</div>
       <Questions />
       <Footer />
     </>

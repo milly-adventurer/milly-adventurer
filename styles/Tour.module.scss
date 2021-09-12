@@ -40,7 +40,7 @@
 }
 
 .cellTitle {
-  font-size: 35px;
+  font-size: 30px;
   font-weight: bold;
   @media (max-width: $tablet) {
     font-size: 20px;
@@ -48,7 +48,7 @@
 }
 
 .date {
-  font-size: 27px;
+  font-size: 18px;
   margin-bottom: 5px;
   display: block;
   @media (max-width: $tablet) {
@@ -57,12 +57,13 @@
 }
 
 .title {
-  margin-bottom: 15px;
+	font-size: 35px;
+  margin-bottom: 8px;
   font-weight: 400;
 }
 
 .desc {
-  font-size: 28px;
+  font-size: 24px;
   max-width: 660px;
   margin-bottom: 30px;
   line-height: 1.3;
@@ -132,7 +133,7 @@
 }
 
 .slideTitle {
-  font-size: 37px;
+  font-size: 35px;
   font-weight: bold;
   margin-bottom: 15px;
   @media (max-width: $desktop) {
@@ -145,7 +146,7 @@
 
 .slideDescription {
   max-width: 830px;
-  font-size: 25px;
+  font-size: 20px;
   font-weight: 200;
   margin-bottom: 25px;
   line-height: 1.29;
@@ -172,9 +173,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center !important;
-  row-gap: 10px;
+  row-gap: 15px;
   text-align: center;
-  font-size: 35px;
+  font-size: 30px;
   font-weight: 400;
   @media (max-width: $tablet) {
     font-size: 20px;
@@ -187,65 +188,28 @@
   }
 }
 
-.accordionSectionTitle {
-  margin: 0 auto;
-  text-align: center;
-  font-size: 45px;
-  margin-bottom: 60px;
-  @media (max-width: $desktop) {
-    font-size: 40px;
-  }
-  @media (max-width: $tablet) {
-    font-size: 20px;
-    margin-bottom: 30px;
-  }
-}
-
-.accordion {
-  color: var(--t-c);
-  max-width: 600px;
-}
-
-.accordionItem {
-  margin-bottom: 40px;
-  @media (max-width: $tablet) {
-    margin-bottom: 20px;
-  }
-}
-
-.accordionHeader {
-  border-bottom: 1px solid var(--t-c);
-  width: max-content;
-  font-size: 28px;
-  padding-bottom: 5px;
-  margin-bottom: 20px;
-  cursor: pointer;
-  @media (max-width: $desktop) {
-    font-size: 28px;
-  }
-  @media (max-width: $tablet) {
-    font-size: 14px;
-    margin-bottom: 15px;
-  }
-}
-
-.accordionButton {
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  column-gap: 14px;
-  align-items: center;
-}
-
-.accordionItemDesc {
-  font-size: 20px;
-  @media (max-width: $desktop) {
-    font-size: 18px;
-  }
-  @media (max-width: $tablet) {
-    font-size: 13px;
-  }
-}
-
 .arrowUp {
   transform: rotate(180deg);
+}
+
+.dayImg {
+  width: 100%;
+  padding-top: 40%;
+  background-size: cover !important;
+  @media (max-width: $desktop) {
+    padding-top: 50%;
+  }
+}
+
+.storiesSection {
+	margin: 100px 0 100px 0;
+  padding: 20px 0;
+  @media (max-width: $tablet) {
+		margin: 50px 0 100px 0;
+		padding: 10px 0;
+  }
+}
+
+.book {
+	margin-bottom: 90px;
 }

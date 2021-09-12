@@ -1,19 +1,12 @@
 @import '../../styles/sassVaribales.scss';
 
-.section {
-  padding: 100px 0 50px 0;
-  @media (max-width: $tablet) {
-    padding: 80px 0 100px 0;
-  }
-}
-
 .title {
   margin: 0 auto 60px auto;
   max-width: 700px;
   text-align: center;
   @media (max-width: $tablet) {
-    margin-bottom: 30px;
-    font-size: 24px;
+    margin-bottom: 35px;
+    font-size: 26px;
   }
 }
 

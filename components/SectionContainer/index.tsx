@@ -14,7 +14,7 @@ const SectionContainer = ({
   paddings?: boolean
 }>) => {
   return (
-    <div className={cn('container', className, paddings ? 'noPaddings' : '')}>
+    <div className={`${cn('container', paddings ? 'noPaddings' : '')} ${className}`}>
       {children}
     </div>
   );
