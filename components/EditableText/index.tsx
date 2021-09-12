@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useContext, useEffect, useRef, useState } from "react";
 import ContentEditable from "react-contenteditable";
-import UserInfoContext from "../../contexts/UserInfo";
+import {UserInfoContext} from "../../contexts/UserInfo";
 
 import styles from './EditableText.module.scss';
 

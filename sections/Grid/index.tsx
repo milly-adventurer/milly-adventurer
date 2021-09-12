@@ -1,5 +1,8 @@
-import { ReactChild, useMemo } from "react";
+import { ReactChild, useContext, useMemo } from "react";
 import SectionContainer from "../../components/SectionContainer";
+import UploadImage from "../../components/UploadImage";
+import EditContext from "../../contexts/Edit";
+import UserInfoContext from "../../contexts/UserInfo";
 import getClassNames from "../../helpers/classNames";
 
 import styles from './Grid.module.scss';
@@ -20,7 +23,7 @@ interface Props {
 
 const Grid = ({
   title,
-  content
+  content,
 }: Props) => {
   const slicedContent = useMemo(() => content.slice(0, 4), [content]);
 

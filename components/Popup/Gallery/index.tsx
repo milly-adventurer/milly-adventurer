@@ -1,6 +1,6 @@
 import React, { FormEvent, ReactNode, useContext, useRef } from 'react';
 import { DataContext } from '../../../contexts/Data';
-import UserInfoContext from '../../../contexts/UserInfo';
+import {UserInfoContext} from '../../../contexts/UserInfo';
 import Button, { Size } from '../../Button';
 
 import ButtonClose from '../../ButtonClose';

@@ -4,7 +4,7 @@ import EditableText from "../../../components/EditableText";
 import Popup from "../../../components/Popup";
 import Gallery from "../../../components/Popup/Gallery";
 import { DataContext } from "../../../contexts/Data";
-import { Tab } from "../../../interfaces/Tour";
+import { PreviousTour, NewData as NewDataType } from "../../../interfaces/Tour";
 import styles from '../Tabs.module.scss';
 import arrow from '../../../assets/img/arrow.svg';
 
@@ -13,8 +13,9 @@ interface Props {
   pictures: string[];
   isMobile: boolean;
   activeButton: number;
-  id: string;
-  tab: Tab;
+  id: number;
+  tab: PreviousTour;
+	onUpdate(index: number, type: 'description', value: string): void;
 }
 
 const TabInfo = ({
@@ -23,16 +24,61 @@ const TabInfo = ({
   activeButton,
   tab,
   isMobile,
+	onUpdate,
+	id,
 }: Props) => {
-  const { updateTabInfo, data, onAddImageToTab, onDeleteImageFromTab } = useContext(DataContext);
-  console.log(pictures);
+  const { newData, updateNewData } = useContext(DataContext);
+
+	if (!newData) return <></>;
 
   const [popup, setPopup] = useState<{
     isOpen: boolean;
   }>({
     isOpen: false,
   });
-  console.log(activeButton, 'id', data?.tabs);
+
+	const onAddImageToTab = async (tabId: number, imgBase64: string) => {
+    const d: NewDataType = {
+      ...newData,
+      common: {
+				...newData.common,
+				previous_tours: newData.common.previous_tours.map((tab, i) => {
+					if (tabId === tab.index) {
+						return {
+							...tab,
+							images: [...tab.images, imgBase64],
+						}
+					}
+	
+					return tab;
+				})
+			},
+    }
+		console.log(d);
+    updateNewData(d);
+  };
+	
+	const onDeleteImageFromTab = async (tabId: number, index: number) => {
+    const d: NewDataType = {
+      ...newData,
+      common: {
+				...newData.common,
+				previous_tours: newData.common.previous_tours.map((tab, i) => {
+					if (tabId === tab.index) {
+						return {
+							...tab,
+							images: tab.images.filter((_, i) => i !== index),
+						}
+					}
+	
+					return tab;
+				}),
+			},
+    }
+
+    updateNewData(d);
+  };
+
   const content = (
     <Popup onClose={() => setPopup({ isOpen: false, })} open={popup.isOpen}>
       {<Gallery
@@ -49,7 +95,7 @@ const TabInfo = ({
     <div>
       {content}
       <p className={styles.description}>
-        <EditableText iColor="black" onSave={(newValue: string) => { updateTabInfo(tab.name, 'description', newValue) }}>{description || ''}</EditableText></p>
+        <EditableText iColor="black" onSave={(newValue: string) => { onUpdate(id, 'description', newValue) }}>{description || ''}</EditableText></p>
       <div className={styles.imgs}>
         {pictures.slice(0, 4).map((picture, i) => (
           <div key={i} className={styles.img} style={{

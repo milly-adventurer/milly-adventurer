@@ -51,3 +51,49 @@ interface Data {
 }
 
 export default Data;
+
+
+export interface PreviousTour {
+	index: number;
+	name: string;
+	description: string;
+	images: string[];
+};
+
+export interface NewTour {
+  price: string;
+  whatIncluded: string;
+  expenses: string;
+  code: string;
+  preview: {
+    date: string;
+    name: string;
+    description: string;
+    image: null | string;
+  };
+  reivews: {
+    name: string,
+    text: string,
+  }[],
+  program: {
+    day: number,
+    short: {
+      name: string,
+      description: string,
+      image: null | string,
+    },
+    full: {
+      name: string,
+      description: string,
+      image: null | null,
+    }
+  }[];
+};
+
+export interface NewData {
+  common: {
+    faq: string;
+		previous_tours: PreviousTour[];
+  }
+  tours: NewTour[];
+}

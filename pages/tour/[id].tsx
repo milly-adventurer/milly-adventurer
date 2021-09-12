@@ -27,7 +27,7 @@ import { DataContext } from '../../contexts/Data';
 import { useRouter } from 'next/dist/client/router';
 
 import EditableText from '../../components/EditableText';
-import UserInfoContext from '../../contexts/UserInfo';
+import {UserInfoContext} from '../../contexts/UserInfo';
 import UploadImage from '../../components/UploadImage';
 import ButtonClose from '../../components/ButtonClose';
 import WhatIncluded from '../../components/Popup/WhatIncluded';
@@ -77,7 +77,7 @@ const Tour = () => {
     isOpen: false,
 		content: null
   });
-	console.log(tour);
+
 	const popups = useMemo(() => {
     const info = tour.info || {};
 

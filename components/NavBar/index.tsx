@@ -21,7 +21,7 @@ const NavBar = ({
 	const onBurgerClick = () => {
 		setIsMenuOpened(!isMenuOpened);
 	};
-	console.log(isMenuOpened);
+
 	return (
 		<SectionContainer className={`${styles.mobileContainer} ${isMenuOpened ? styles.containerOpened : ''}`}>
 			<nav className={`${styles.container}`}>

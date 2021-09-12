@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useEffect, useMemo, useState } from "react";
 import { BASE_URL, URL } from "../constants/url";
-import Data from "../interfaces/Tour";
+import Data, { NewData } from "../interfaces/Tour";
 import { Tour } from "../interfaces/Tour";
 
 export interface DataContext {
@@ -23,8 +23,11 @@ export interface DataContext {
   deleteTourLastTimeImage(tourId: number, index: number): Promise<void>;
   updateProgramDay(tourId: number, index: number, type: 'name' | 'description' | 'image', data: string): Promise<void>;
   deleteProgramDay(tourId: number, index: number): Promise<void>;
-  
+	updateNewData(newData: NewData): void;
+	sendNewData(): Promise<void>;
+
   data: Data | null,
+	newData: NewData | null,
 }
 
 export const initialContextValue: DataContext = {
@@ -47,7 +50,10 @@ export const initialContextValue: DataContext = {
   deleteTourLastTimeImage: async () => {},
   updateProgramDay: async () => {},
   deleteProgramDay: async () => {},
+	updateNewData: () => {},
+	sendNewData: async () => {},
   data: null,
+	newData: null,
 };
 
 export const DataContext = React.createContext<DataContext>(initialContextValue);
@@ -58,6 +64,32 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
   }>({
     data: null,
   });
+
+	const [data, setData] = useState<NewData | null>(null);
+
+	const getNewData = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}${URL.DATA}`, {
+      });
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  };
+
+	const updateNewData = (newData: NewData) => {
+		setData(newData);
+	};
+
+	useEffect(() => {
+		(async () => {
+      const data = await getNewData();
+      console.log(data, 'nd');
+      setData(data);
+    })();
+	}, []);
 
   const [controller, setController] = useState<AbortController>();
 
@@ -104,8 +136,7 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
         setTimeout(async () => {
           try {
             const data = await getData();
-            console.log(newData.tabs[0].pictures.length, 'sendToBack');
-            console.log(newData.tabs[0].pictures.length, 'fromBack');
+
             setState({ data });
             res();
           } catch (err) {
@@ -123,7 +154,7 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
     const newData: Data = {
       ...state.data,
       tabs: state.data.tabs.map((tab, i) => {
-        console.log(tab.id, tabId);
+
         if (i === tabId) {
           return {
             ...tab,
@@ -201,6 +232,28 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
 
     await onUpdateData(newData);
   };
+
+	const sendNewData = async () => {
+
+		try {
+			await fetch(`${BASE_URL}${URL.UPDATE_NEW_DATA}`, {
+				method: 'POST',
+				mode: "no-cors",
+				headers: {
+					'Content-Type': 'Application/json',
+				},
+				body: JSON.stringify(data),
+			});
+
+			setTimeout(async () => {
+				const newData: NewData = await getNewData()
+				console.log(newData, 'withLinks');
+				setData(newData);
+			}, 2000);
+		} catch (err) {
+			console.error(err);
+		}
+	};
 
   const onUpdateTourInfo = async (tourId: number, type: 'name' | 'description' | 'date', data: string) => {
     if (!state.data) return;
@@ -450,7 +503,7 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
   useEffect(() => {
     (async () => {
       const data = await getData();
-      console.log(data);
+
       setState({ data });
     })();
   }, []);
@@ -459,6 +512,7 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
     <DataContext.Provider value={{
       data: state.data,
       updateData: onUpdateData,
+			sendNewData,
       onAddImageToTab,
       addNewTab,
       deleteTab,
@@ -476,6 +530,8 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
       deleteTourLastTimeImage,
       updateProgramDay,
       deleteProgramDay,
+			newData: data,
+			updateNewData,
     }}>
       {state.data ? children : null}
     </DataContext.Provider>
