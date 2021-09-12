@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Hero from '../../sections/Hero';
 import mountainImg from '../../assets/img/mountain.jpg';
-import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useState } from 'react';
 import Button, { Size, Type } from '../../components/Button';
 import styles from '../../styles/Tour.module.scss';
 import getClassNames from '../../helpers/classNames';
