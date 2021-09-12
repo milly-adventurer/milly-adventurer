@@ -120,7 +120,7 @@ const Home = () => {
         <SectionContainer paddings={true}>
           <h2 className={cn('slideSectionTitle')}>Мои душевные авторские <br /> путешествия это:</h2>
           <div className={cn('content')}>
-            <Slider dots speed={0} waitForAnimate={false} arrows={false} centerMode centerPadding={isMobile ? '20px' : isTablet ? '50px' : '300px'} slidesToShow={1} infinite>
+						<Slider speed={200} dots waitForAnimate={false} arrows={false} centerMode centerPadding={isMobile ? '20px' : isTablet ? '50px' : '300px'} slidesToShow={1} infinite>
               {aboutTours.map(({ title, description, img }, i) => (
                 <article key={i} className={cn('slide')}>
                   <div style={{

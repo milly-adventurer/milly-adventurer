@@ -80,10 +80,12 @@
 }
 
 .burger {
+	display: none;
 	@media (max-width: 768px) {
 		width: fit-content;
 		height: fit-content;
 		padding: 0;
+		display: block;
 		& div {
 			width: 30px;
 			height: 3px;
