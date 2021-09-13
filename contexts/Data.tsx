@@ -1,10 +1,10 @@
 import React, { PropsWithChildren, useEffect, useMemo, useState } from "react";
 import { BASE_URL, URL } from "../constants/url";
 import Data, { NewData } from "../interfaces/Tour";
-import { Tour } from "../interfaces/Tour";
+import { NewTour } from "../interfaces/Tour";
 
 export interface DataContext {
-  getTourById(id: number): Tour | undefined | null;
+  getTourById(id: number): NewTour | undefined | null;
   updateData(newData: Data): void;
   onAddImageToTab(tabId: number, imgBase64: string): Promise<void>;
   onDeleteImageFromTab(tabId: number, imgIndex: number): Promise<void>;
@@ -31,7 +31,7 @@ export interface DataContext {
 }
 
 export const initialContextValue: DataContext = {
-  getTourById: () => { return undefined },
+  getTourById: () => { return null },
   updateData: () => {},
   onAddImageToTab: async () => {},
   onDeleteImageFromTab: async () => {},
@@ -98,8 +98,8 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
   }, []);
 
   const getTourById = (tourId: number) => {
-    if (state.data) {
-      return state.data.tours[tourId]
+    if (data) {
+      return data.tours[tourId];
     }
     return null;
   };

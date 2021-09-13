@@ -24,244 +24,401 @@ import Gallery from '../../components/Popup/Gallery';
 import { NavBarItems } from '../../components/NavBar';
 import { Link as ScrollLink } from 'react-scroll';
 import { DataContext } from '../../contexts/Data';
-import { useRouter } from 'next/dist/client/router';
+import router, { useRouter } from 'next/dist/client/router';
 
 import EditableText from '../../components/EditableText';
-import {UserInfoContext} from '../../contexts/UserInfo';
+import { UserInfoContext } from '../../contexts/UserInfo';
 import UploadImage from '../../components/UploadImage';
 import ButtonClose from '../../components/ButtonClose';
 import WhatIncluded from '../../components/Popup/WhatIncluded';
 import Price from '../../components/Popup/Price';
 import BookPopup from '../../components/Popup/Book';
+import { NewData as NewDataType, NewTour } from '../../interfaces/Tour';
 
 const cn = getClassNames(styles);
 
 const sections: NavBarItems = [
-  [<Link href="/">Главная</Link>, ''],
-  ['Программа', 'tour_program'],
-  ['Обо мне', 'tour_me'],
-  ['Фотографии', 'tour_photo'],
+	[<Link href="/">Главная</Link>, ''],
+	['Программа', 'tour_program'],
+	['Обо мне', 'tour_me'],
+	['Фотографии', 'tour_photo'],
 ];
 
-const Tour = () => {
-  const router = useRouter();
-  const { isMobile } = useContext(WindowWidthContext);
-  const [openedIds, setOpenedIds] = useState<string[]>([]);
+const TourInner = () => {
+	const router = useRouter();
+	const { isMobile } = useContext(WindowWidthContext);
+	const [openedIds, setOpenedIds] = useState<string[]>([]);
 
-  const {
-    getTourById,
-    updateDay,
-    addDay,
-    data,
-    deleteDay,
-    addTourLastTimeImage,
-    deleteTourLastTimeImage,
-    addQA,
-    editQA,
-  } = useContext(DataContext);
-  const { canEdit } = useContext(UserInfoContext);
-  const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, data]);
+	const {
+		getTourById,
+		newData: d,
+		// addQA,
+		// editQA,
+		sendNewData,
+		updateNewData,
+	} = useContext(DataContext);
+	const newData = d as NewDataType;
+	const { canEdit, updateValue } = useContext(UserInfoContext);
+	const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, newData]) as NewTour;
 
-  if (!tour) return <></>;
-
-  useEffect(() => {
-    if (!tour) {
-      router.push('/');
-    }
-  }, [tour]);
-
-  const [popup, setPopup] = useState<{
-    isOpen: boolean;
+	const [popup, setPopup] = useState<{
+		isOpen: boolean;
 		content: null | ReactNode;
-  }>({
-    isOpen: false,
+	}>({
+		isOpen: false,
 		content: null
-  });
+	});
+
+	const updateDay = async (dayIndex: number, type: 'full' | 'short', dType: 'name' | 'description' | 'image', data: string) => {
+		const d: NewDataType = {
+			...newData,
+			tours: newData.tours.map((t, i) => {
+				if (i === Number(router.query.id)) {
+					return {
+						...t,
+						program: t.program.map((p, j) => {
+							if (j === dayIndex) {
+								return {
+									...p,
+									[type]: {
+										...p[type],
+										[dType]: data,
+									}
+								}
+							}
+							return p;
+						}),
+					}
+				}
+				return t;
+			}),
+		};
+
+		updateNewData(d);
+	};
+
+	const deleteDay = (dayIndex: number) => {
+		const d: NewDataType = {
+			...newData,
+			tours: newData.tours.map((t, i) => {
+				if (i === Number(router.query.id)) {
+					return {
+						...t,
+						program: t.program.filter((_, i) => dayIndex !== i),
+					}
+				}
+				return t;
+			}),
+		};
+
+		updateNewData(d);
+	};
+
+	const addDay = () => {
+		const d: NewDataType = {
+			...newData,
+			tours: newData.tours.map((t, i) => {
+				if (i === Number(router.query.id)) {
+					return {
+						...t,
+						program: [...t.program, {
+							day: t.program.length,
+							full: {
+								description: 'Описание',
+								name: 'Заголовок',
+								image: null,
+							},
+							short: {
+								description: 'Описание',
+								name: 'Заголовок',
+								image: null,
+							}
+						}],
+					}
+				}
+				return t;
+			}),
+		};
+
+		updateNewData(d);
+	};
+
+	const deleteLastPicutre = (index: number) => {
+		const d: NewDataType = {
+			...newData,
+			tours: newData.tours.map((t, i) => {
+				if (i === Number(router.query.id)) {
+					return {
+						...t,
+						lastPictures: t.lastPictures.filter((_, i) => i !== index),
+					}
+				}
+				return t;
+			}),
+		};
+
+		updateNewData(d);
+	};
+
+	const addLastPicture = (base64: string) => {
+		const d: NewDataType = {
+			...newData,
+			tours: newData.tours.map((t, i) => {
+				if (i === Number(router.query.id)) {
+					return {
+						...t,
+						lastPictures: [...t.lastPictures, base64],
+					}
+				}
+				return t;
+			}),
+		};
+
+		updateNewData(d);
+	};
+
+	const onInfoUpdate = (type: 'price' | 'whatIncluded' | 'expenses' | 'faq', data: string) => {
+		const d: NewDataType = {
+			...newData,
+			common: {
+				...newData.common,
+				faq: type === 'faq' ? data : newData.common.faq,
+			},
+			tours: newData.tours.map((t, i) => {
+				if (Number(router.query.id) === i) {
+					return {
+						...t,
+						[type]: data,
+					}
+				}
+				return t;
+			}),
+		};
+		console.log(newData);
+		updateNewData(d);
+	};
 
 	const popups = useMemo(() => {
-    const info = tour.info || {};
-
-    return [
+		const info = [tour.price, tour.whatIncluded, tour.expenses, newData.common.faq]
+		console.log(newData);
+		return [
+			info[0] && {
+				question: 'Какова цена?',
+				content: (
+					<Price onUpdate={(newPrice: string) => onInfoUpdate('price', newPrice)} onGoClick={() => setPopup({ isOpen: true, content: <BookPopup codeWord={tour.code} onClose={() => setPopup({ ...popup, isOpen: false })} /> })} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какая цена'} text={`Я предлагаю вам незабываемое путешествие, в котором вы  сможете отдонхнуть и т.д. Вообщем надо описать так чтобы еще раз напомнить человеку что за такое не жалко отдать денег.`}
+					/>
+				)
+			},
+			info[1] && {
+				question: 'Что включено?',
+				content: (
+					<WhatIncluded onUpdate={(newV: string) => onInfoUpdate('whatIncluded', newV)} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Что включено'} text={'whatIncluded'}
+					/>
+				),
+			},
+			info[2] && {
+				question: 'Какие расходы?',
+				content: (
+					<WhatIncluded onUpdate={(newV: string) => onInfoUpdate('expenses', newV)} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какие расходы'} text={`expenses`}
+					/>
+				),
+			},
 			info[3] && {
-        question: 'Какова цена?',  // info[3].question,
-        content: (
-          <Price price={'35 тысяч рублей'} onGoClick={() => setPopup({ isOpen: true, content: <BookPopup codeWord={tour.code_word} onClose={() => setPopup({ ...popup, isOpen: false })} /> })} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какая цена'} text={`Я предлагаю вам незабываемое путешествие, в котором вы  сможете отдонхнуть и т.д. Вообщем надо описать так чтобы еще раз напомнить человеку что за такое не жалко отдать денег.`}
-          />
-        )
-      },
-      info[0] && {
-        question: 'Что включено?',  // info[0].question,
-        content: (
-          <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label={'Что включено'} text={`♡ Встреча в аэропорту
-          ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
-          ♡ Проживание в гостевых домах и на турбазах по программе
-          ♡ Завтраки, обеды и ужины
-          ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
-          ♡ Сопровождение опытным гидом-водителем и организатором
-          ♡ Входные билеты
-          ♡ Паромная переправа
-          ♡ Заброски на труднодоступные локации на внедорожниках
-          ♡ Трансфер в аэропорт
-          ♡ Страховка от укуса клеща
-          ♡ Горячий чай, кофе, вода, перекус в дорогу.`}
-          />
-        ),
-      },
-      info[1] && {
-        question: 'Какие расходы?',  // info[1].question,
-        content: (
-          <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какие расходы'} text={`♡ Встреча в аэропорту
-          ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
-          ♡ Проживание в гостевых домах и на турбазах по программе
-          ♡ Завтраки, обеды и ужины
-          ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
-          ♡ Сопровождение опытным гидом-водителем и организатором
-          ♡ Входные билеты
-          ♡ Паромная переправа
-          ♡ Заброски на труднодоступные локации на внедорожниках
-          ♡ Трансфер в аэропорт
-          ♡ Страховка от укуса клеща
-          ♡ Горячий чай, кофе, вода, перекус в дорогу.`}
-          />
-        ),
-      },
-      info[2] && {
-        question: 'Частые вопросы', // info[2].question,
-        content: (
-          <WhatIncluded onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какие расходы'} text={`♡ Встреча в аэропорту
-          ♡ Трансфер на комфортабельном минивэне на протяжении всего маршрута
-          ♡ Проживание в гостевых домах и на турбазах по программе
-          ♡ Завтраки, обеды и ужины
-          ♡ Насыщенная экскурсионная программа по самым красивым пейзажам и местам силы Горного Алтая
-          ♡ Сопровождение опытным гидом-водителем и организатором
-          ♡ Входные билеты
-          ♡ Паромная переправа
-          ♡ Заброски на труднодоступные локации на внедорожниках
-          ♡ Трансфер в аэропорт
-          ♡ Страховка от укуса клеща
-          ♡ Горячий чай, кофе, вода, перекус в дорогу.`}
-          />
-        ),
-      }
-    ]
-  }, [popup, data]);
+				question: 'Частые вопросы',
+				content: (
+					<WhatIncluded onUpdate={(newV: string) => onInfoUpdate('faq', newV)} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какие расходы'} text={`faq`}
+					/>
+				),
+			}
+		]
+	}, [tour, newData, popup]);
 
 	// Дополнительная информация
-  const gridProgramContent: Content = useMemo(() => popups.map((item, i) => item ? ({
-    darken: true,
-    child: (
-      <div className={cn('cell')}>
-        <strong className={cn('cellTitle')}>
-          {item.question}
-        </strong>
-        <Button label="Подробнее" onClick={() => { setPopup(prev => ({ content: item.content, isOpen: true })) }} type={Type.OUTLINE} size={Size.LARGE} />
-      </div>
-    ),
-    className: cn('cellWrapper'),
-    backgroundImage: baikalImg.src,
-  }) : {}), []);
+	const gridProgramContent: Content = useMemo(() => popups.map((item, i) => item ? ({
+		darken: true,
+		child: (
+			<div className={cn('cell')}>
+				<strong className={cn('cellTitle')}>
+					{item.question}
+				</strong>
+				<Button label="Подробнее" onClick={() => { setPopup(prev => ({ content: item.content, isOpen: true })) }} type={Type.OUTLINE} size={Size.LARGE} />
+			</div>
+		),
+		className: cn('cellWrapper'),
+		backgroundImage: baikalImg.src,
+	}) : {}), [tour, newData, popup]);
+
+	const gi = <Grid title="Дополнительная информация" content={gridProgramContent} />
+
 	// Картинки последнего тура
 	const gridContent: Content = (tour.lastPictures || []).slice(0, 4).map((item, i) => ({
-    backgroundImage: item,
-    child: i === tour.lastPictures.slice(0, 4).length - 1 ? (
-      <div className={styles.gridItem}>
-        <p>+50 фотографий</p>
-        <Button label="Открыть" onClick={() => setPopup(prev => ({ content: popupGallaryContent, isOpen: true }))} size={Size.MEDIUM} type={Type.OUTLINE} />
-      </div>
-    ) : undefined,
-    className: styles.gridItem,
-    darken: i === tour.lastPictures.slice(0, 4).length - 1,
-  }));
+		backgroundImage: (() => {
+			return item
+				? item?.includes('img_')
+					? `/api/hello?id=${item}`
+					: item
+				: ''
+		})(),
+		child: i === tour.lastPictures.slice(0, 4).length - 1 ? (
+			<div className={styles.gridItem}>
+				<p>+50 фотографий</p>
+				<Button label="Открыть" onClick={() => setPopup(prev => ({ content: popupGallaryContent, isOpen: true }))} size={Size.MEDIUM} type={Type.OUTLINE} />
+			</div>
+		) : undefined,
+		className: styles.gridItem,
+		darken: i === tour.lastPictures.slice(0, 4).length - 1,
+	}));
 
-  const popupGallaryContent = (
-		<Gallery onDeleteImage={(i: number) => deleteTourLastTimeImage(Number(router.query.id), i)} onUpload={(base64: string) => addTourLastTimeImage(Number(router.query.id), base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />
-  );
+	const popupGallaryContent = (
+		<Gallery onDeleteImage={(i: number) => deleteLastPicutre(i)} onUpload={(base64: string) => addLastPicture(base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />
+	);
 
 	const getProgramFullContent = (index: number) => (
 		<div className={`${styles.popupContent} popupContent`}>
-      <div className={styles.content}>
-				<h4>{tour.program[index].name}</h4>
-				<p>{tour.program[index].description}</p>
+			<div className={styles.content}>
+				<h3 className={cn('programFullTitle')} style={{ display: 'flex' }}>День {index + 1} - <EditableText iColor="black" onSave={(text: string) => updateDay(index, 'full', 'name', text)}>{tour.program[index].full.name}</EditableText></h3>
+				<p className={cn('programFullDescription')}><EditableText iColor="black" onSave={(text: string) => updateDay(index, 'full', 'description', text)}>{tour.program[index].full.description}</EditableText></p>
 				<div style={{
-					background: `url(${tour.program[index].picture})`,
+					background: `url(${(() => {
+						return tour.program[index].full.image
+							? tour.program[index].full.image?.includes('img_')
+								? `/api/hello?id=${tour.program[index].full.image}`
+								: tour.program[index].full.image
+							: baikalImg.src
+					})()})`,
 				}} className={cn('dayImg')} />
+				{canEdit && (
+					<div style={{ marginTop: 20 }}>
+						<UploadImage noButton onUpload={(base64: string) => updateDay(index, 'full', 'image', base64)} />
+					</div>
+				)}
 				<ButtonClose className={styles.buttonClose} onClick={() => { setPopup({ content: null, isOpen: false }) }} />
-      </div>
-    </div>
+			</div>
+		</div>
 	);
 
-  return tour ? (
-    <>
+	return tour ? (
+		<>
+			<div style={{
+				position: 'fixed',
+				top: 0,
+				right: 0,
+				display: 'grid',
+				gridAutoFlow: 'column',
+				columnGap: '10px',
+				zIndex: 99999999,
+			}}>
+				<button onClick={() => { sendNewData() }} style={{
+					background: 'grey',
+					borderRadius: 1,
+					fontSize: '14px',
+					padding: '4px 5px',
+				}}>
+					Сохранить все изменения
+				</button>
+				<button onClick={() => updateValue(!canEdit)} style={{
+					background: 'grey',
+					borderRadius: 1,
+					fontSize: '14px',
+					padding: '4px 5px',
+				}}>{canEdit ? 'Редактирование' : 'Просмотр'}</button>
+			</div>
 			<Popup onClose={() => setPopup(prev => ({ ...prev, isOpen: false }))} open={popup.isOpen}>
-        {popup.content}
-      </Popup>
-      <Head>
-        <title>Milly adventurer - туры в России</title>
-        <meta name="description" content="Туры и экспедиции по России" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Hero backgroundImage={[mountainImg.src]} navBarItems={sections}>
-        <div>
-          <small className={cn('date')} dangerouslySetInnerHTML={{ __html: tour.date }} />
-          <h3 className={cn('title')} dangerouslySetInnerHTML={{ __html: tour.name }} />
-          <p className={cn('desc')} dangerouslySetInnerHTML={{ __html: tour.description }} />
-          <ScrollLink to="tour_program" spy smooth color="white">
-            <Button className={styles.cellButton} label="Отправиться в путешествие" onClick={() => { }} type={Type.FILLED} size={Size.LARGE} />
-          </ScrollLink>
-        </div>
-      </Hero>
-      <section id="tour_program" className={cn('sliderSection')}>
-        <SectionContainer paddings={true}>
-          <h2 className={cn('sliderSectionTitle')}>Куда же мы отправимся?</h2>
-          <Slider dots speed={0} waitForAnimate={false} centerMode centerPadding={isMobile ? '10px' : '100px'} arrows={false} slidesToShow={1} infinite>
-            {tour.program_short.map(({ description, name, image }, i) => (
-              <article key={i} className={cn('slide')}>
-                <div className={cn('slideContainer')} style={{
-                  background: image && `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${image}) center center` || 'black',
-                }}>
-                  <div className={cn('slideTextContainer')}>
-                    <h3 className={cn('slideTitle')} style={{ display: 'flex' }}><EditableText onSave={(text: string) => updateDay(Number(router.query.id), i, 'name', text)}>{name}</EditableText></h3>
-                    <p className={cn('slideDescription')}><EditableText onSave={(text: string) => updateDay(Number(router.query.id), i, 'description', text)}>{description}</EditableText></p>
-                    <Button className={styles.slideButton} label="Узнать больше" onClick={() => {
+				{popup.content}
+			</Popup>
+			<Head>
+				<title>Milly adventurer - туры в России</title>
+				<meta name="description" content="Туры и экспедиции по России" />
+				<link rel="icon" href="/favicon.ico" />
+			</Head>
+			<Hero backgroundImage={[tour.preview.image
+							? tour.preview.image?.includes('img_')
+								? `/api/hello?id=${tour.preview.image}`
+								: tour.preview.image
+							: baikalImg.src]} navBarItems={sections}>
+				<div>
+					<small className={cn('date')} dangerouslySetInnerHTML={{ __html: tour.preview.date }} />
+					<h3 className={cn('title')} dangerouslySetInnerHTML={{ __html: tour.preview.name }} />
+					<p className={cn('desc')} dangerouslySetInnerHTML={{ __html: tour.preview.description }} />
+					<ScrollLink to="tour_program" spy smooth color="white">
+						<Button className={styles.cellButton} label="Отправиться в путешествие" onClick={() => { }} type={Type.FILLED} size={Size.LARGE} />
+					</ScrollLink>
+				</div>
+			</Hero>
+			<section id="tour_program" className={cn('sliderSection')}>
+				<SectionContainer paddings={true}>
+					<h2 className={cn('sliderSectionTitle')}>Куда же мы отправимся?</h2>
+					<Slider draggable={!canEdit} accessibility={!canEdit} dots speed={0} waitForAnimate={false} centerMode centerPadding={isMobile ? '10px' : '100px'} arrows={false} slidesToShow={1} infinite>
+						{[...tour.program.map((day, i) => (
+							<article key={i} className={cn('slide')}>
+								<div className={cn('slideContainer')} style={{
+									background: day.short.image && `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${day.short.image}) center center` || 'black',
+								}}>
+									<div className={cn('slideTextContainer')}>
+										<h3 className={cn('slideTitle')} style={{ display: 'flex' }}>День {i + 1} - <EditableText onSave={(text: string) => updateDay(i, 'short', 'name', text)}>{day.short.name}</EditableText></h3>
+										<p className={cn('slideDescription')}><EditableText onSave={(text: string) => updateDay(i, 'short', 'description', text)}>{day.short.description}</EditableText></p>
+										<Button className={styles.slideButton} label="Узнать больше" onClick={() => {
 											setPopup({ content: getProgramFullContent(i), isOpen: true })
 										}} size={Size.MEDIUM} type={Type.OUTLINE} />
-                    {canEdit && i !== tour.program_short.length - 1 && (
-                      <ButtonClose className={styles.delImg} onClick={() => deleteDay(Number(router.query.id), i)}/>
-                    )}
-                    {canEdit && (
-                      <div style={{ marginTop: 20 }}>
-                        <UploadImage noButton onUpload={(base64: string) => updateDay(Number(router.query.id), i, 'image', base64)}/>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </Slider>
-          {canEdit && (
-            <div style={{ marginTop: 50, margin: '50px auto' }}>
-              <Button onClick={() => addDay(Number(router.query.id))} label="Добавить день" />
-            </div>
-          )}
-        </SectionContainer>
-      </section>
-      <div id="tour_me">
-        <Me needPopupButtons={false} />
-      </div>
-      <div id="tour_photo">
-        <Grid content={gridContent} title="Как это было в прошлый раз" />
-      </div>
+										{canEdit && i !== tour.program.length - 1 && (
+											<ButtonClose className={styles.delImg} onClick={() => deleteDay(i)} />
+										)}
+										{canEdit && (
+											<div style={{ marginTop: 20 }}>
+												<UploadImage noButton onUpload={(base64: string) => updateDay(i, 'short', 'image', base64)} />
+											</div>
+										)}
+									</div>
+								</div>
+							</article>
+						)), canEdit && <article className={cn('slide')}>
+							<div className={cn('slideContainer')} style={{
+								background: 'black',
+							}}>
+								<div className={cn('slideTextContainer')}>
+									<div style={{ marginTop: 50, margin: '50px auto' }}>
+										<Button onClick={() => addDay()} label="Добавить день" />
+									</div>
+								</div>
+							</div>
+						</article>
+						]}
+					</Slider>
+				</SectionContainer>
+			</section>
+			<div id="tour_me">
+				<Me needPopupButtons={false} />
+			</div>
+			<div id="tour_photo">
+				<Grid content={gridContent} title="Как это было в прошлый раз" />
+			</div>
 			<div className={styles.storiesSection}><Stories /></div>
 			<div id="info">
-        <Grid title="Дополнительная информация" content={gridProgramContent} />
-      </div>
-			<div className={styles.book}>
-      	<Book codeWord={tour.code_word} />
+				{gi}
 			</div>
-      <Questions />
-      <Footer />
-    </>
-  ) : null;
+			<div className={styles.book}>
+				<Book codeWord={tour.code} />
+			</div>
+			<Questions />
+			<Footer />
+		</>
+	) : null;
+}
+
+const Tour = () => {
+	const router = useRouter();
+	const { newData, getTourById } = useContext(DataContext);
+	const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, newData]);
+	
+	useEffect(() => {
+		if (!tour) {
+			router.push('/');
+		}
+	}, [router.query]);
+
+	return tour ?
+		<TourInner />
+	: <></>
 };
 
 export default Tour;

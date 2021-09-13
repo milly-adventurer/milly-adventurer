@@ -64,7 +64,9 @@ export interface NewTour {
   price: string;
   whatIncluded: string;
   expenses: string;
+	faq: string;
   code: string;
+	lastPictures: string[];
   preview: {
     date: string;
     name: string;
@@ -85,7 +87,7 @@ export interface NewTour {
     full: {
       name: string,
       description: string,
-      image: null | null,
+      image: null | string,
     }
   }[];
 };

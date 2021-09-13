@@ -53,11 +53,10 @@ const Home = () => {
 
 	const { data, newData, updateNewData, sendNewData } = useContext(DataContext);
 	const { canEdit, updateValue } = useContext(UserInfoContext);
-	console.log(canEdit, 'can');
+
 	if (!newData || !data) return <></>
 
 	const onUpdateTourInfo = async (tourId: number, type: 'name' | 'description' | 'date' | 'image', data: string) => {
-		console.log('updae')
 		const d: NewDataType = {
 			...newData,
 			tours: newData.tours.map((tour, i) => {
@@ -92,7 +91,7 @@ const Home = () => {
 						<Button className={styles.cellButton} label="Узнать больше" onClick={() => { }} type={Type.OUTLINE} size={Size.LARGE} />
 					</a>
 				</NextLink>
-				{<UploadImage noButton onUpload={(base64: string) => onUpdateTourInfo(i, 'image', base64)} />}
+				{canEdit && <UploadImage noButton onUpload={(base64: string) => onUpdateTourInfo(i, 'image', base64)} />}
 			</>
 		),
 

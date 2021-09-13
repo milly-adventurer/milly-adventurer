@@ -1,6 +1,11 @@
 import SectionContainer from "../../components/SectionContainer"
 import styles from './Book.module.scss';
 import bookBg from '../../assets/img/book-bg.jpg';
+import EditableText from "../../components/EditableText";
+import { NewData as NewDataType } from "../../interfaces/Tour";
+import { DataContext } from "../../contexts/Data";
+import { useContext, useMemo } from "react";
+import { Router, useRouter } from "next/dist/client/router";
 
 const Book = ({
   noBg = false,
@@ -9,6 +14,12 @@ const Book = ({
   noBg?: boolean;
   codeWord?: string; 
 }) => {
+	const router = useRouter();
+	const { newData, getTourById } = useContext(DataContext);
+	const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, newData]);
+
+	if (!newData || !tour) return <></>;
+
   return (
     <section className={styles.section} style={{
       background: noBg ? '' : `url(${bookBg.src}) center center`,
@@ -19,7 +30,7 @@ const Book = ({
             <h2 style={{
               color: noBg ? 'var(--text-c)' : 'var(--text-c-alt)'
             }}>Забронировать место</h2>
-            <p>Напишите мне в одну из соц.сетей, кодовое слово <b>"{codeWord}"</b></p>
+            <p>Напишите мне в одну из соц.сетей, кодовое слово <b>"{tour.code}"</b></p>
           </div>
           <div className={styles.options}>
             <a href={`https://wa.me/79167426164?text=${codeWord}`} target="_blank" className={styles.option} style={{

@@ -1,24 +1,31 @@
-import React from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import ButtonClose from '../../ButtonClose';
 
 import styles from './Price.module.scss';
 import Button, { Size, Type } from '../../Button';
+import EditableText from '../../EditableText';
+import { DataContext } from '../../../contexts/Data';
+import router from 'next/dist/client/router';
+import { NewTour } from '../../../interfaces/Tour';
 
 interface Props {
   label: string;
   text: string;
-  price: string;
   onClose(): void;
   onGoClick(): void;
+	onUpdate(price: string): void;
 }
 
 const Price = ({
   label,
   text,
-  price,
   onClose,
   onGoClick,
+	onUpdate,
 }: Props) => {
+	const { newData, getTourById } = useContext(DataContext);
+	const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, newData]) as NewTour;
+
   return (
     <div className={`${styles.popupContent} popupContent`}>
       <div className={styles.text}>
@@ -30,7 +37,7 @@ const Price = ({
             <path opacity="0.4" d="M22.2725 17.5076H31.8344C31.8344 17.5076 31.8344 16.9881 31.8344 16.346V12.3377C31.833 11.697 31.8344 11.1748 31.8344 11.1748H22.2725L22.2725 17.5076Z" fill="#CACACA"/>
             <path d="M27.0837 14.3416C27.0837 15.2161 26.3748 15.925 25.5003 15.925C24.6259 15.925 23.917 15.2161 23.917 14.3416C23.917 13.4672 24.6259 12.7583 25.5003 12.7583C26.3748 12.7583 27.0837 13.4672 27.0837 14.3416Z" fill="black" fill-opacity="0.78"/>
           </svg>
-          <p className={styles.sum}>{price}</p>
+          <p className={styles.sum}><EditableText iColor="black" onSave={onUpdate}>{tour.price}</EditableText></p>
         </div>
         <Button className={styles.goFurther} onClick={onGoClick} size={Size.MEDIUM} type={Type.FILLED} label="Отправиться в путешествие" />
         <ButtonClose className={styles.buttonClose} onClick={onClose} />
@@ -40,3 +47,7 @@ const Price = ({
 };
 
 export default Price;
+function getTourById(arg0: number): any {
+	throw new Error('Function not implemented.');
+}
+
