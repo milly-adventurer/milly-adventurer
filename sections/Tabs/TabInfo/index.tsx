@@ -99,7 +99,7 @@ const TabInfo = ({
       <div className={styles.imgs}>
         {pictures.slice(0, 4).map((picture, i) => (
           <div key={i} className={styles.img} style={{
-            background: `url(${picture}) center center`
+            background: `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url(${picture}) center center`
           }} />
         ))}
       </div>
