@@ -28,8 +28,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 	if (req.method === 'GET') {
 
 		try {
-			if (fs.existsSync(__dirname + '/../../any.jpg')) {
-				fs.unlinkSync(__dirname + '/../../any.jpg')
+			if (fs.existsSync(__dirname + '/any.jpg')) {
+				fs.unlinkSync(__dirname + '/any.jpg')
 			}
 
 			const path = req.query.id;
@@ -37,8 +37,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 			const response = await fetch(`${BASE_URL}/img/${path}`);
 			const data = await response.text();
 			const buffer = Buffer.from(data, "base64");
-			fs.writeFileSync('any.jpg', buffer);
-			fs.createReadStream('any.jpg').pipe(res)
+			fs.writeFileSync(__dirname + '/any.jpg', buffer);
+			fs.createReadStream(__dirname + '/any.jpg').pipe(res)
 		} catch (err) {
 			res.status(500).json({ error: err })
 		}
