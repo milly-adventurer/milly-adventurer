@@ -141,6 +141,7 @@ button {
   background-color: white;
   padding: 70px 50px;
   color: var(--t-c);
+	overflow-y: auto;
   @media (max-width: $desktop) {
     width: calc(100vw - 20px);
   }
