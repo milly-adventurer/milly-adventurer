@@ -277,17 +277,19 @@ const TourInner = () => {
 			}}>{tour.code}</EditableText></strong>
 			<button ref={saveRef} className="eb" onClick={() => {
 				sendNewData();
-							// @ts-ignore
-				saveRef.current.textContent = 'Сохранение на сервер...';
-				setTimeout(() => {
+					if (saveRef.current) {
+								// @ts-ignore
+					saveRef.current.textContent = 'Сохранение на сервер...';
+					setTimeout(() => {
 
-								// @ts-ignore
-					saveRef.current.textContent = 'Успешно сохранено';
-				}, 4000);
-				setTimeout(() => {
-								// @ts-ignore
-					saveRef.current.textContent = 'Сохранить все изменения';
-				}, 6000);
+									// @ts-ignore
+						saveRef.current.textContent = 'Успешно сохранено';
+					}, 4000);
+					setTimeout(() => {
+									// @ts-ignore
+						saveRef.current.textContent = 'Сохранить все изменения';
+					}, 6000);
+			}
 			}}>
 				Сохранить все изменения
 			</button>
