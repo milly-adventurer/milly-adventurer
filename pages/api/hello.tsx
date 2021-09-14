@@ -35,7 +35,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 			fs.writeFileSync('any.jpg', buffer);
 			fs.createReadStream('any.jpg').pipe(res)
 		} catch (err) {
-			res.json({ error: err })
+			res.status(500).json({ error: err })
 		}
 
 		// Jimp.read(buffer, (err, res) => {
