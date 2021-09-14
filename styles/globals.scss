@@ -33,6 +33,10 @@
   font-family: inherit;
 }
 
+span {
+	word-break: break-all;
+}
+
 html,
 body {
   padding: 0;
@@ -41,6 +45,19 @@ body {
   font-weight: 300;
   color: var(--t-c-alt);
   line-height: 1.17;
+}
+
+.eb {
+	background: #0f0f0f;
+	border-radius: 1px;
+	font-size: 14px;
+	padding: 7px 15px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+body {
+	overflow-x: hidden;
 }
 
 a {

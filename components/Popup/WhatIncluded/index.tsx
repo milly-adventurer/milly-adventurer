@@ -10,36 +10,33 @@ import EditableText from '../../EditableText';
 import styles from './WhatIncluded.module.scss';
 
 interface Props {
-  label: string;
-  text: string;
-  onClose(): void;
+	label: string;
+	text: string;
+	onClose(): void;
 	onUpdate(d: string): void;
 }
 
 const WhatIncluded = ({
-  label,
-  text,
-  onClose,
+	label,
+	text,
+	onClose,
 	onUpdate,
 }: Props) => {
 	const { newData, getTourById } = useContext(DataContext);
-	const { canEdit } = useContext(UserInfoContext);
 	const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, newData]) as NewTour;
 
-  return (
-    <div className={`${styles.popupContent} popupContent`}>
-      <div className={styles.text}>
-        <h4 className={styles.title}>{label}</h4>
-        <p className={styles.desc}>
-									{/* @ts-ignore eslint-disable-next-line */}
-					<span dangerouslySetInnerHTML={{ __html: text === 'faq' ? newData?.common.faq : tour[text] }}></span>
+	return (
+		<div className={`${styles.popupContent} popupContent`}>
+			<div className={styles.text}>
+				<h4 className={styles.title}>{label}</h4>
+				<p className={styles.desc}>
+					{/* @ts-ignore eslint-disable-next-line */}
+					<EditableText iColor="black" onSave={onUpdate}>{text === 'faq' ? newData?.common.faq : tour[text]}</EditableText>
 				</p>
-								{/* @ts-ignore eslint-disable-next-line */}
-				{canEdit && <p><EditableText iColor="black" onSave={onUpdate}>{text === 'faq' ? newData?.common.faq : tour[text]}</EditableText></p>}
-        <ButtonClose className={styles.buttonClose} onClick={onClose} />
-      </div>
-    </div>
-  );
+				<ButtonClose className={styles.buttonClose} onClick={onClose} />
+			</div>
+		</div>
+	);
 };
 
 export default WhatIncluded;

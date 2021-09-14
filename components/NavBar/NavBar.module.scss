@@ -58,7 +58,7 @@
 }
 
 .item:hover a {
-  color: #5a5a5a !important;
+  color: #d1d1d1 !important;
 }
 
 .socials {
@@ -66,6 +66,9 @@
 	grid-template-columns: repeat(3, max-content);
 	justify-self: flex-end;
 	column-gap: 10px;
+	& .social:hover svg path {
+		fill: #d1d1d1;
+	}
 	@media (max-width: 768px) {
 		margin-top: 10px;
 		justify-self: flex-start;

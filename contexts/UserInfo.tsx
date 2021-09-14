@@ -1,7 +1,7 @@
 import { createContext, PropsWithChildren, useState } from "react";
 
 const initialContextValue = {
-	canEdit: false,
+	canEdit: (false),
 	updateValue: () => {},
 };
 

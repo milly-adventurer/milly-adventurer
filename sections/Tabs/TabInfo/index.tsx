@@ -54,7 +54,7 @@ const TabInfo = ({
 				})
 			},
     }
-		console.log(d);
+
     updateNewData(d);
   };
 	

@@ -1,7 +1,7 @@
 import Head from 'next/head';
 import Hero from '../../sections/Hero';
 import mountainImg from '../../assets/img/mountain.jpg';
-import React, { ReactNode, useEffect, useMemo, useState } from 'react';
+import React, { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import Button, { Size, Type } from '../../components/Button';
 import styles from '../../styles/Tour.module.scss';
 import getClassNames from '../../helpers/classNames';
@@ -34,6 +34,7 @@ import WhatIncluded from '../../components/Popup/WhatIncluded';
 import Price from '../../components/Popup/Price';
 import BookPopup from '../../components/Popup/Book';
 import { NewData as NewDataType, NewTour } from '../../interfaces/Tour';
+import ProgramFull from '../../components/ProgramFull';
 
 const cn = getClassNames(styles);
 
@@ -46,22 +47,21 @@ const sections: NavBarItems = [
 
 const TourInner = () => {
 	const router = useRouter();
-	const { isMobile } = useContext(WindowWidthContext);
-	const [openedIds, setOpenedIds] = useState<string[]>([]);
+	const { isMobile, isTablet } = useContext(WindowWidthContext);
 
 	const {
 		getTourById,
 		newData: d,
-		// addQA,
-		// editQA,
 		sendNewData,
 		updateNewData,
+		updateDay,
 	} = useContext(DataContext);
 	const newData = d as NewDataType;
 	const { canEdit, updateValue } = useContext(UserInfoContext);
 	const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, newData]) as NewTour;
+	// const isLastOpen = useRef(false);
 
-	const [popup, setPopup] = useState<{
+	const [popup, updatePopup] = useState<{
 		isOpen: boolean;
 		content: null | ReactNode;
 	}>({
@@ -69,32 +69,12 @@ const TourInner = () => {
 		content: null
 	});
 
-	const updateDay = async (dayIndex: number, type: 'full' | 'short', dType: 'name' | 'description' | 'image', data: string) => {
-		const d: NewDataType = {
-			...newData,
-			tours: newData.tours.map((t, i) => {
-				if (i === Number(router.query.id)) {
-					return {
-						...t,
-						program: t.program.map((p, j) => {
-							if (j === dayIndex) {
-								return {
-									...p,
-									[type]: {
-										...p[type],
-										[dType]: data,
-									}
-								}
-							}
-							return p;
-						}),
-					}
-				}
-				return t;
-			}),
-		};
-
-		updateNewData(d);
+	const setPopup = (d: {
+		isOpen: boolean;
+		content: null | ReactNode;
+	}) => {
+		// isLastOpen.current = d.isOpen || isLastOpen.current;
+		updatePopup(d);
 	};
 
 	const deleteDay = (dayIndex: number) => {
@@ -194,13 +174,11 @@ const TourInner = () => {
 				return t;
 			}),
 		};
-		console.log(newData);
 		updateNewData(d);
 	};
 
 	const popups = useMemo(() => {
 		const info = [tour.price, tour.whatIncluded, tour.expenses, newData.common.faq]
-		console.log(newData);
 		return [
 			info[0] && {
 				question: 'Какова цена?',
@@ -241,7 +219,7 @@ const TourInner = () => {
 				<strong className={cn('cellTitle')}>
 					{item.question}
 				</strong>
-				<Button label="Подробнее" onClick={() => { setPopup(prev => ({ content: item.content, isOpen: true })) }} type={Type.OUTLINE} size={Size.LARGE} />
+				<Button label="Подробнее" onClick={() => { setPopup({ content: item.content, isOpen: true }) }} type={Type.OUTLINE} size={Size.LARGE} />
 			</div>
 		),
 		className: cn('cellWrapper'),
@@ -262,7 +240,7 @@ const TourInner = () => {
 		child: i === tour.lastPictures.slice(0, 4).length - 1 ? (
 			<div className={styles.gridItem}>
 				<p>+50 фотографий</p>
-				<Button label="Открыть" onClick={() => setPopup(prev => ({ content: popupGallaryContent, isOpen: true }))} size={Size.MEDIUM} type={Type.OUTLINE} />
+				<Button label="Открыть" onClick={() => setPopup({ content: popupGallaryContent, isOpen: true })} size={Size.MEDIUM} type={Type.OUTLINE} />
 			</div>
 		) : undefined,
 		className: styles.gridItem,
@@ -273,57 +251,53 @@ const TourInner = () => {
 		<Gallery onDeleteImage={(i: number) => deleteLastPicutre(i)} onUpload={(base64: string) => addLastPicture(base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />
 	);
 
-	const getProgramFullContent = (index: number) => (
-		<div className={`${styles.popupContent} popupContent`}>
-			<div className={styles.content}>
-				<h3 className={cn('programFullTitle')} style={{ display: 'flex' }}>День {index + 1} - <EditableText iColor="black" onSave={(text: string) => updateDay(index, 'full', 'name', text)}>{tour.program[index].full.name}</EditableText></h3>
-				<p className={cn('programFullDescription')}><EditableText iColor="black" onSave={(text: string) => updateDay(index, 'full', 'description', text)}>{tour.program[index].full.description}</EditableText></p>
-				<div style={{
-					background: `url(${(() => {
-						return tour.program[index].full.image
-							? tour.program[index].full.image?.includes('img_')
-								? `/api/hello?id=${tour.program[index].full.image}`
-								: tour.program[index].full.image
-							: baikalImg.src
-					})()})`,
-				}} className={cn('dayImg')} />
-				{canEdit && (
-					<div style={{ marginTop: 20 }}>
-						<UploadImage noButton onUpload={(base64: string) => updateDay(index, 'full', 'image', base64)} />
-					</div>
-				)}
-				<ButtonClose className={styles.buttonClose} onClick={() => { setPopup({ content: null, isOpen: false }) }} />
-			</div>
+	const setProgram = (i: number) => {
+		setPopup({ content: <ProgramFull setPopup={setPopup} index={i} />, isOpen: true });
+	};
+
+	const EditThing = () => {
+		const saveRef = useRef(null);
+		return <div style={{
+			position: 'fixed',
+			top: 0,
+			left: 5,
+			display: 'grid',
+			gridAutoFlow: 'column',
+			columnGap: '5px',
+			zIndex: 99999999,
+		}}>
+			<strong className="eb" style={{ display: 'grid', gridAutoFlow: 'column', columnGap: '5px', padding: '6px 19px' }}>Кодовое слово: <EditableText onSave={(t) => {
+				updateNewData({
+					...newData,
+					tours: newData.tours.map((to, j) => j === Number(router.query.id) ? ({
+						...to,
+						code: t,
+					}) : to)
+				})
+			}}>{tour.code}</EditableText></strong>
+			<button ref={saveRef} className="eb" onClick={() => {
+				sendNewData();
+				saveRef.current.disabled = true;
+				saveRef.current.textContent = 'Сохранение на сервер...';
+				setTimeout(() => {
+					saveRef.current.disabled = false;
+					saveRef.current.textContent = 'Успешно сохранено';
+				}, 4000);
+				setTimeout(() => {
+					saveRef.current.disabled = false;
+					saveRef.current.textContent = 'Сохранить все изменения';
+				}, 6000);
+			}}>
+				Сохранить все изменения
+			</button>
+			<button className="eb" onClick={() => updateValue(!canEdit)}>{canEdit ? 'Редактирование' : 'Просмотр'}</button>
 		</div>
-	);
+	}
 
 	return tour ? (
 		<>
-			<div style={{
-				position: 'fixed',
-				top: 0,
-				right: 0,
-				display: 'grid',
-				gridAutoFlow: 'column',
-				columnGap: '10px',
-				zIndex: 99999999,
-			}}>
-				<button onClick={() => { sendNewData() }} style={{
-					background: 'grey',
-					borderRadius: 1,
-					fontSize: '14px',
-					padding: '4px 5px',
-				}}>
-					Сохранить все изменения
-				</button>
-				<button onClick={() => updateValue(!canEdit)} style={{
-					background: 'grey',
-					borderRadius: 1,
-					fontSize: '14px',
-					padding: '4px 5px',
-				}}>{canEdit ? 'Редактирование' : 'Просмотр'}</button>
-			</div>
-			<Popup onClose={() => setPopup(prev => ({ ...prev, isOpen: false }))} open={popup.isOpen}>
+			{!isMobile && router.query.edit === 'true' && <EditThing />}
+			<Popup onClose={() => setPopup({ ...popup, isOpen: false })} open={popup.isOpen}>
 				{popup.content}
 			</Popup>
 			<Head>
@@ -331,11 +305,11 @@ const TourInner = () => {
 				<meta name="description" content="Туры и экспедиции по России" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<Hero backgroundImage={[tour.preview.image
-							? tour.preview.image?.includes('img_')
-								? `/api/hello?id=${tour.preview.image}`
-								: tour.preview.image
-							: baikalImg.src]} navBarItems={sections}>
+			<Hero ds backgroundImage={[tour.preview.image
+				? tour.preview.image?.includes('img_')
+					? `/api/hello?id=${tour.preview.image}`
+					: tour.preview.image
+				: baikalImg.src]} navBarItems={sections}>
 				<div>
 					<small className={cn('date')} dangerouslySetInnerHTML={{ __html: tour.preview.date }} />
 					<h3 className={cn('title')} dangerouslySetInnerHTML={{ __html: tour.preview.name }} />
@@ -348,24 +322,26 @@ const TourInner = () => {
 			<section id="tour_program" className={cn('sliderSection')}>
 				<SectionContainer paddings={true}>
 					<h2 className={cn('sliderSectionTitle')}>Куда же мы отправимся?</h2>
-					<Slider draggable={!canEdit} accessibility={!canEdit} dots speed={0} waitForAnimate={false} centerMode centerPadding={isMobile ? '10px' : '100px'} arrows={false} slidesToShow={1} infinite>
+					<Slider draggable={!canEdit} accessibility={!canEdit} dots speed={0} waitForAnimate={false} centerMode centerPadding={isMobile || isTablet ? '10px' : '300px'} arrows={false} slidesToShow={1} infinite>
 						{[...tour.program.map((day, i) => (
 							<article key={i} className={cn('slide')}>
 								<div className={cn('slideContainer')} style={{
-									background: day.short.image && `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${day.short.image}) center center` || 'black',
+									background: day.short.image && `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${day.short.image
+										? day.short.image?.includes('img_')
+											? `/api/hello?id=${day.short.image}`
+											: day.short.image
+										: baikalImg.src}) center center` || 'black',
 								}}>
 									<div className={cn('slideTextContainer')}>
-										<h3 className={cn('slideTitle')} style={{ display: 'flex' }}>День {i + 1} - <EditableText onSave={(text: string) => updateDay(i, 'short', 'name', text)}>{day.short.name}</EditableText></h3>
-										<p className={cn('slideDescription')}><EditableText onSave={(text: string) => updateDay(i, 'short', 'description', text)}>{day.short.description}</EditableText></p>
-										<Button className={styles.slideButton} label="Узнать больше" onClick={() => {
-											setPopup({ content: getProgramFullContent(i), isOpen: true })
-										}} size={Size.MEDIUM} type={Type.OUTLINE} />
-										{canEdit && i !== tour.program.length - 1 && (
+										<h3 className={cn('slideTitle')} style={{ display: 'flex' }}>День {i + 1} - <EditableText onSave={(text: string) => updateDay(i, 'short', 'name', text, Number(router.query.id))}>{day.short.name}</EditableText></h3>
+										<p className={cn('slideDescription')}><EditableText onSave={(text: string) => updateDay(i, 'short', 'description', text, Number(router.query.id))}>{day.short.description}</EditableText></p>
+										<Button className={styles.slideButton} label="Узнать больше" onClick={() => setProgram(i)} size={Size.MEDIUM} type={Type.OUTLINE} />
+										{canEdit && tour.program.length > 1 && (
 											<ButtonClose className={styles.delImg} onClick={() => deleteDay(i)} />
 										)}
 										{canEdit && (
 											<div style={{ marginTop: 20 }}>
-												<UploadImage noButton onUpload={(base64: string) => updateDay(i, 'short', 'image', base64)} />
+												<UploadImage noButton onUpload={(base64: string) => updateDay(i, 'short', 'image', base64, Number(router.query.id))} />
 											</div>
 										)}
 									</div>
@@ -409,16 +385,10 @@ const Tour = () => {
 	const router = useRouter();
 	const { newData, getTourById } = useContext(DataContext);
 	const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, newData]);
-	
-	useEffect(() => {
-		if (!tour) {
-			router.push('/');
-		}
-	}, [router.query]);
 
 	return tour ?
 		<TourInner />
-	: <></>
+		: <></>
 };
 
 export default Tour;

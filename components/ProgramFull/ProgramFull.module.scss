@@ -1,4 +1,4 @@
-@import '../styles/sassVaribales.scss';
+@import '../../styles/sassVaribales.scss';
 
 .cellWrapper {
   display: grid;
@@ -198,7 +198,6 @@
   width: 100%;
   padding-top: 40%;
   background-size: cover !important;
-	background-position: center !important;
   @media (max-width: $desktop) {
     padding-top: 50%;
   }
@@ -213,6 +212,11 @@
   }
 }
 
+.book {
+	margin-bottom: 90px;
+}
+
+
 .programFullTitle {
 	margin-bottom: 15px;
 }
@@ -220,4 +224,5 @@
 .programFullDescription {
 	margin-bottom: 40px;
 	line-height: 1.4 !important;
+	max-width: 1200px;
 }

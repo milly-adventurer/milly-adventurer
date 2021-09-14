@@ -30,7 +30,7 @@ const Book = ({
             <h2 style={{
               color: noBg ? 'var(--text-c)' : 'var(--text-c-alt)'
             }}>Забронировать место</h2>
-            <p>Напишите мне в одну из соц.сетей, кодовое слово <b>"{tour.code}"</b></p>
+            <p>Напишите мне в одну из соц.сетей, кодовое слово "<b dangerouslySetInnerHTML={{__html: tour.code}}/>"</p>
           </div>
           <div className={styles.options}>
             <a href={`https://wa.me/79167426164?text=${codeWord}`} target="_blank" className={styles.option} style={{

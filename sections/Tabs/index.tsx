@@ -83,7 +83,7 @@ const Tabs = ({
           {[...newData.common.previous_tours.map(({ name, index }, i) => (
             <Button key={i} size={Size.SMALL} type={Type.FILLED} className={`${activeButton !== i ? styles.unactiveButton : ''} ${styles.button}`} label={
               <div>
-                {newData.tours.length !== 1 && canEdit && (
+                {newData.common.previous_tours.length > 1 && canEdit && (
                   <ButtonClose height={13} width={13} onClick={() => {
                     setTimeout(() => {
                       setActiveButton(0);

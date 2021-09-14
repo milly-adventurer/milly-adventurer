@@ -42,14 +42,14 @@ const EditableText = ({
 }: PropsWithChildren<Props>) => {
 	const { canEdit } = useContext(UserInfoContext);
 	const [isEditMode, setIsEditMode] = useState(false);
-	const initialValue = useRef(children as string);
+	// const initialValue = useRef(children as string);
 	const [value, setValue] = useState(children as string);
 	const editableRef = useRef<any>(null);
 
 	const onSaveCustom = (data: any) => {
 		onSave(data);
 		setValue(children as string);
-		initialValue.current = data;
+		// initialValue.current = data;
 		setIsEditMode(false);
 	}
 
@@ -63,11 +63,11 @@ const EditableText = ({
 		}
 	}, [isEditMode]);
 
-	useEffect(() => {
-		if (isEditMode === true) {
-			setValue(initialValue.current);
-		}
-	}, [isEditMode]);
+	// useEffect(() => {
+	// 	if (isEditMode === true) {
+	// 		setValue(initialValue.current);
+	// 	}
+	// }, [isEditMode]);
 
 	return isEditMode ? (
 		<div className={styles.editBlock}>

@@ -11,6 +11,7 @@ interface Props {
   style?: CSSProperties;
   backgroundImage?: string[];
   className?: string;
+	ds?: boolean;
 }
 
 const Hero = ({
@@ -19,10 +20,11 @@ const Hero = ({
   backgroundImage = [''],
   children,
   className = '',
+	ds = false,
 }: PropsWithChildren<Props>) => {
   return (
       <section className={`${styles.section} ${className}`} style={backgroundImage ? {
-        backgroundImage: backgroundImage.length === 1 ? `url(${backgroundImage[0]})` : '',
+        background: backgroundImage.length === 1 ? `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${backgroundImage[0]}) center center` : '',
         ...style,
         } : style}>
 				{backgroundImage.length > 1 && (

@@ -129,11 +129,8 @@
 
 .popupImgs {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  margin-bottom: 50px;
   column-gap: 10px;
   @media (max-width: $tablet) {
-    margin-bottom: 30px;
     grid-template-columns: unset;
     grid-template-rows: max-content 1fr;
     row-gap: 10px;

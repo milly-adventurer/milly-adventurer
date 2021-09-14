@@ -58,9 +58,6 @@ const Me = ({
             <div className={cn('popupImg')} style={{
               background: `url(${millyImg.src})`,
             }}/>
-            <div className={cn('popupImg')} style={{
-              background: `url(${millyImg.src})`,
-            }}/>
           </div>
           {/* {false && (
             <>

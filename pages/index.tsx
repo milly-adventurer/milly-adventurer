@@ -17,7 +17,7 @@ import styles from '../styles/Home.module.scss';
 import Button, { Size, Type } from '../components/Button';
 import Grid, { Content } from '../sections/Grid';
 import getClassNames from '../helpers/classNames';
-import React, { ReactNode, useContext, useMemo } from 'react';
+import React, { ReactNode, useContext, useMemo, useRef } from 'react';
 import Me from '../sections/Me';
 import SectionContainer from '../components/SectionContainer';
 
@@ -36,6 +36,8 @@ import heroSlide3 from '../assets/img/home-slide-4.jpg';
 import { NewData as NewDataType } from '../interfaces/Tour';
 import { UserInfoContext } from '../contexts/UserInfo';
 import UploadImage from '../components/UploadImage';
+import { route } from 'next/dist/next-server/server/router';
+import { Router, useRouter } from 'next/dist/client/router';
 
 const cn = getClassNames(styles);
 
@@ -46,15 +48,13 @@ const sections: [ReactNode, string][] = [
 	['Фотографии', 'photos'],
 ];
 
-const bgs = [cellBg, cell2Bg, cell3Bg, cell2Bg];
-
 const Home = () => {
 	const { isMobile, isTablet } = useContext(WindowWidthContext);
 
-	const { data, newData, updateNewData, sendNewData } = useContext(DataContext);
+	const { newData, updateNewData, sendNewData } = useContext(DataContext);
 	const { canEdit, updateValue } = useContext(UserInfoContext);
 
-	if (!newData || !data) return <></>
+	if (!newData) return <></>
 
 	const onUpdateTourInfo = async (tourId: number, type: 'name' | 'description' | 'date' | 'image', data: string) => {
 		const d: NewDataType = {
@@ -97,12 +97,13 @@ const Home = () => {
 
 		backgroundImage: (() => {
 			return preview.image
-			? preview.image?.includes('img_')
-				? `/api/hello?id=${preview.image}`
-				: preview.image
-			: homeBg.src
+				? preview.image?.includes('img_')
+					? `/api/hello?id=${preview.image}`
+					: preview.image
+				: homeBg.src
 		})(),
 		className: styles.cellContainer,
+		darken: true,
 	}));
 
 	const aboutTours = [{
@@ -130,6 +131,38 @@ const Home = () => {
 
 	};
 
+	const router = useRouter();
+
+	const EditThing = () => {
+		const saveRef = useRef(null);
+		return <div style={{
+			position: 'fixed',
+			top: 0,
+			left: 5,
+			display: 'grid',
+			gridAutoFlow: 'column',
+			columnGap: '5px',
+			zIndex: 99999999,
+		}}>
+		<button ref={saveRef} className="eb" onClick={() => {
+			sendNewData();
+			saveRef.current.disabled = true;
+			saveRef.current.textContent = 'Сохранение на сервер...';
+			setTimeout(() => {
+				saveRef.current.disabled = false;
+				saveRef.current.textContent = 'Успешно сохранено';
+			}, 4000);
+			setTimeout(() => {
+				saveRef.current.disabled = false;
+				saveRef.current.textContent = 'Сохранить все изменения';
+			}, 6000);
+			}}>
+			Сохранить все изменения
+		</button>
+		<button className="eb" onClick={() => updateValue(!canEdit)}>{canEdit ? 'Редактирование' : 'Просмотр'}</button>
+	</div>
+	}
+
 	return (
 		<>
 			<Head>
@@ -137,31 +170,8 @@ const Home = () => {
 				<meta name="description" content="Туры и экспедиции по России" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			<div style={{
-				position: 'fixed',
-				top: 0,
-				right: 0,
-				display: 'grid',
-				gridAutoFlow: 'column',
-				columnGap: '10px',
-				zIndex: 99999999,
-			}}>
-				<button onClick={() => { sendNewData() }} style={{
-					background: 'grey',
-					borderRadius: 1,
-					fontSize: '14px',
-					padding: '4px 5px',
-				}}>
-					Сохранить все изменения
-				</button>
-				<button onClick={() => updateValue(!canEdit)} style={{
-					background: 'grey',
-					borderRadius: 1,
-					fontSize: '14px',
-					padding: '4px 5px',
-				}}>{canEdit ? 'Редактирование' : 'Просмотр'}</button>
-			</div>
-			<Hero backgroundImage={[homeBg.src, heroslide2.src, heroSlide3.src]} navBarItems={sections}>
+				{router.query.edit === 'true' && <EditThing />}
+			<Hero backgroundImage={[homeBg.src, heroslide2.src, heroSlide3.src, ]} navBarItems={sections}>
 				<div className={styles.logo}>
 					<Image src={logo} alt="Logo" />
 				</div>
@@ -171,7 +181,7 @@ const Home = () => {
 				</Link>
 			</Hero>
 			<div id="tours">
-				<Grid title="Мои авторские туры" content={toursContent} />
+				<Grid title="Мои авторские туры" ds content={toursContent} />
 			</div>
 			<div id="about">
 				<Me />
@@ -212,7 +222,3 @@ const Home = () => {
 };
 
 export default Home;
-function setCanEdit(arg0: boolean): void {
-	throw new Error('Function not implemented.');
-}
-
