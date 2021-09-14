@@ -235,7 +235,7 @@ const TourInner = () => {
 				? item?.includes('img_')
 					? `/api/hello?id=${item}`
 					: item
-				: ''
+				: 'grey'
 		})(),
 		child: i === tour.lastPictures.slice(0, 4).length - 1 ? (
 			<div className={styles.gridItem}>

@@ -171,7 +171,7 @@ const Home = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 				{router.query.edit === 'true' && <EditThing />}
-			<Hero backgroundImage={[homeBg.src, heroslide2.src, heroSlide3.src, ]} navBarItems={sections}>
+			<Hero backgroundImage={[homeBg.src, heroslide2.src, heroSlide3.src]} navBarItems={sections}>
 				<div className={styles.logo}>
 					<Image src={logo} alt="Logo" />
 				</div>

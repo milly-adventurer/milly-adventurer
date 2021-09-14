@@ -19,7 +19,7 @@ const ProgramFull = ({ index, setPopup, }: { index: number, setPopup: any }) => 
 	return (
 		<div className={`${styles.popupContent} popupContent`}>
 			<div className={styles.content}>
-				<h3 className={styles.programFullTitle} style={{ display: 'flex' }}>День {index + 1} - <EditableText iColor="black" onSave={(text: string) => updateDay(index, 'full', 'name', text, Number(router.query.id))}>{tour.program[index].full.name}</EditableText></h3>
+				<h3 className={styles.programFullTitle} style={{ display: 'flex', flexWrap: 'wrap' }}>День {index + 1} - <EditableText iColor="black" onSave={(text: string) => updateDay(index, 'full', 'name', text, Number(router.query.id))}>{tour.program[index].full.name}</EditableText></h3>
 				<p className={styles.programFullDescription}><EditableText iColor="black" onSave={(text: string) => updateDay(index, 'full', 'description', text, Number(router.query.id))}>{tour.program[index].full.description}</EditableText></p>
 				<div style={{
 					background: `url(${(() => {

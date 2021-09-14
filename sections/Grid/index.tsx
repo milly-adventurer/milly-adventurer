@@ -36,7 +36,7 @@ const Grid = ({
         <div className={cn('cellsContainer')}>
           {slicedContent.map(({ backgroundImage, child, className, darken = false }, i) => (
             <article style={{
-              background: darken ? `linear-gradient(rgba(0,0,0,${ds ? 0.3 : 0.5}), rgba(0,0,0,${ds ? 0.3 : 0.5})), url(${backgroundImage}) center center` : `url(${backgroundImage}) center center`
+              background: darken ? `linear-gradient(rgba(0,0,0,${ds ? 0.3 : 0.5}), rgba(0,0,0,${ds ? 0.3 : 0.5})), url(${backgroundImage}) center center` :`linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url(${backgroundImage}) center center`
             }} key={i} className={`${cn('cell')} ${className}`}>
               {child}
             </article>

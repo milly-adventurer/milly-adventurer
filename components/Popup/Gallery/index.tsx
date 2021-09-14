@@ -60,7 +60,7 @@ const Gallery = ({
         <div className={styles.imgsBlock}>
           {imgs.map((item, i) => (
             <div key={i} className={styles.img} style={{
-              background: `url(${item})`,
+              background: `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url(${item}) center center`,
             }}>
               {canEdit && imgs.length > 1 && (
                 <ButtonClose width={15} height={15} className={styles.del} onClick={() => onDeleteImage(i)}/>
