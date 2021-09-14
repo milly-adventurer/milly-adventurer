@@ -204,7 +204,7 @@ const TourInner = () => {
 			info[3] && {
 				question: 'Частые вопросы',
 				content: (
-					<WhatIncluded onUpdate={(newV: string) => onInfoUpdate('faq', newV)} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какие расходы'} text={`faq`}
+					<WhatIncluded onUpdate={(newV: string) => onInfoUpdate('faq', newV)} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Частые вопросы'} text={`faq`}
 					/>
 				),
 			}
