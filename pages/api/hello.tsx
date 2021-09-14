@@ -26,13 +26,18 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Run the middleware
   // await runMiddleware(req, res, cors);
 	if (req.method === 'GET') {
-		const path = req.query.id;
-		console.dir(path);
-		const response = await fetch(`${BASE_URL}/img/${path}`);
-		const data = await response.text();
-		const buffer = Buffer.from(data, "base64");
-		fs.writeFileSync('any.jpg', buffer);
-		fs.createReadStream('any.jpg').pipe(res)
+		try {
+			const path = req.query.id;
+			console.dir(path);
+			const response = await fetch(`${BASE_URL}/img/${path}`);
+			const data = await response.text();
+			const buffer = Buffer.from(data, "base64");
+			fs.writeFileSync('any.jpg', buffer);
+			fs.createReadStream('any.jpg').pipe(res)
+		} catch (err) {
+			res.json({ error: err })
+		}
+
 		// Jimp.read(buffer, (err, res) => {
 		// 	if (err) throw new Error(err);
 		// 	res.write("resized.jpg");
