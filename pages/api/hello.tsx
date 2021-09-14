@@ -26,9 +26,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   // Run the middleware
   // await runMiddleware(req, res, cors);
 	if (req.method === 'GET') {
+
 		try {
+			if (fs.existsSync(__dirname + '/../../any.jpg')) {
+				fs.unlinkSync(__dirname + '/../../any.jpg')
+			}
+
 			const path = req.query.id;
-			console.dir(path);
+			// console.dir(path);
 			const response = await fetch(`${BASE_URL}/img/${path}`);
 			const data = await response.text();
 			const buffer = Buffer.from(data, "base64");
