@@ -28,7 +28,7 @@ const Hero = ({
         ...style,
         } : style}>
 				{backgroundImage.length > 1 && (
-					<BackgroundSlider transition={1} duration={6} images={backgroundImage} />
+					<BackgroundSlider transition={1} duration={3} images={backgroundImage} />
 				)}
           <NavBar items={navBarItems} />
 					<SectionContainer>
