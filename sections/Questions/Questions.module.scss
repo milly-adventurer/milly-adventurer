@@ -11,7 +11,7 @@
 }
 
 .title {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 	color: white;
 	font-weight: 500;
   @media (max-width: $tablet) {
@@ -25,7 +25,8 @@
   font-size: 22px;
 	color: white;
   @media (max-width: $tablet) {
-    display: none;
+    // display: none;
+		font-size: 15px;
   }
 }
 
