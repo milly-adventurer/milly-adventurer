@@ -169,3 +169,11 @@ button {
   background: rgb(173, 173, 173);
   border-radius: 10px;
 }
+
+.slick-dots {
+	bottom: -30px;
+}
+
+.slick-dots li button:before {
+	font-size: 10px !important;
+}

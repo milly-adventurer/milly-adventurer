@@ -54,6 +54,8 @@ const Home = () => {
 	const { newData, updateNewData, sendNewData } = useContext(DataContext);
 	const { canEdit, updateValue } = useContext(UserInfoContext);
 
+	const sliderRef = useRef<null | Slider>(null);
+
 	if (!newData) return <></>
 
 	const onUpdateTourInfo = async (tourId: number, type: 'name' | 'description' | 'date' | 'image', data: string) => {
@@ -98,7 +100,7 @@ const Home = () => {
 		backgroundImage: (() => {
 			return preview.image
 				? preview.image?.includes('img_')
-					? `/api/hello?id=${preview.image}`
+					? `https://milly-back.herokuapp.com/?id=${preview.image}`
 					: preview.image
 				: homeBg.src
 		})(),
@@ -133,6 +135,25 @@ const Home = () => {
 
 	const router = useRouter();
 
+	const Arrow = (props: any) => {
+		console.log(props);
+		const { className, style, onClick } = props;
+		return (
+			<button className={props.className} style={{...props.style, display: 'block', background: 'red', position: 'absolute'}} onClick={props.onClick}>
+				{props.left ? '<' : '>'}
+			</button>
+		)
+	};
+
+	const LeftArrow = (props:any) => {
+		console.log(props);
+		return <Arrow {...props} left={true} />
+	}
+
+	const RightArrow = (props:any) => {
+		return <Arrow {...props} left={false} />
+	}
+
 	const EditThing = () => {
 		const saveRef = useRef(null);
 		return <div style={{
@@ -146,15 +167,22 @@ const Home = () => {
 		}}>
 		<button ref={saveRef} className="eb" onClick={() => {
 			sendNewData();
-						// @ts-ignore
-			saveRef.current.textContent = 'Сохранение на сервер...';
+			if (saveRef.current) {
+				// @ts-ignore
+				saveRef.current.textContent = 'Сохранение на сервер...';
+			}
+
 			setTimeout(() => {
-							// @ts-ignore
+				if (saveRef.current) {
+				// @ts-ignore
 				saveRef.current.textContent = 'Успешно сохранено';
+			}
 			}, 4000);
 			setTimeout(() => {
-							// @ts-ignore
-				saveRef.current.textContent = 'Сохранить все изменения';
+				if (saveRef.current) {
+					// @ts-ignore
+					saveRef.current.textContent = 'Сохранить все изменения';
+				}
 			}, 6000);
 			}}>
 			Сохранить все изменения
@@ -190,7 +218,7 @@ const Home = () => {
 				<SectionContainer paddings={true}>
 					<h2 className={cn('slideSectionTitle')}>Мои душевные авторские <br /> путешествия это:</h2>
 					<div className={cn('content')}>
-						<Slider speed={200} dots waitForAnimate={false} arrows={false} centerMode centerPadding={isMobile || isTablet ? '20px' : '300px'} slidesToShow={1} infinite>
+						<Slider ref={sliderRef} autoplay autoplaySpeed={4000} speed={200} dots waitForAnimate={false} arrows={false} centerMode centerPadding={isMobile || isTablet ? '20px' : '300px'} slidesToShow={1} infinite>
 							{aboutTours.map(({ title, description, img }, i) => (
 								<article key={i} className={cn('slide')}>
 									<div style={{
@@ -204,6 +232,26 @@ const Home = () => {
 								</article>
 							))}
 						</Slider>
+						<button className={styles.arrowSlider} onClick={sliderRef?.current?.slickPrev || undefined}>
+						<svg version="1.1" width="30" height="30" x="0" y="0" viewBox="0 0 492.004 492.004"><g transform="matrix(1,0,0,1,0,-1.1368683772161603e-13)">
+							<g xmlns="http://www.w3.org/2000/svg">
+								<g>
+									<path d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z" fill="#ffffff"/>
+								</g>
+							</g>
+						</g>
+						</svg>
+						</button>
+						<button className={styles.arrowSlider} onClick={sliderRef?.current?.slickNext || undefined}>
+						<svg version="1.1" width="30" height="30" x="0" y="0" viewBox="0 0 492.004 492.004"><g transform="matrix(1,0,0,1,0,-1.1368683772161603e-13)">
+							<g xmlns="http://www.w3.org/2000/svg">
+								<g>
+									<path d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z" fill="#ffffff"/>
+								</g>
+							</g>
+						</g>
+						</svg>
+						</button>
 					</div>
 				</SectionContainer>
 			</section>

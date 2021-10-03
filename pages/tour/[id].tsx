@@ -233,7 +233,7 @@ const TourInner = () => {
 		backgroundImage: (() => {
 			return item
 				? item?.includes('img_')
-					? `/api/hello?id=${item}`
+					? `https://milly-back.herokuapp.com/?id=${item}`
 					: item
 				: 'grey'
 		})(),
@@ -280,16 +280,19 @@ const TourInner = () => {
 					if (saveRef.current) {
 								// @ts-ignore
 					saveRef.current.textContent = 'Сохранение на сервер...';
+					}
 					setTimeout(() => {
-
+						if (saveRef.current) {
 									// @ts-ignore
 						saveRef.current.textContent = 'Успешно сохранено';
+						}
 					}, 4000);
 					setTimeout(() => {
+						if (saveRef.current) {
 									// @ts-ignore
 						saveRef.current.textContent = 'Сохранить все изменения';
+						}
 					}, 6000);
-			}
 			}}>
 				Сохранить все изменения
 			</button>
@@ -310,7 +313,7 @@ const TourInner = () => {
 			</Head>
 			<Hero ds backgroundImage={[tour.preview.image
 				? tour.preview.image?.includes('img_')
-					? `/api/hello?id=${tour.preview.image}`
+					? `https://milly-back.herokuapp.com/?id=${tour.preview.image}`
 					: tour.preview.image
 				: baikalImg.src]} navBarItems={sections}>
 				<div>
@@ -331,7 +334,7 @@ const TourInner = () => {
 								<div className={cn('slideContainer')} style={{
 									background: day.short.image && `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${day.short.image
 										? day.short.image?.includes('img_')
-											? `/api/hello?id=${day.short.image}`
+											? `https://milly-back.herokuapp.com/?id=${day.short.image}`
 											: day.short.image
 										: baikalImg.src}) center center` || 'black',
 								}}>
@@ -378,7 +381,7 @@ const TourInner = () => {
 			<div className={styles.book}>
 				<Book codeWord={tour.code} />
 			</div>
-			<Questions />
+			{/* <Questions /> */}
 			<Footer />
 		</>
 	) : null;

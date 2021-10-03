@@ -108,7 +108,7 @@ const Tabs = ({
 					pictures={newData.common.previous_tours[activeButton].images.map((img, i) => {
 						return img
 						? img.includes('img_')
-							? `/api/hello?id=${img}`
+							? `https://milly-back.herokuapp.com/?id=${img}`
 							: img
 						: ''
 					})}

@@ -3,14 +3,17 @@
 .section {
   text-align: center;
   color: var(--t-c);
-  padding-bottom: 60px;
+  padding: 60px 0;
+	background-size: cover !important;
   @media (max-width: $tablet) {
-    padding-bottom: 40px;
+    padding: 40px 0;
   }
 }
 
 .title {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+	color: white;
+	font-weight: 500;
   @media (max-width: $tablet) {
     font-size: 20px;
   }
@@ -20,6 +23,7 @@
   max-width: 700px;
   margin: 0 auto 20px auto;
   font-size: 22px;
+	color: white;
   @media (max-width: $tablet) {
     display: none;
   }
@@ -40,14 +44,63 @@
 }
 
 .btn {
-  color: var(--t-c);
-  border-color: var(--t-c);
   @media (max-width: $tablet) {
     font-size: 14px;
   }
 }
 
-.btn:hover {
-  background-color: var(--t-c);
-  color: var(--t-c-alt);
+// .btn:hover {
+
+// }
+
+.options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+	width: 600px;
+}
+
+.option {
+  margin-bottom: 15px;
+  padding: 15px 25px;
+  display: grid;
+  width: 100%;
+  max-width: 530px;
+  border-radius: 6px;
+  grid-template-columns: min-content 1fr;
+  font-size: 23px;
+  align-items: center;
+  cursor: pointer;
+  transition: 0.3s;
+
+  @media (max-width: $desktop) {
+    font-size: 20px;
+  }
+
+  @media (max-width: $tablet) {
+    font-size: 15px;
+    padding: 12px 25px;
+  }
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.option p {
+  justify-self: center;
+  transform: translateY(3px);
+	color: white;
+  @media (max-width: $tablet) {
+    transform: translateY(2px);
+  }
+}
+
+.option svg {
+  width: 30px;
+  height: 30px;
 }

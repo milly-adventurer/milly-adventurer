@@ -16,7 +16,46 @@
 .desc {
   max-width: 1000px;
   font-size: 18px;
+	margin-bottom: 15px;
   @media (max-width: $tablet) {
     font-size: 14px;
+  }
+}
+
+.socials {
+	display: grid;
+	grid-template-columns: repeat(3, max-content);
+	justify-self: flex-end;
+	column-gap: 10px;
+	& .social:hover svg path {
+		fill: #d1d1d1;
+	}
+	@media (max-width: 768px) {
+		margin-top: 10px;
+		justify-self: flex-start;
+		& .social svg {
+			width: 17px;
+			height: 17px;
+		}
+	}
+}
+
+.list {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  font-size: 16px;
+  min-width: 768px;
+  @media (max-width: $tablet) {
+		row-gap: 10px;
+		min-width: unset;
+		display: none;
+  }
+}
+
+.listMobile {
+	display: none;
+	@media (max-width: $tablet) {
+		display: flex;
   }
 }

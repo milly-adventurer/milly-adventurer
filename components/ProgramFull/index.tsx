@@ -25,7 +25,7 @@ const ProgramFull = ({ index, setPopup, }: { index: number, setPopup: any }) => 
 					background: `url(${(() => {
 						return tour.program[index].full.image
 							? tour.program[index].full.image?.includes('img_')
-								? `/api/hello?id=${tour.program[index].full.image}`
+								? `https://milly-back.herokuapp.com/?id=${tour.program[index].full.image}`
 								: tour.program[index].full.image
 							: baikalImg.src
 					})()})`,
