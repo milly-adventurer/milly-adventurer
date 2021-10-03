@@ -166,14 +166,20 @@
 
 .arrowSlider {
 	position: absolute;
-	top: 40%;
+	top: 50%;
 	font-size: 50px;
-	transform: translateY(-50%) rotate(180deg);
+	transform: translateY(calc(-50%)) rotate(180deg);
 	left: 10px;
+	padding: 0;
+	display: flex;
 
 	@media (max-width: 768px) {
-		& {
-			display: none;
+		& svg {
+			width: 15px;
+			height: 15px;
+		}
+		& path {
+			fill: var(--t-c);
 		}
 	}
 }
@@ -181,5 +187,6 @@
 .arrowSlider:nth-of-type(2) {
 	right: 10px;
 	left: unset;
-	transform: rotate(0);
+	transform: translateY(-50%)  rotate(0);
+	
 }

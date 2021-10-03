@@ -4,10 +4,8 @@ import Image from 'next/image';
 import Hero from '../sections/Hero';
 
 import homeBg from '../assets/img/home-bg.jpg';
+import homeBgMob from '../assets/img/home-bg-mob.jpg';
 import logo from '../assets/img/logo.png';
-import cellBg from '../assets/img/cell-del.jpg';
-import cell2Bg from '../assets/img/cell-2-del.jpg';
-import cell3Bg from '../assets/img/cell-3-del.jpg';
 import millyBg from '../assets/img/milly.jpg';
 import slide2 from '../assets/img/slide_2.png';
 import slide3 from '../assets/img/slide_3.png';
@@ -33,6 +31,8 @@ import { DataContext } from '../contexts/Data';
 import EditableText from '../components/EditableText';
 import heroslide2 from '../assets/img/home-slide-3.jpg';
 import heroSlide3 from '../assets/img/home-slide-4.jpg';
+import heroslide2Mob from '../assets/img/home-slide-3-mob.jpg';
+import heroSlide3Mob from '../assets/img/home-slide-4-mob.jpg';
 import { NewData as NewDataType } from '../interfaces/Tour';
 import { UserInfoContext } from '../contexts/UserInfo';
 import UploadImage from '../components/UploadImage';
@@ -135,25 +135,6 @@ const Home = () => {
 
 	const router = useRouter();
 
-	const Arrow = (props: any) => {
-		console.log(props);
-		const { className, style, onClick } = props;
-		return (
-			<button className={props.className} style={{...props.style, display: 'block', background: 'red', position: 'absolute'}} onClick={props.onClick}>
-				{props.left ? '<' : '>'}
-			</button>
-		)
-	};
-
-	const LeftArrow = (props:any) => {
-		console.log(props);
-		return <Arrow {...props} left={true} />
-	}
-
-	const RightArrow = (props:any) => {
-		return <Arrow {...props} left={false} />
-	}
-
 	const EditThing = () => {
 		const saveRef = useRef(null);
 		return <div style={{
@@ -199,7 +180,7 @@ const Home = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 				{router.query.edit === 'true' && <EditThing />}
-			<Hero backgroundImage={[homeBg.src, heroslide2.src, heroSlide3.src]} navBarItems={sections}>
+			<Hero backgroundImage={[isMobile ? homeBgMob.src : homeBg.src, isMobile ? heroslide2Mob.src : heroslide2.src, isMobile ? heroSlide3Mob.src : heroSlide3.src]} navBarItems={sections}>
 				<div className={styles.logo}>
 					<Image src={logo} alt="Logo" />
 				</div>
@@ -218,7 +199,7 @@ const Home = () => {
 				<SectionContainer paddings={true}>
 					<h2 className={cn('slideSectionTitle')}>Мои душевные авторские <br /> путешествия это:</h2>
 					<div className={cn('content')}>
-						<Slider ref={sliderRef} autoplay autoplaySpeed={2500} speed={200} dots waitForAnimate={false} arrows={false} centerMode centerPadding={isMobile || isTablet ? '20px' : '300px'} slidesToShow={1} infinite>
+						<Slider ref={sliderRef} autoplay={isMobile ? false : true} autoplaySpeed={2500} speed={200} dots waitForAnimate={false} arrows={false} centerMode centerPadding={isMobile || isTablet ? '20px' : '300px'} slidesToShow={1} infinite>
 							{aboutTours.map(({ title, description, img }, i) => (
 								<article key={i} className={cn('slide')}>
 									<div style={{
