@@ -17,9 +17,6 @@
 }
 
 .content {
-  display: grid;
-  grid-template: min-content 1fr / 1fr 1fr;
-  gap: 30px 40px;
   color: var(--t-c);
   @media (max-width: $tablet) {
     display: block;
@@ -31,6 +28,11 @@
   @media (max-width: $tablet) {
     padding: 0 10px;
   }
+}
+
+.cardWrapper {
+	display: flex !important;
+	justify-content: center !important;
 }
 
 .img {

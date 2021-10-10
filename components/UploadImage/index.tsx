@@ -1,57 +1,80 @@
-import React, { FormEvent, useRef } from 'react';
+import React, { FormEvent, useRef, useState } from 'react';
+import { BASE_URL, URL } from '../../constants/url';
 import Button, { Size } from '../Button';
 
 interface Props {
-  onUpload(base64: string): void;
-  noButton?: boolean;
+	onUpload(base64: string): void;
+	noButton?: boolean;
 }
+
 const allowedFileExtensions = ['jpg', 'jpeg', 'png'];
+
 const UploadImage = ({
-  onUpload,
-  noButton = false,
+	onUpload,
+	noButton = false,
 }: Props) => {
-  const inputRef = useRef<HTMLInputElement | null>(null);
-  const formRef = useRef<HTMLFormElement | null>(null);
+	console.log('upload');
+	const inputRef = useRef<HTMLInputElement | null>(null);
+	const formRef = useRef<HTMLFormElement | null>(null);
 
-  const onUploadPhoto = (event: FormEvent) => {
-    event.preventDefault();
+	const [uploadURL, setUploadURL] = useState(null);
 
-    if (!inputRef || !inputRef.current) return;
+	const onUploadPhoto = (event: FormEvent) => {
+		event.preventDefault();
 
-    const fileReader = new FileReader();
-    const file = inputRef.current.files?.[0];
+		if (!inputRef || !inputRef.current) return;
 
-    if (!file || !allowedFileExtensions.includes(file.name.split('.')[1])) {
-      alert('Ошибка. Файл не добавлен или его расшерение не соответствует: .jpg, .jpeg, .png');
-      return;
-    };
+		const fileReader = new FileReader();
+		const file = inputRef.current.files?.[0];
 
-    fileReader.readAsDataURL(file);
+		if (!file || !allowedFileExtensions.includes(file.name.split('.')[1])) {
+			alert('Ошибка. Файл не добавлен или его расшерение не соответствует: .jpg, .jpeg, .png');
+			return;
+		};
 
-    fileReader.onload = function() {
-      onUpload(fileReader.result as string);
-      formRef?.current?.reset();
-    };
+		fileReader.readAsDataURL(file);
 
-    fileReader.onerror = function() {
-      alert('Произошла ошибка при чтении файла.');
-      console.log(fileReader.error);
-    };
-  };
+		fileReader.onload = async function () {
+			onUpload(fileReader.result as string);
+			
+			formRef?.current?.reset();
+		};
 
-  return (
-    <form ref={formRef} style={{
-      display: 'grid',
-      gridTemplateRows: 'min-content min-content',
-      justifyContent: 'flex-start',
-      gap: 15,
-    }} id="form" onSubmit={onUploadPhoto}>
-      <input onChange={noButton ? (event: any) => onUploadPhoto(event) : () => {}} ref={inputRef} type="file" accept=".jpg, .jpeg, .png" />
-      {!noButton && (
-        <Button size={Size.MEDIUM} label={'Добавить фото'} buttonType="submit" />
-      )}
-    </form>
-  );
+		fileReader.onerror = function () {
+			alert('Произошла ошибка при чтении файла.');
+			console.log(fileReader.error);
+		};
+	};
+
+	return (
+		<>
+			<iframe name="nowhere" style={{ display: 'none' }}></iframe>
+			<form ref={formRef} style={{
+				display: 'grid',
+				gridTemplateRows: 'min-content min-content',
+				justifyContent: 'flex-start',
+				gap: 15,
+			}}
+				id="form"
+				target="nowhere"
+				method="post"
+				action={uploadURL || ''}
+				encType="multipart/form-data"
+				
+			>
+				<input onChange={noButton ? async (event: any) => {
+					const resp = await fetch(`${BASE_URL}upload_image`);
+					const data = await resp.json();
+					if (data.result.uploadURL && !data.errors.length) {
+						onUploadPhoto(event);
+					}
+				} : () => {}} ref={inputRef} type="file" accept=".jpg, .jpeg, .png" />
+				{!noButton && (
+					<Button size={Size.MEDIUM} label={'Добавить фото'} buttonType="submit" />
+				)}
+			</form>
+		</>
+	);
 };
 
 export default UploadImage;

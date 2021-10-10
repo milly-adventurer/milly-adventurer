@@ -15,7 +15,7 @@ import styles from '../styles/Home.module.scss';
 import Button, { Size, Type } from '../components/Button';
 import Grid, { Content } from '../sections/Grid';
 import getClassNames from '../helpers/classNames';
-import React, { ReactNode, useContext, useMemo, useRef } from 'react';
+import React, { ReactNode, useContext, useRef } from 'react';
 import Me from '../sections/Me';
 import SectionContainer from '../components/SectionContainer';
 

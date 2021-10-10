@@ -20,9 +20,9 @@ const Comment = ({ name, text, i, deleteComment }: { name: string, text: string,
 	const onSave = (i: number, t: 'name' | 'text', data: string) => {
 		const d: NewDataType = {
 			...newData,
-			 common: {
-				 ...newData.common,
-				 reviews: newData?.common.reviews.map((r, j) => {
+			common: {
+				...newData.common,
+				reviews: newData?.common.reviews.map((r, j) => {
 					if (j === i) {
 						return {
 							...r,
@@ -30,8 +30,8 @@ const Comment = ({ name, text, i, deleteComment }: { name: string, text: string,
 						}
 					}
 					return r;
-				 })
-			 }
+				})
+			}
 		};
 
 		updateNewData(d);
@@ -42,33 +42,31 @@ const Comment = ({ name, text, i, deleteComment }: { name: string, text: string,
 			<strong className={styles.name}><EditableText iColor="black" onSave={(t: string) => onSave(i, 'name', t)}>{name}</EditableText></strong>
 			<p className={styles.comment}><EditableText iColor="black" onSave={(t: string) => onSave(i, 'text', t)}>{text}</EditableText></p>
 			{canEdit && newData.common.reviews.length > 1 && (
-				<ButtonClose className={styles.del} onClick={() => deleteComment(i)}/>
+				<ButtonClose className={styles.del} onClick={() => deleteComment(i)} />
 			)}
 		</article>
 	);
 };
 
 const DivOrSlider = ({
-  isSlider,
-  children,
-  options,
-  className,
+	isSlider,
+	children,
+	options,
+	className,
 }: PropsWithChildren<{
-  isSlider: boolean;
-  options?: Settings
-  className?: string;
+	isSlider: boolean;
+	options?: Settings
+	className?: string;
 }>) => {
-  return isSlider ?
-    <Slider className={className} dots {...options}>
-      {children}
-    </Slider> :
-    <div className={className}>
-      {children}
-    </div>;
+	return (
+		<Slider className={className} dots {...options}>
+			{children}
+		</Slider>
+	);
 };
 
 const Stories = () => {
-  const { isMobile } = useContext(WindowWidthContext);
+	const { isMobile } = useContext(WindowWidthContext);
 	const { newData, updateNewData } = useContext(DataContext);
 	const { canEdit } = useContext(UserInfoContext);
 
@@ -77,10 +75,10 @@ const Stories = () => {
 	const deleteComment = (i: number) => {
 		const d: NewDataType = {
 			...newData,
-			 common: {
-				 ...newData.common,
-				 reviews: newData?.common.reviews.filter((_, j) => j !== i),
-			 }
+			common: {
+				...newData.common,
+				reviews: newData?.common.reviews.filter((_, j) => j !== i),
+			}
 		};
 
 		updateNewData(d);
@@ -89,28 +87,28 @@ const Stories = () => {
 	const onAdd = () => {
 		const d: NewDataType = {
 			...newData,
-			 common: {
-				 ...newData.common,
-				 reviews: [...newData?.common.reviews, {
-					 name: 'Пусто',
-					 text: 'Пусто',
-				 }],
-			 }
+			common: {
+				...newData.common,
+				reviews: [...newData?.common.reviews, {
+					name: 'Пусто',
+					text: 'Пусто',
+				}],
+			}
 		};
 
 		updateNewData(d);
 	};
 
-  return isMobile === null ? <></> : (
-    <section className={styles.section}>
-      <SectionContainer>
-        <h2 className={styles.title}>Истории клиентов</h2>
-        <DivOrSlider options={{ speed: 0, waitForAnimate: false, infinite: true, slidesPerRow: 1, arrows: false, centerMode: true, centerPadding: '0px' }} isSlider={!!isMobile} className={styles.content}>
-          {[...newData?.common.reviews.map(({ name, text }, i) => <Comment deleteComment={deleteComment} i={i} name={name} text={text} key={i}/>), canEdit &&  <Button label="Добавить" type={Type.FILLED} onClick={onAdd}/>]}
-        </DivOrSlider>
-      </SectionContainer>
-    </section>
-  );
+	return isMobile === null ? <></> : (
+		<section className={styles.section}>
+			<SectionContainer>
+				<h2 className={styles.title}>Истории клиентов</h2>
+				<DivOrSlider options={{ speed: 0, waitForAnimate: false, infinite: true, slidesPerRow: 1, arrows: false, centerMode: true, centerPadding: '0px' }} isSlider={!!isMobile} className={styles.content}>
+					{[...newData?.common.reviews.map(({ name, text }, i) => <div className={styles.cardWrapper}><Comment deleteComment={deleteComment} i={i} name={name} text={text} key={i} /></div>), canEdit && <Button label="Добавить" type={Type.FILLED} onClick={onAdd} />]}
+				</DivOrSlider>
+			</SectionContainer>
+		</section>
+	);
 };
 
 export default Stories;
