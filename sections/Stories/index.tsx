@@ -65,11 +65,9 @@ const DivOrSlider = ({
 			<Slider ref={sliderRef} className={className} dots {...options}>
 				{children}
 			</Slider>
-			{true && (
-				<>
 					<button
 						className={styles.arrowSlider}
-						onClick={sliderRef?.current?.slickPrev || undefined}
+						onClick={() => {console.log('click', sliderRef); sliderRef?.current?.slickPrev() || undefined}}
 					>
 						<svg
 							version="1.1"
@@ -93,7 +91,7 @@ const DivOrSlider = ({
 					</button>
 					<button
 						className={styles.arrowSlider}
-						onClick={sliderRef?.current?.slickNext || undefined}
+						onClick={() => {console.log('click', sliderRef); sliderRef?.current?.slickNext() || undefined}}
 					>
 						<svg
 							version="1.1"
@@ -115,8 +113,6 @@ const DivOrSlider = ({
 							</g>
 						</svg>
 					</button>
-				</>
-			)}
 		</div>
 	);
 };
