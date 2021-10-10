@@ -180,10 +180,8 @@ button {
 
 .slick-slide article {
 	opacity: 0.7;
-	filter: blur(1px);
 }
 
 .slick-active article {
 	opacity: 1 !important;
-	filter: unset;
 }

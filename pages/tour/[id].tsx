@@ -14,7 +14,6 @@ import Me from '../../sections/Me';
 import Stories from '../../sections/Stories';
 import Grid, { Content } from '../../sections/Grid';
 import baikalImg from '../../assets/img/baikal.jpg';
-
 // import { Accordion, AccordionItem, AccordionItemButton, AccordionItemHeading, AccordionItemPanel } from 'react-accessible-accordion';
 import Book from '../../sections/Book';
 import Questions from '../../sections/Questions';
@@ -48,6 +47,7 @@ const sections: NavBarItems = [
 const TourInner = () => {
 	const router = useRouter();
 	const { isMobile, isTablet } = useContext(WindowWidthContext);
+	const sliderRef = useRef<null | Slider>(null);
 
 	const {
 		getTourById,
@@ -89,7 +89,7 @@ const TourInner = () => {
 				}
 				return t;
 			}),
-		};
+		}
 
 		updateNewData(d);
 	};
@@ -277,22 +277,22 @@ const TourInner = () => {
 			}}>{tour.code}</EditableText></strong>
 			<button ref={saveRef} className="eb" onClick={() => {
 				sendNewData();
-					if (saveRef.current) {
-								// @ts-ignore
+				if (saveRef.current) {
+					// @ts-ignore
 					saveRef.current.textContent = 'Сохранение на сервер...';
-					}
-					setTimeout(() => {
-						if (saveRef.current) {
-									// @ts-ignore
+				}
+				setTimeout(() => {
+					if (saveRef.current) {
+						// @ts-ignore
 						saveRef.current.textContent = 'Успешно сохранено';
-						}
-					}, 4000);
-					setTimeout(() => {
-						if (saveRef.current) {
-									// @ts-ignore
+					}
+				}, 4000);
+				setTimeout(() => {
+					if (saveRef.current) {
+						// @ts-ignore
 						saveRef.current.textContent = 'Сохранить все изменения';
-						}
-					}, 6000);
+					}
+				}, 6000);
 			}}>
 				Сохранить все изменения
 			</button>
@@ -328,44 +328,103 @@ const TourInner = () => {
 			<section id="tour_program" className={cn('sliderSection')}>
 				<SectionContainer paddings={true}>
 					<h2 className={cn('sliderSectionTitle')}>Куда же мы отправимся?</h2>
-					<Slider draggable={!canEdit} accessibility={!canEdit} dots speed={0} waitForAnimate={false} centerMode centerPadding={isMobile || isTablet ? '10px' : '300px'} arrows={false} slidesToShow={1} infinite>
-						{[...tour.program.map((day, i) => (
-							<article key={i} className={cn('slide')}>
+					<div className={styles.sliderContent}>
+						<Slider ref={sliderRef} draggable={!canEdit} accessibility={!canEdit} dots autoplay={isMobile ? false : true}
+							autoplaySpeed={2500}
+							speed={200}
+							waitForAnimate={false}
+							arrows={false} centerMode centerPadding={isMobile || isTablet ? '10px' : '300px'} slidesToShow={1} infinite>
+							{[...tour.program.map((day, i) => (
+								<article key={i} className={cn('slide')}>
+									<div className={cn('slideContainer')} style={{
+										background: day.short.image && `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${day.short.image
+											? day.short.image?.includes('img_')
+												? `https://milly-back.herokuapp.com/?id=${day.short.image}`
+												: day.short.image
+											: baikalImg.src}) center center` || 'black',
+									}}>
+										<div className={cn('slideTextContainer')}>
+											<h3 className={cn('slideTitle')} style={{ display: 'flex' }}>День {i + 1} - <EditableText onSave={(text: string) => updateDay(i, 'short', 'name', text, Number(router.query.id))}>{day.short.name}</EditableText></h3>
+											<p className={cn('slideDescription')}><EditableText onSave={(text: string) => updateDay(i, 'short', 'description', text, Number(router.query.id))}>{day.short.description}</EditableText></p>
+											<Button className={styles.slideButton} label="Узнать больше" onClick={() => setProgram(i)} size={Size.MEDIUM} type={Type.OUTLINE} />
+											{canEdit && tour.program.length > 1 && (
+												<ButtonClose className={styles.delImg} onClick={() => deleteDay(i)} />
+											)}
+											{canEdit && (
+												<div style={{ marginTop: 20 }}>
+													<UploadImage noButton onUpload={(base64: string) => updateDay(i, 'short', 'image', base64, Number(router.query.id))} />
+												</div>
+											)}
+										</div>
+									</div>
+								</article>
+							)), canEdit && <article className={cn('slide')}>
 								<div className={cn('slideContainer')} style={{
-									background: day.short.image && `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${day.short.image
-										? day.short.image?.includes('img_')
-											? `https://milly-back.herokuapp.com/?id=${day.short.image}`
-											: day.short.image
-										: baikalImg.src}) center center` || 'black',
+									background: 'black',
 								}}>
 									<div className={cn('slideTextContainer')}>
-										<h3 className={cn('slideTitle')} style={{ display: 'flex' }}>День {i + 1} - <EditableText onSave={(text: string) => updateDay(i, 'short', 'name', text, Number(router.query.id))}>{day.short.name}</EditableText></h3>
-										<p className={cn('slideDescription')}><EditableText onSave={(text: string) => updateDay(i, 'short', 'description', text, Number(router.query.id))}>{day.short.description}</EditableText></p>
-										<Button className={styles.slideButton} label="Узнать больше" onClick={() => setProgram(i)} size={Size.MEDIUM} type={Type.OUTLINE} />
-										{canEdit && tour.program.length > 1 && (
-											<ButtonClose className={styles.delImg} onClick={() => deleteDay(i)} />
-										)}
-										{canEdit && (
-											<div style={{ marginTop: 20 }}>
-												<UploadImage noButton onUpload={(base64: string) => updateDay(i, 'short', 'image', base64, Number(router.query.id))} />
-											</div>
-										)}
+										<div style={{ marginTop: 50, margin: '50px auto' }}>
+											<Button onClick={() => addDay()} label="Добавить день" />
+										</div>
 									</div>
 								</div>
 							</article>
-						)), canEdit && <article className={cn('slide')}>
-							<div className={cn('slideContainer')} style={{
-								background: 'black',
-							}}>
-								<div className={cn('slideTextContainer')}>
-									<div style={{ marginTop: 50, margin: '50px auto' }}>
-										<Button onClick={() => addDay()} label="Добавить день" />
-									</div>
-								</div>
-							</div>
-						</article>
-						]}
-					</Slider>
+							]}
+						</Slider>
+						{isMobile && (
+						<>
+						<button
+							className={styles.arrowSlider}
+							onClick={sliderRef?.current?.slickPrev || undefined}
+						>
+							<svg
+								version="1.1"
+								width="30"
+								height="30"
+								x="0"
+								y="0"
+								viewBox="0 0 492.004 492.004"
+							>
+								<g transform="matrix(1,0,0,1,0,-1.1368683772161603e-13)">
+									<g xmlns="http://www.w3.org/2000/svg">
+										<g>
+											<path
+												d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"
+												fill="#ffffff"
+											/>
+										</g>
+									</g>
+								</g>
+							</svg>
+						</button>
+						<button
+							className={styles.arrowSlider}
+							onClick={sliderRef?.current?.slickNext || undefined}
+						>
+							<svg
+								version="1.1"
+								width="30"
+								height="30"
+								x="0"
+								y="0"
+								viewBox="0 0 492.004 492.004"
+							>
+								<g transform="matrix(1,0,0,1,0,-1.1368683772161603e-13)">
+									<g xmlns="http://www.w3.org/2000/svg">
+										<g>
+											<path
+												d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"
+												fill="#ffffff"
+											/>
+										</g>
+									</g>
+								</g>
+							</svg>
+						</button>
+					</>
+				)}
+					</div>
+
 				</SectionContainer>
 			</section>
 			<div id="tour_me">

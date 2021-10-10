@@ -1,7 +1,7 @@
 import SectionContainer from '../../components/SectionContainer';
 import styles from './Stories.module.scss';
 
-import { PropsWithChildren, useContext } from 'react';
+import { PropsWithChildren, useContext, useRef } from 'react';
 import Slider, { Settings } from 'react-slick';
 import { WindowWidthContext } from '../../contexts/WindowWidth';
 import { DataContext } from '../../contexts/Data';
@@ -58,10 +58,66 @@ const DivOrSlider = ({
 	options?: Settings
 	className?: string;
 }>) => {
+	const { isMobile } = useContext(WindowWidthContext);
+	const sliderRef = useRef<null | Slider>(null);
 	return (
-		<Slider className={className} dots {...options}>
-			{children}
-		</Slider>
+		<div className={styles.sliderContent}>
+			<Slider ref={sliderRef} className={className} dots {...options}>
+				{children}
+			</Slider>
+			{true && (
+				<>
+					<button
+						className={styles.arrowSlider}
+						onClick={sliderRef?.current?.slickPrev || undefined}
+					>
+						<svg
+							version="1.1"
+							width="30"
+							height="30"
+							x="0"
+							y="0"
+							viewBox="0 0 492.004 492.004"
+						>
+							<g transform="matrix(1,0,0,1,0,-1.1368683772161603e-13)">
+								<g xmlns="http://www.w3.org/2000/svg">
+									<g>
+										<path
+											d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"
+											fill="#ffffff"
+										/>
+									</g>
+								</g>
+							</g>
+						</svg>
+					</button>
+					<button
+						className={styles.arrowSlider}
+						onClick={sliderRef?.current?.slickNext || undefined}
+					>
+						<svg
+							version="1.1"
+							width="30"
+							height="30"
+							x="0"
+							y="0"
+							viewBox="0 0 492.004 492.004"
+						>
+							<g transform="matrix(1,0,0,1,0,-1.1368683772161603e-13)">
+								<g xmlns="http://www.w3.org/2000/svg">
+									<g>
+										<path
+											d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"
+											fill="#ffffff"
+										/>
+									</g>
+								</g>
+							</g>
+						</svg>
+					</button>
+				</>
+			)}
+		</div>
 	);
 };
 
@@ -103,7 +159,9 @@ const Stories = () => {
 		<section className={styles.section}>
 			<SectionContainer>
 				<h2 className={styles.title}>Истории клиентов</h2>
-				<DivOrSlider options={{ speed: 0, waitForAnimate: false, infinite: true, slidesPerRow: 1, arrows: false, centerMode: true, centerPadding: '0px' }} isSlider={!!isMobile} className={styles.content}>
+				<DivOrSlider options={{ autoplay: isMobile ? false : true,
+							autoplaySpeed: 2500,
+							speed: 200, waitForAnimate: false, infinite: true, slidesPerRow: 1, arrows: false, centerMode: true, centerPadding: '0px' }} isSlider={!!isMobile} className={styles.content}>
 					{[...newData?.common.reviews.map(({ name, text }, i) => <div className={styles.cardWrapper}><Comment deleteComment={deleteComment} i={i} name={name} text={text} key={i} /></div>), canEdit && <Button label="Добавить" type={Type.FILLED} onClick={onAdd} />]}
 				</DivOrSlider>
 			</SectionContainer>

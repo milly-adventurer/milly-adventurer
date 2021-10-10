@@ -97,7 +97,7 @@
 
 .popupContent {
   background-color: white;
-  padding: 70px 50px;
+  padding: 50px 50px;
   color: var(--t-c);
   max-height: 90vh;
   overflow-y: auto;
@@ -109,20 +109,23 @@
 
 .popupTitle {
   margin-bottom: 20px;
+  font-size: 35px;
   @media (max-width: $tablet) {
     margin-bottom: 10px;
+    font-size: 25px;
   }
 }
 
 .popupDesc {
-  font-size: 26px;
+  font-size: 20px;
+  line-height: 1.2;
   margin-bottom: 50px;
   max-width: 860px;
   @media (max-width: $desktop) {
     font-size: 19px;
   }
   @media (max-width: $tablet) {
-    font-size: 14px;
+    font-size: 15px;
     margin-bottom: 30px;
   }
 }
