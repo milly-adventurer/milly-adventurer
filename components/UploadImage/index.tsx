@@ -42,6 +42,7 @@ const UploadImage = ({
 				event.preventDefault();
 				try {
 					const formData = new FormData();
+					// @ts-ignore
 					formData.append('file', inputRef?.current?.files?.[0]);
 					const pres = await fetch(uploadURL?.url || '', {
 						method: 'POST',
