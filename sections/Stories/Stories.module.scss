@@ -13,7 +13,9 @@
 .del {
 	position: absolute;
 	top: 0;
-	right: 0;
+  @media (min-width: $desktop) {
+    right: -100px; 
+  }
 }
 
 .content {
@@ -110,4 +112,8 @@ strong.name div {
 
 .sliderContent {
   position: relative;
+}
+
+.addNewSmth {
+  margin: 0 auto;
 }

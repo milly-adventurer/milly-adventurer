@@ -67,7 +67,7 @@ const DivOrSlider = ({
 			</Slider>
 					<button
 						className={styles.arrowSlider}
-						onClick={() => {console.log('click', sliderRef); sliderRef?.current?.slickPrev() || undefined}}
+						onClick={() => { sliderRef?.current?.slickPrev() || undefined}}
 					>
 						<svg
 							version="1.1"
@@ -91,7 +91,7 @@ const DivOrSlider = ({
 					</button>
 					<button
 						className={styles.arrowSlider}
-						onClick={() => {console.log('click', sliderRef); sliderRef?.current?.slickNext() || undefined}}
+						onClick={() => {sliderRef?.current?.slickNext() || undefined}}
 					>
 						<svg
 							version="1.1"
@@ -155,10 +155,11 @@ const Stories = () => {
 		<section className={styles.section}>
 			<SectionContainer>
 				<h2 className={styles.title}>Истории клиентов</h2>
-				<DivOrSlider options={{ autoplay: isMobile ? false : true,
+				<DivOrSlider options={{ autoplay: isMobile || canEdit ? false : true,
+					swipe: !canEdit,
 							autoplaySpeed: 2500,
 							speed: 200, waitForAnimate: false, infinite: true, slidesPerRow: 1, arrows: false, centerMode: true, centerPadding: '0px' }} isSlider={!!isMobile} className={styles.content}>
-					{[...newData?.common.reviews.map(({ name, text }, i) => <div className={styles.cardWrapper}><Comment deleteComment={deleteComment} i={i} name={name} text={text} key={i} /></div>), canEdit && <Button label="Добавить" type={Type.FILLED} onClick={onAdd} />]}
+					{[...newData?.common.reviews.map(({ name, text }, i) => <div className={styles.cardWrapper}><Comment deleteComment={deleteComment} i={i} name={name} text={text} key={i} /></div>), canEdit && <div className={styles.cardWrapper}><Button label="Добавить" className={styles.addNewSmth} type={Type.FILLED} onClick={onAdd} /></div>]}
 				</DivOrSlider>
 			</SectionContainer>
 		</section>

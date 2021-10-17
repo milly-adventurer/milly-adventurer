@@ -107,9 +107,7 @@ const Tabs = ({
 					description={newData.common.previous_tours[activeButton].description}
 					pictures={newData.common.previous_tours[activeButton].images.map((img, i) => {
 						return img
-						? img.includes('img_')
-							? `https://milly-back.herokuapp.com/?id=${img}`
-							: img
+						? `https://imagedelivery.net/BjEATObSzIqdwKoVD4rQRw/${img}/public`
 						: ''
 					})}
 				/>

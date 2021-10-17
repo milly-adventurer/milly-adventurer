@@ -13,7 +13,7 @@ import slide4 from "../assets/img/slide_4.png";
 
 import styles from "../styles/Home.module.scss";
 import Button, { Size, Type } from "../components/Button";
-import Grid, { Content } from "../sections/Grid";
+import Grid from "../sections/Grid";
 import getClassNames from "../helpers/classNames";
 import React, { ReactNode, useContext, useRef } from "react";
 import Me from "../sections/Me";
@@ -36,8 +36,7 @@ import heroSlide3Mob from "../assets/img/home-slide-4-mob.jpg";
 import { NewData as NewDataType } from "../interfaces/Tour";
 import { UserInfoContext } from "../contexts/UserInfo";
 import UploadImage from "../components/UploadImage";
-import { route } from "next/dist/next-server/server/router";
-import { Router, useRouter } from "next/dist/client/router";
+import { useRouter } from "next/dist/client/router";
 
 const cn = getClassNames(styles);
 
@@ -55,7 +54,7 @@ const Home = () => {
 	const { canEdit, updateValue } = useContext(UserInfoContext);
 
 	const sliderRef = useRef<null | Slider>(null);
-
+	const router = useRouter();
 	if (!newData) return <></>;
 
 	const onUpdateTourInfo = async (
@@ -111,7 +110,7 @@ const Home = () => {
 						{preview.description}
 					</EditableText>
 				</p>
-				<NextLink href={`/tour/${i}`}>
+				<NextLink href={`/tour/${i}${router.query.edit === "true" ? '?edit=true' : ''}`}>
 					<a>
 						<Button
 							className={styles.cellButton}
@@ -133,9 +132,7 @@ const Home = () => {
 
 		backgroundImage: (() => {
 			return preview.image
-				? preview.image?.includes("img_")
-					? `https://milly-back.herokuapp.com/?id=${preview.image}`
-					: preview.image
+				? `https://imagedelivery.net/BjEATObSzIqdwKoVD4rQRw/${preview.image}/public`
 				: homeBg.src;
 		})(),
 		className: styles.cellContainer,
@@ -172,8 +169,6 @@ const Home = () => {
 
 	const onSeeToursClick = () => { };
 
-	const router = useRouter();
-
 	const EditThing = () => {
 		const saveRef = useRef(null);
 		return (
@@ -185,11 +180,12 @@ const Home = () => {
 					display: "grid",
 					gridAutoFlow: "column",
 					columnGap: "5px",
-					zIndex: 99999999,
+					zIndex: 999999999,
 				}}
 			>
 				<button
 					ref={saveRef}
+					style={{					zIndex: 999999999}}
 					className="eb"
 					onClick={() => {
 						sendNewData();
@@ -214,7 +210,7 @@ const Home = () => {
 				>
 					Сохранить все изменения
 				</button>
-				<button className="eb" onClick={() => updateValue(!canEdit)}>
+				<button 					style={{					zIndex: 999999999}} className="eb" onClick={() => updateValue(!canEdit)}>
 					{canEdit ? "Редактирование" : "Просмотр"}
 				</button>
 			</div>
@@ -265,8 +261,9 @@ const Home = () => {
 					<div className={cn("content")}>
 						<Slider
 							ref={sliderRef}
-							autoplay={isMobile ? false : true}
+							autoplay={isMobile || canEdit ? false : true}
 							autoplaySpeed={2500}
+							swipe={!canEdit}
 							speed={200}
 							dots
 							waitForAnimate={false}

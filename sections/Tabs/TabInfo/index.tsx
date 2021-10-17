@@ -82,6 +82,8 @@ const TabInfo = ({
   const content = (
     <Popup onClose={() => setPopup({ isOpen: false, })} open={popup.isOpen}>
       {<Gallery
+        type="else"
+        activeButton={activeButton}
         onUpload={(base64: string) => onAddImageToTab(activeButton, base64)}
         onDeleteImage={(index: number) => onDeleteImageFromTab(activeButton, index)}
         imgs={pictures}

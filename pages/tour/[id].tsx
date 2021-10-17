@@ -124,6 +124,7 @@ const TourInner = () => {
 	};
 
 	const deleteLastPicutre = (index: number) => {
+		console.log('del lp', index, router.query.id, newData?.tours);
 		const d: NewDataType = {
 			...newData,
 			tours: newData.tours.map((t, i) => {
@@ -227,29 +228,26 @@ const TourInner = () => {
 	}) : {}), [tour, newData, popup]);
 
 	const gi = <Grid title="Дополнительная информация" content={gridProgramContent} />
+	console.log(tour.lastPictures);
+
+	const popupGallaryContent = <Gallery type="lastP" onDeleteImage={(i: number) => deleteLastPicutre(i)} onUpload={(base64: string) => addLastPicture(base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />;
 
 	// Картинки последнего тура
 	const gridContent: Content = (tour.lastPictures || []).slice(0, 4).map((item, i) => ({
-		backgroundImage: (() => {
-			return item
-				? item?.includes('img_')
-					? `https://milly-back.herokuapp.com/?id=${item}`
-					: item
-				: 'grey'
-		})(),
-		child: i === tour.lastPictures.slice(0, 4).length - 1 ? (
-			<div className={styles.gridItem}>
-				<p>+50 фотографий</p>
-				<Button label="Открыть" onClick={() => setPopup({ content: popupGallaryContent, isOpen: true })} size={Size.MEDIUM} type={Type.OUTLINE} />
-			</div>
-		) : undefined,
-		className: styles.gridItem,
-		darken: i === tour.lastPictures.slice(0, 4).length - 1,
-	}));
-
-	const popupGallaryContent = (
-		<Gallery onDeleteImage={(i: number) => deleteLastPicutre(i)} onUpload={(base64: string) => addLastPicture(base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />
-	);
+			backgroundImage: (() => {
+				return item
+					? `https://imagedelivery.net/BjEATObSzIqdwKoVD4rQRw/${item}/public`
+					: 'grey'
+			})(),
+			child: i === tour.lastPictures.slice(0, 4).length - 1 ? (
+				<div className={styles.gridItem}>
+					<p>+50 фотографий</p>
+					<Button label="Открыть" onClick={() => setPopup({ content: popupGallaryContent, isOpen: true })} size={Size.MEDIUM} type={Type.OUTLINE} />
+				</div>
+			) : undefined,
+			className: styles.gridItem,
+			darken: i === tour.lastPictures.slice(0, 4).length - 1,
+		}))
 
 	const setProgram = (i: number) => {
 		setPopup({ content: <ProgramFull setPopup={setPopup} index={i} />, isOpen: true });
@@ -266,7 +264,7 @@ const TourInner = () => {
 			columnGap: '5px',
 			zIndex: 99999999,
 		}}>
-			<strong className="eb" style={{ display: 'grid', gridAutoFlow: 'column', columnGap: '5px', padding: '6px 19px' }}>Кодовое слово: <EditableText onSave={(t) => {
+			<strong  className="eb" style={{ display: 'grid', gridAutoFlow: 'column', columnGap: '5px', padding: '6px 19px' }}>Кодовое слово: <EditableText onSave={(t) => {
 				updateNewData({
 					...newData,
 					tours: newData.tours.map((to, j) => j === Number(router.query.id) ? ({
@@ -275,7 +273,7 @@ const TourInner = () => {
 					}) : to)
 				})
 			}}>{tour.code}</EditableText></strong>
-			<button ref={saveRef} className="eb" onClick={() => {
+			<button 					style={{					zIndex: 999999999}} ref={saveRef} className="eb" onClick={() => {
 				sendNewData();
 				if (saveRef.current) {
 					// @ts-ignore
@@ -296,7 +294,7 @@ const TourInner = () => {
 			}}>
 				Сохранить все изменения
 			</button>
-			<button className="eb" onClick={() => updateValue(!canEdit)}>{canEdit ? 'Редактирование' : 'Просмотр'}</button>
+			<button 					style={{zIndex: 999999999}} className="eb" onClick={() => updateValue(!canEdit)}>{canEdit ? 'Редактирование' : 'Просмотр'}</button>
 		</div>
 	}
 
@@ -312,9 +310,7 @@ const TourInner = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Hero ds backgroundImage={[tour.preview.image
-				? tour.preview.image?.includes('img_')
-					? `https://milly-back.herokuapp.com/?id=${tour.preview.image}`
-					: tour.preview.image
+				? `https://imagedelivery.net/BjEATObSzIqdwKoVD4rQRw/${tour.preview.image}/public`
 				: baikalImg.src]} navBarItems={sections}>
 				<div>
 					<small className={cn('date')} dangerouslySetInnerHTML={{ __html: tour.preview.date }} />
@@ -338,9 +334,7 @@ const TourInner = () => {
 								<article key={i} className={cn('slide')}>
 									<div className={cn('slideContainer')} style={{
 										background: day.short.image && `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${day.short.image
-											? day.short.image?.includes('img_')
-												? `https://milly-back.herokuapp.com/?id=${day.short.image}`
-												: day.short.image
+											? `https://imagedelivery.net/BjEATObSzIqdwKoVD4rQRw/${day.short.image}/public`
 											: baikalImg.src}) center center` || 'black',
 									}}>
 										<div className={cn('slideTextContainer')}>
