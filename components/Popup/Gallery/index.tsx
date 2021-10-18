@@ -54,7 +54,7 @@ const Gallery = ({
   console.log(realImgs, 'gallery');
   const images = realImgs?.map((item, i) => (
       <div key={i} className={styles.img} style={{
-        background: `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url(https://imagedelivery.net/BjEATObSzIqdwKoVD4rQRw/${item}/public) center center`,
+        background: `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url(https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${item}/public) center center`,
       }}>
         {canEdit && realImgs.length > 1 && (
           <ButtonClose width={15} height={15} className={styles.del} onClick={() => { onDeleteImage(i) }} />

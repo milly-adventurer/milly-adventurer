@@ -233,7 +233,7 @@ const TourInner = () => {
 	const gridContent: Content = (tour.lastPictures || []).slice(0, 4).map((item, i) => ({
 			backgroundImage: (() => {
 				return item
-					? `https://imagedelivery.net/BjEATObSzIqdwKoVD4rQRw/${item}/public`
+					? `https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${item}/public`
 					: 'grey'
 			})(),
 			child: i === tour.lastPictures.slice(0, 4).length - 1 ? (
@@ -307,7 +307,7 @@ const TourInner = () => {
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Hero ds backgroundImage={[tour.preview.image
-				? `https://imagedelivery.net/BjEATObSzIqdwKoVD4rQRw/${tour.preview.image}/public`
+				? `https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${tour.preview.image}/public`
 				: baikalImg.src]} navBarItems={sections}>
 				<div>
 					<small className={cn('date')} dangerouslySetInnerHTML={{ __html: tour.preview.date }} />
@@ -331,7 +331,7 @@ const TourInner = () => {
 								<article key={i} className={cn('slide')}>
 									<div className={cn('slideContainer')} style={{
 										background: day.short.image && `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${day.short.image
-											? `https://imagedelivery.net/BjEATObSzIqdwKoVD4rQRw/${day.short.image}/public`
+											? `https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${day.short.image}/public`
 											: baikalImg.src}) center center` || 'black',
 									}}>
 										<div className={cn('slideTextContainer')}>

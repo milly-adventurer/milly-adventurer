@@ -24,7 +24,7 @@ const ProgramFull = ({ index, setPopup, }: { index: number, setPopup: any }) => 
 				<div style={{
 					background: `url(${(() => {
 						return tour.program[index].full.image
-							? `https://imagedelivery.net/BjEATObSzIqdwKoVD4rQRw/${tour.program[index].full.image}/public`
+							? `https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${tour.program[index].full.image}/public`
 							: baikalImg.src
 					})()})`,
 				}} className={styles.dayImg} />

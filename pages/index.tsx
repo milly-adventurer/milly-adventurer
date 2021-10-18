@@ -132,7 +132,7 @@ const Home = () => {
 
 		backgroundImage: (() => {
 			return preview.image
-				? `https://imagedelivery.net/BjEATObSzIqdwKoVD4rQRw/${preview.image}/public`
+				? `https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${preview.image}/public`
 				: homeBg.src;
 		})(),
 		className: styles.cellContainer,

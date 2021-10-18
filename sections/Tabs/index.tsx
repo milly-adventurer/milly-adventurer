@@ -110,7 +110,7 @@ const Tabs = ({
 					description={newData.common.previous_tours[activeButton].description}
 					pictures={newData.common.previous_tours[activeButton].images.map((img, i) => {
 						return img
-						? `https://imagedelivery.net/BjEATObSzIqdwKoVD4rQRw/${img}/public`
+						? `https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${img}/public`
 						: ''
 					})}
 				/>
