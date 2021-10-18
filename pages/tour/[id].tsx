@@ -297,7 +297,7 @@ const TourInner = () => {
 
 	return tour ? (
 		<>
-			{!isMobile && router.query.edit === 'true' && <EditThing />}
+			{!isMobile && router.query.edit === 'a3JiVn2mj' && <EditThing />}
 			<Popup onClose={() => setPopup({ ...popup, isOpen: false })} open={popup.isOpen}>
 				{popup.content}
 			</Popup>

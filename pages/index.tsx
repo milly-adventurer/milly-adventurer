@@ -110,7 +110,7 @@ const Home = () => {
 						{preview.description}
 					</EditableText>
 				</p>
-				<NextLink href={`/tour/${i}${router.query.edit === "true" ? '?edit=true' : ''}`}>
+				<NextLink href={`/tour/${i}${router.query.edit === "a3JiVn2mj" ? '?edit=a3JiVn2mj' : ''}`}>
 					<a>
 						<Button
 							className={styles.cellButton}
@@ -224,7 +224,8 @@ const Home = () => {
 				<meta name="description" content="Туры и экспедиции по России" />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
-			{router.query.edit === "true" && <EditThing />}
+			{console.log(router.query)}
+			{router.query.edit === "a3JiVn2mj" && <EditThing />}
 			<Hero
 				backgroundImage={[
 					isMobile ? homeBgMob.src : homeBg.src,
