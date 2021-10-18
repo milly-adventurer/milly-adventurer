@@ -4,7 +4,7 @@ import SectionContainer from '../../components/SectionContainer';
 import styles from './Tabs.module.scss';
 import { WindowWidthContext } from '../../contexts/WindowWidth';
 import EditableText from '../../components/EditableText';
-import { NewData as NewDataType, PreviousTour, Tab } from '../../interfaces/Tour';
+import { NewData as NewDataType } from '../../interfaces/Tour';
 import { DataContext } from '../../contexts/Data';
 import ButtonClose from '../../components/ButtonClose';
 import TabInfo from './TabInfo';
@@ -31,7 +31,7 @@ const Tabs = ({
 			common: {
 				...newData.common,
 				previous_tours: newData.common.previous_tours.map((tab, i) => {
-					if (tabIndex === tab.index) {
+					if (tabIndex === i) {
 						return {
 							...tab,
 							name: info === 'name' ? newText : tab.name,
@@ -68,7 +68,7 @@ const Tabs = ({
 			...newData,
 			common: {
 				...newData.common,
-				previous_tours: newData.common.previous_tours.filter(({ index }) => index !== tabId),
+				previous_tours: newData.common.previous_tours.filter(({ index }, i) => i !== tabId),
 			},
 		};
 
@@ -86,14 +86,16 @@ const Tabs = ({
                 {newData.common.previous_tours.length > 1 && canEdit && (
                   <ButtonClose height={13} width={13} onClick={() => {
                     setTimeout(() => {
-                      setActiveButton(0);
+                      let ab = 0;
+                      // if (i === 0) ab = 1;
+                      setActiveButton(ab);
                       deleteTab(i);
                     }, 0);
                   }}
                   className={styles.delTab}
                   />
                 )}
-                <EditableText iColor="black" onSave={(newValue: string) => { updateTabInfo(index, 'name', newValue);  }}>{name}</EditableText>
+                <EditableText iColor="black" onSave={(newValue: string) => { updateTabInfo(i, 'name', newValue);  }}>{name}</EditableText>
               </div>
             }
               onClick={() => setActiveButton(i)} />
@@ -101,8 +103,9 @@ const Tabs = ({
         </div>
         <TabInfo
 					onUpdate={updateTabInfo}
-					id={newData.common.previous_tours[activeButton].index}
-					isMobile={!!isMobile} activeButton={activeButton}
+					id={activeButton}
+					isMobile={!!isMobile}
+          activeButton={activeButton}
 					tab={newData.common.previous_tours[activeButton]}
 					description={newData.common.previous_tours[activeButton].description}
 					pictures={newData.common.previous_tours[activeButton].images.map((img, i) => {

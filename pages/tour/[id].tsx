@@ -124,20 +124,18 @@ const TourInner = () => {
 	};
 
 	const deleteLastPicutre = (index: number) => {
-		console.log('del lp', index, router.query.id, newData?.tours);
 		const d: NewDataType = {
 			...newData,
 			tours: newData.tours.map((t, i) => {
 				if (i === Number(router.query.id)) {
 					return {
 						...t,
-						lastPictures: t.lastPictures.filter((_, i) => i !== index),
+						lastPictures: t.lastPictures.filter((_, j) => j !== index),
 					}
 				}
 				return t;
 			}),
 		};
-
 		updateNewData(d);
 	};
 
@@ -228,7 +226,6 @@ const TourInner = () => {
 	}) : {}), [tour, newData, popup]);
 
 	const gi = <Grid title="Дополнительная информация" content={gridProgramContent} />
-	console.log(tour.lastPictures);
 
 	const popupGallaryContent = <Gallery type="lastP" onDeleteImage={(i: number) => deleteLastPicutre(i)} onUpload={(base64: string) => addLastPicture(base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />;
 

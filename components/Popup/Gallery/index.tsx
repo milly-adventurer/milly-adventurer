@@ -51,7 +51,7 @@ const Gallery = ({
     });
   };
   const realImgs = type === 'lastP' ? tour.lastPictures : newData?.common.previous_tours[activeButton || 0].images;
-  console.log(realImgs, 'real');
+  console.log(realImgs, 'gallery');
   const images = realImgs?.map((item, i) => (
       <div key={i} className={styles.img} style={{
         background: `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url(https://imagedelivery.net/BjEATObSzIqdwKoVD4rQRw/${item}/public) center center`,

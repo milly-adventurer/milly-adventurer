@@ -50,7 +50,6 @@ const UploadImage = ({
 					});
 					const d = await pres.json();
 					onUpload(d.result.id);
-					console.log(d);
 					setUploadURL(null);
 				} catch(err) {
 					console.error(err);

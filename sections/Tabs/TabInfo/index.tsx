@@ -43,7 +43,7 @@ const TabInfo = ({
       common: {
 				...newData.common,
 				previous_tours: newData.common.previous_tours.map((tab, i) => {
-					if (tabId === tab.index) {
+					if (tabId === i) {
 						return {
 							...tab,
 							images: [...tab.images, imgBase64],
@@ -64,10 +64,10 @@ const TabInfo = ({
       common: {
 				...newData.common,
 				previous_tours: newData.common.previous_tours.map((tab, i) => {
-					if (tabId === tab.index) {
+					if (tabId === i) {
 						return {
 							...tab,
-							images: tab.images.filter((_, i) => i !== index),
+							images: tab.images.filter((_, j) => j !== index),
 						}
 					}
 	
@@ -97,7 +97,7 @@ const TabInfo = ({
     <div>
       {content}
       <p className={styles.description}>
-        <EditableText iColor="black" onSave={(newValue: string) => { onUpdate(id, 'description', newValue) }}>{description || ''}</EditableText></p>
+        <EditableText iColor="black" onSave={(newValue: string) => { onUpdate(activeButton, 'description', newValue) }}>{description || ''}</EditableText></p>
       <div className={styles.imgs}>
         {pictures.slice(0, 4).map((picture, i) => (
           <div key={i} className={styles.img} style={{

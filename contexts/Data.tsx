@@ -69,7 +69,6 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
 
 			setTimeout(async () => {
 				const newData: NewData = await getNewData()
-				console.log(newData, 'withLinks');
 				setData(newData);
 			}, 3000);
 		} catch (err) {

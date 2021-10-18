@@ -18,7 +18,6 @@ const UserInfoProvider = ({
 	const [state, setState] = useState({
 		canEdit: false,
 	});
-	console.log(state);
 	return (
 		<UserInfoContext.Provider value={{
 			canEdit: state.canEdit,
