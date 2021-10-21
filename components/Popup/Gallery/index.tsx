@@ -14,12 +14,12 @@ interface Props {
   label: ReactNode;
   imgs: string[];
   onUpload(base64: string): void;
-  onDeleteImage(index: number): void;
+  onDeleteImage(index: number, last?: string[]): void;
   onClose(): void;
   type: 'lastP' | 'else';
   activeButton?: number;
 }
-const allowedFileExtensions = ['jpg', 'jpeg', 'png'];
+
 const Gallery = ({
   label,
   onDeleteImage,
@@ -57,7 +57,7 @@ const Gallery = ({
         background: `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url(https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${item}/public) center center`,
       }}>
         {canEdit && realImgs.length > 1 && (
-          <ButtonClose width={15} height={15} className={styles.del} onClick={() => { onDeleteImage(i) }} />
+          <ButtonClose width={15} height={15} className={styles.del} onClick={() => { onDeleteImage(i, realImgs) }} />
         )}
       </div>
     ));
@@ -67,40 +67,42 @@ const Gallery = ({
       <div className={styles.content}>
         <h4 className={styles.title}>{label}</h4>
         <ButtonClose className={styles.buttonClose} onClick={onClose} />
-        <div className={styles.imgsBlock}>
-          {images}
-          {canEdit && (
-            <form ref={formRef} style={{
-              display: 'grid',
-              gridTemplateRows: 'min-content min-content',
-              justifyContent: 'flex-start',
-              gap: 15,
-            }} id="form" onSubmit={async (event) => {
-              // if (uploadURL) onUpload(uploadURL.id);
-              // setUploadURL(null);
-              // console.log('successfully submited', event);
-              event.preventDefault();
-              try {
-                const formData = new FormData();
-                // @ts-ignore
-                formData.append('file', inputRef?.current?.files?.[0]);
-                const pres = await fetch(uploadURL?.url || '', {
-                  method: 'POST',
-                  body: formData,
-                });
-                const d = await pres.json();
-                onUpload(d.result.id);
-                setUploadURL(null);
-              } catch (err) {
-                console.error(err);
-              }
-            }}>
-              <input id="file" name="file" onChange={onUploadPhoto} ref={inputRef} type="file" accept=".jpg, .jpeg, .png" />
-              {uploadURL && (
-                <Button size={Size.MEDIUM} label={'Добавить фото'} buttonType="submit" />
-              )}
-            </form>
-          )}
+        <div className={styles.imgsBlockWrapper}>
+          <div className={styles.imgsBlock}>
+            {images}
+            {canEdit && (
+              <form ref={formRef} style={{
+                display: 'grid',
+                gridTemplateRows: 'min-content min-content',
+                justifyContent: 'flex-start',
+                gap: 15,
+              }} id="form" onSubmit={async (event) => {
+                // if (uploadURL) onUpload(uploadURL.id);
+                // setUploadURL(null);
+                // console.log('successfully submited', event);
+                event.preventDefault();
+                try {
+                  const formData = new FormData();
+                  // @ts-ignore
+                  formData.append('file', inputRef?.current?.files?.[0]);
+                  const pres = await fetch(uploadURL?.url || '', {
+                    method: 'POST',
+                    body: formData,
+                  });
+                  const d = await pres.json();
+                  onUpload((() => { console.log(tour?.lastPictures, 'in gallery'); return type === 'lastP' ? [...tour.lastPictures, d.result.id] : d.result.id })());
+                  setUploadURL(null);
+                } catch (err) {
+                  console.error(err);
+                }
+              }}>
+                <input id="file" name="file" onChange={onUploadPhoto} ref={inputRef} type="file" accept=".jpg, .jpeg, .png" />
+                {uploadURL && (
+                  <Button size={Size.MEDIUM} label={'Добавить фото'} buttonType="submit" />
+                )}
+              </form>
+            )}
+          </div>
         </div>
       </div>
     </div>

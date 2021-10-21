@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useMemo, useState } from "react";
+import React, { PropsWithChildren, useEffect, useState } from "react";
 import { BASE_URL, URL } from "../constants/url";
 import Data, { NewData } from "../interfaces/Tour";
 import { NewTour } from "../interfaces/Tour";
@@ -37,6 +37,7 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
   };
 
 	const updateNewData = (newData: NewData) => {
+		console.log(newData.tours[1].lastPictures, 'int upd');
 		setData(newData);
 	};
 
@@ -105,7 +106,9 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
 		updateNewData(d);
 	};
 
-
+	useEffect(() => {
+		console.log(data?.tours[1].lastPictures, 'interesting from upd');
+	}, [data]);
   return (
     <DataContext.Provider value={{
 			sendNewData,

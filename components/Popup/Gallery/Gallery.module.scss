@@ -1,14 +1,21 @@
 @import '../../../styles/sassVaribales.scss';
 
+.imgsBlockWrapper {
+  max-height: 70vh;
+  overflow-y: auto;
+  @media (max-width: $tablet) {
+    grid-template-columns: unset;
+    height: 82vh;
+  }
+}
+
 .imgsBlock {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  overflow-y: auto;
 
   @media (max-width: $tablet) {
     grid-template-columns: unset;
-    height: 82vh;
   }
 }
 

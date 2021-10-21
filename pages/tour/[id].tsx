@@ -51,16 +51,18 @@ const TourInner = () => {
 
 	const {
 		getTourById,
-		newData: d,
+		newData,
 		sendNewData,
 		updateNewData,
 		updateDay,
-	} = useContext(DataContext);
-	const newData = d as NewDataType;
+		setData,
+	} = useContext(DataContext) as { newData: NewDataType, [key: string]: any };
 	const { canEdit, updateValue } = useContext(UserInfoContext);
 	const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, newData]) as NewTour;
 	// const isLastOpen = useRef(false);
-
+	useEffect(() => {
+		console.log(newData.tours[2].lastPictures, 'come back', tour.lastPictures);
+	}, [newData]);
 	const [popup, updatePopup] = useState<{
 		isOpen: boolean;
 		content: null | ReactNode;
@@ -123,36 +125,38 @@ const TourInner = () => {
 		updateNewData(d);
 	};
 
-	const deleteLastPicutre = (index: number) => {
+	const deleteLastPicutre = useMemo(() => (index: number, last: string[]) => {
+		console.log('delete', index);
 		const d: NewDataType = {
 			...newData,
 			tours: newData.tours.map((t, i) => {
 				if (i === Number(router.query.id)) {
+					console.log(t.lastPictures, index, 'what the hell');
 					return {
 						...t,
-						lastPictures: t.lastPictures.filter((_, j) => j !== index),
+						lastPictures: last.filter((_, j) => j !== index),
 					}
 				}
 				return t;
 			}),
 		};
 		updateNewData(d);
-	};
+	}, [tour, newData]);
 
-	const addLastPicture = (base64: string) => {
+	const addLastPicture = (base64: any) => {
 		const d: NewDataType = {
 			...newData,
 			tours: newData.tours.map((t, i) => {
 				if (i === Number(router.query.id)) {
+					console.log(t.lastPictures, base64, 'kasdf;lkasjfdjk');
 					return {
 						...t,
-						lastPictures: [...t.lastPictures, base64],
+						lastPictures: base64,
 					}
 				}
 				return t;
 			}),
 		};
-
 		updateNewData(d);
 	};
 
@@ -227,8 +231,6 @@ const TourInner = () => {
 
 	const gi = <Grid title="Дополнительная информация" content={gridProgramContent} />
 
-	const popupGallaryContent = <Gallery type="lastP" onDeleteImage={(i: number) => deleteLastPicutre(i)} onUpload={(base64: string) => addLastPicture(base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />;
-
 	// Картинки последнего тура
 	const gridContent: Content = (tour.lastPictures || []).slice(0, 4).map((item, i) => ({
 			backgroundImage: (() => {
@@ -239,7 +241,7 @@ const TourInner = () => {
 			child: i === tour.lastPictures.slice(0, 4).length - 1 ? (
 				<div className={styles.gridItem}>
 					<p>+50 фотографий</p>
-					<Button label="Открыть" onClick={() => setPopup({ content: popupGallaryContent, isOpen: true })} size={Size.MEDIUM} type={Type.OUTLINE} />
+					<Button label="Открыть" onClick={() => setPopup({ content: <Gallery type="lastP" onDeleteImage={(i: number, last: string[]) => deleteLastPicutre(i, last)} onUpload={(base64: string) => addLastPicture(base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />, isOpen: true })} size={Size.MEDIUM} type={Type.OUTLINE} />
 				</div>
 			) : undefined,
 			className: styles.gridItem,
