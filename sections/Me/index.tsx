@@ -94,7 +94,7 @@ const Me = ({
           <article className={cn('content')}>
             <div className={cn('textContainer')}>
               <h4 className={cn('title')}>Привет, я - Милена <br/> - ваш личный гид</h4>
-              <p className={cn('description')}>И организатор душевных авторских туров по России, созданных с любовью</p>
+              <p className={cn('description')}>и организатор душевных авторских туров по России, созданных с любовью</p>
               <Button label="Моя история" onClick={() => setPopup(({ isOpen }) => ({...popup, isOpen: !isOpen}))} size={Size.MEDIUM} type={Type.FILLED} />
             </div>
             <div className={cn('img')}></div>
