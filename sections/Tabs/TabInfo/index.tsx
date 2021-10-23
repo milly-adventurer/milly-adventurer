@@ -88,7 +88,7 @@ const TabInfo = ({
         onDeleteImage={(index: number) => onDeleteImageFromTab(activeButton, index)}
         imgs={pictures}
         onClose={() => setPopup({ isOpen: false })}
-        label={<span dangerouslySetInnerHTML={{ __html: `${tab.name} фотографии` }}/>}
+        label={<span dangerouslySetInnerHTML={{ __html: `${tab.name}` }}/>}
       />}
     </Popup>
     );

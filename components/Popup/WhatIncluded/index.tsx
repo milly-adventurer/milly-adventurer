@@ -29,10 +29,12 @@ const WhatIncluded = ({
 		<div className={`${styles.popupContent} popupContent`}>
 			<div className={styles.text}>
 				<h4 className={styles.title}>{label}</h4>
-				<p className={styles.desc}>
-					{/* @ts-ignore eslint-disable-next-line */}
-					<EditableText iColor="black" onSave={onUpdate}>{text === 'faq' ? newData?.common.faq : tour[text]}</EditableText>
-				</p>
+				<div className={styles.descWrapper}>
+					<p className={styles.desc}>
+						{/* @ts-ignore eslint-disable-next-line */}
+						<EditableText iColor="black" onSave={onUpdate}>{text === 'faq' ? newData?.common.faq : tour[text]}</EditableText>
+					</p>
+				</div>
 				<ButtonClose className={styles.buttonClose} onClick={onClose} />
 			</div>
 		</div>

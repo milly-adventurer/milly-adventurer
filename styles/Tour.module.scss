@@ -116,6 +116,9 @@
   margin: 0 auto;
   text-align: center;
   margin-bottom: 30px;
+  @media (max-width: $tablet) {
+    font-size: 26px;
+  }
 }
 
 .slideTextContainer {

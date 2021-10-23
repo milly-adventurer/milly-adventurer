@@ -24,11 +24,11 @@ const Hero = ({
 }: PropsWithChildren<Props>) => {
   return (
       <section className={`${styles.section} ${className}`} style={backgroundImage ? {
-        background: backgroundImage.length === 1 ? `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${backgroundImage[0]}) center center` : '',
+        background: backgroundImage.length === 1 ? `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${backgroundImage[0]}) center center` : '',
         ...style,
         } : style}>
 				{backgroundImage.length > 1 && (
-					<BackgroundSlider transition={1} duration={6} images={backgroundImage} />
+          <BackgroundSlider transition={1} duration={6} images={backgroundImage} />
 				)}
           <NavBar items={navBarItems} />
 					<SectionContainer>

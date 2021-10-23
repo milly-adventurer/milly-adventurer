@@ -7,7 +7,7 @@ const Questions = () => {
   return (
 		<>
 		<section className={styles.section} style={{
-			background: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url(${bookBg.src}) center center`,
+			background: `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${bookBg.src}) center center`,
 			backgroundSize: 'cover',
 		}}>
 			<SectionContainer>

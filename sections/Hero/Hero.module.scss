@@ -5,6 +5,7 @@
   color: inherit;
   position: relative;
   background-size: cover !important;
+  background: rgba(0,0,0,.4);
   @media (max-width: $tablet) {
     background-position-x: center;
   }

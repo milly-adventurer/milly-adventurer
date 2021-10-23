@@ -22,7 +22,7 @@ const Book = ({
 
   return (
     <section className={styles.section} style={{
-      background: noBg ? '' : `url(${bookBg.src}) center center`,
+      background: noBg ? '' : `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${bookBg.src}) center center`,
     }}>
       <SectionContainer>
         <div className={styles.content}>

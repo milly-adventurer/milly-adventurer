@@ -1,11 +1,20 @@
 @import '../../../styles/sassVaribales.scss';
 
+.popupContent {
+  padding: 30px 50px 60px 50px;
+  @media (max-width: $tablet) {
+    padding: 10px 10px 10px 10px; 
+    height: 100vh;
+  }
+}
+
 .imgsBlockWrapper {
   max-height: 70vh;
   overflow-y: auto;
   @media (max-width: $tablet) {
     grid-template-columns: unset;
-    height: 82vh;
+    max-height: unset;
+    height: calc(100vh - 80px);
   }
 }
 
@@ -16,6 +25,7 @@
 
   @media (max-width: $tablet) {
     grid-template-columns: unset;
+    height: 100%;
   }
 }
 
@@ -39,11 +49,11 @@
 .title {
   margin: 0 auto;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   font-size: 35px;
   @media (max-width: $tablet) {
     margin-top: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     font-size: 30px;
   }
 }

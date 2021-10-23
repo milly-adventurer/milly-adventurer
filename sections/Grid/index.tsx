@@ -20,19 +20,21 @@ interface Props {
   title: string;
   content: Content;
 	ds?: boolean;
+  isTour?: boolean;
 }
 
 const Grid = ({
   title,
   content,
 	ds = false,
+  isTour = false,
 }: Props) => {
   const slicedContent = useMemo(() => content.slice(0, 4), [content]);
 
   return (
     <section className={cn('section')}>
       <SectionContainer>
-        <h2 className={cn('title')}>{title}</h2>
+        <h2 className={`${ cn('title')} ${isTour ? styles.tourTitle : ''}`}>{title}</h2>
         <div className={cn('cellsContainer')}>
           {slicedContent.map(({ backgroundImage, child, className, darken = false }, i) => (
             <article style={{

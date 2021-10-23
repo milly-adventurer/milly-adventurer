@@ -1,7 +1,7 @@
 @import '../../styles/sassVaribales.scss';
 
 .section {
-  background: url('../../assets/img/me-bg.jpg') center center;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../../assets/img/me-bg.jpg') center center;
   background-size: cover !important;
   padding: 50px 0;
   display: flex;
@@ -10,7 +10,7 @@
   max-width: 100%;
   @media (max-width: $tablet) {
     background-size: cover !important;
-    background: url('../../assets/img/me-milly-mob.jpg') top right;
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../assets/img/me-milly-mob.jpg') top center;
     padding: 50px 0;
   }
 }
@@ -28,6 +28,7 @@
   }
   @media (max-width: $tablet) {
     display: block;
+    padding: 45px 20px 50px 0px;
   }
 }
 
@@ -87,7 +88,7 @@
 .description {
   margin-bottom: 25px;
 	font-size: 22px;
-  max-width: 400px;
+  max-width: 470px;
   font-weight: 300;
   @media (max-width: $tablet) {
     font-size: 14px;
@@ -120,13 +121,14 @@
   font-size: 20px;
   line-height: 1.2;
   margin-bottom: 50px;
-  max-width: 860px;
+  max-width: calc(100% - 84px);
   @media (max-width: $desktop) {
     font-size: 19px;
   }
   @media (max-width: $tablet) {
     font-size: 15px;
     margin-bottom: 30px;
+    max-width: calc(100% - 20px);
   }
 }
 

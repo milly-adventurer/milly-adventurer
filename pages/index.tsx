@@ -6,10 +6,10 @@ import Hero from "../sections/Hero";
 import homeBg from "../assets/img/home-bg.jpg";
 import homeBgMob from "../assets/img/home-bg-mob.jpg";
 import logo from "../assets/img/logo.png";
-import millyBg from "../assets/img/milly.jpg";
-import slide2 from "../assets/img/slide_2.png";
-import slide3 from "../assets/img/slide_3.png";
-import slide4 from "../assets/img/slide_4.png";
+import millyBg from "../assets/img/slide_0.jpg";
+import slide2 from "../assets/img/slide_2.jpg";
+import slide3 from "../assets/img/slide_3.jpg";
+import slide4 from "../assets/img/slide_4.jpg";
 
 import styles from "../styles/Home.module.scss";
 import Button, { Size, Type } from "../components/Button";
@@ -31,6 +31,8 @@ import { DataContext } from "../contexts/Data";
 import EditableText from "../components/EditableText";
 import heroslide2 from "../assets/img/home-slide-3.jpg";
 import heroSlide3 from "../assets/img/home-slide-4.jpg";
+import heroslide4 from "../assets/img/home-slide-5.jpg";
+import heroSlide5 from "../assets/img/home-slide-6.jpg";
 import heroslide2Mob from "../assets/img/home-slide-3-mob.jpg";
 import heroSlide3Mob from "../assets/img/home-slide-4-mob.jpg";
 import { NewData as NewDataType } from "../interfaces/Tour";
@@ -142,28 +144,31 @@ const Home = () => {
 	const aboutTours = [
 		{
 			title:
-				"Всегда небольшие группы из 6 человек и трепетная забота о каждом госте",
+				"Всегда небольшие группы и трепетная забота о каждом госте.",
 			description:
-				"Организовала отдых тысячам довольных туристов, которые из года в год снова обращаются ко мне за подбором тура.",
+				"В моих мини-группах от 5 до 10 человек. Для меня очень важно уделить каждому гостю максимум внимания и подарить ощущение комфорта, безопасности и спокойствия.",
 			img: millyBg.src,
+			pos: { x: 'bottom' }
 		},
 		{
-			title: "Творческий подход к путешествию и спокойный, расслабленный темп",
+			title: "Творческий подход к путешествию и спокойный расслабленный темп.",
 			description:
-				"В турах я создаю аутентичную атмосферу того места где мы находимся. Через общение с местными, их рассказы, истории и т.д. Все это создает невероятную и уникальную атмосферу.",
+				"В моих турах я создаю аутентичную атмосферу того места, где мы находимся через общение с местными жителями, их рассказы, истории и традиции.",
 			img: slide2.src,
 		},
 		{
-			title: "Безупречная организация и комфорт",
+			title: "Безупречная организация и комфорт.",
 			description:
-				"Беру все сложности логистики на себя. Вам остается только расслабиться и настроиться на потрясающее путешествие.",
+				"Беру все вопросы логистики, планирования и тайминга на себя. Вам остаётся только расслабиться и настроиться на потрясающее путешествие.",
 			img: slide3.src,
+			pos: { x: 'bottom' }
 		},
 		{
-			title: "Эксклюзивные и лично проверенные маршруты",
+			title: "Эксклюзивные и лично проверенные маршруты.",
 			description:
-				"Все маршруты и отели я проверяю самостоятельно. Так что возможность каких-то казусов сведена к минимуму.",
+				"Все маршруты, отели, кафе и рестораны я проверяю самостоятельно, поэтому возможность непредвиденных ситуаций сведена к минимуму.",
 			img: slide4.src,
+			pos: { x: 'bottom' }
 		},
 	];
 
@@ -210,7 +215,7 @@ const Home = () => {
 				>
 					Сохранить все изменения
 				</button>
-				<button 					style={{					zIndex: 999999999}} className="eb" onClick={() => updateValue(!canEdit)}>
+				<button style={{ zIndex: 999999999}} className="eb" onClick={() => updateValue(!canEdit)}>
 					{canEdit ? "Редактирование" : "Просмотр"}
 				</button>
 			</div>
@@ -228,9 +233,11 @@ const Home = () => {
 			{router.query.edit === "a3JiVn2mj" && <EditThing />}
 			<Hero
 				backgroundImage={[
-					isMobile ? homeBgMob.src : homeBg.src,
-					isMobile ? heroslide2Mob.src : heroslide2.src,
-					isMobile ? heroSlide3Mob.src : heroSlide3.src,
+					homeBg.src,
+					heroslide2.src,
+					heroSlide3.src,
+					heroslide4.src,
+					heroSlide5.src,
 				]}
 				navBarItems={sections}
 			>
@@ -274,11 +281,11 @@ const Home = () => {
 							slidesToShow={1}
 							infinite
 						>
-							{aboutTours.map(({ title, description, img }, i) => (
+							{aboutTours.map(({ title, description, img, pos }, i) => (
 								<article key={i} className={cn("slide")}>
 									<div
 										style={{
-											background: `url(${img})`,
+											background: `url(${img}) ${pos?.x || ''}`,
 										}}
 										className={cn("slideImg")}
 									></div>

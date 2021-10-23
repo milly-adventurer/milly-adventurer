@@ -35,6 +35,11 @@ import BookPopup from '../../components/Popup/Book';
 import { NewData as NewDataType, NewTour } from '../../interfaces/Tour';
 import ProgramFull from '../../components/ProgramFull';
 
+import q1 from '../../assets/img/q-1.jpg';
+import q2 from '../../assets/img/q-2.jpg';
+import q3 from '../../assets/img/q-3.jpg';
+import q4 from '../../assets/img/q-4.jpg';
+
 const cn = getClassNames(styles);
 
 const sections: NavBarItems = [
@@ -188,7 +193,8 @@ const TourInner = () => {
 				content: (
 					<Price onUpdate={(newPrice: string) => onInfoUpdate('price', newPrice)} onGoClick={() => setPopup({ isOpen: true, content: <BookPopup codeWord={tour.code} onClose={() => setPopup({ ...popup, isOpen: false })} /> })} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какая цена'} text={`Я предлагаю вам незабываемое путешествие, в котором вы  сможете отдонхнуть и т.д. Вообщем надо описать так чтобы еще раз напомнить человеку что за такое не жалко отдать денег.`}
 					/>
-				)
+				),
+				img: q1.src,
 			},
 			info[1] && {
 				question: 'Что включено?',
@@ -196,6 +202,7 @@ const TourInner = () => {
 					<WhatIncluded onUpdate={(newV: string) => onInfoUpdate('whatIncluded', newV)} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Что включено'} text={'whatIncluded'}
 					/>
 				),
+				img: q2.src,
 			},
 			info[2] && {
 				question: 'Какие расходы?',
@@ -203,6 +210,7 @@ const TourInner = () => {
 					<WhatIncluded onUpdate={(newV: string) => onInfoUpdate('expenses', newV)} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какие расходы'} text={`expenses`}
 					/>
 				),
+				img: q3.src,
 			},
 			info[3] && {
 				question: 'Частые вопросы',
@@ -210,6 +218,7 @@ const TourInner = () => {
 					<WhatIncluded onUpdate={(newV: string) => onInfoUpdate('faq', newV)} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Частые вопросы'} text={`faq`}
 					/>
 				),
+				img: q4.src,
 			}
 		]
 	}, [tour, newData, popup]);
@@ -226,7 +235,7 @@ const TourInner = () => {
 			</div>
 		),
 		className: cn('cellWrapper'),
-		backgroundImage: baikalImg.src,
+		backgroundImage: item.img,
 	}) : {}), [tour, newData, popup]);
 
 	const gi = <Grid title="Дополнительная информация" content={gridProgramContent} />
@@ -238,9 +247,9 @@ const TourInner = () => {
 					? `https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${item}/public`
 					: 'grey'
 			})(),
-			child: i === tour.lastPictures.slice(0, 4).length - 1 ? (
+			child: i === tour.lastPictures.slice(0, 4).length - 1 && tour.lastPictures.length > 5 ? (
 				<div className={styles.gridItem}>
-					<p>+50 фотографий</p>
+					<p>+{tour.lastPictures.length} фотографий</p>
 					<Button label="Открыть" onClick={() => setPopup({ content: <Gallery type="lastP" onDeleteImage={(i: number, last: string[]) => deleteLastPicutre(i, last)} onUpload={(base64: string) => addLastPicture(base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />, isOpen: true })} size={Size.MEDIUM} type={Type.OUTLINE} />
 				</div>
 			) : undefined,
@@ -328,11 +337,11 @@ const TourInner = () => {
 							autoplaySpeed={2500}
 							speed={200}
 							waitForAnimate={false}
-							arrows={false} centerMode centerPadding={isMobile || isTablet ? '10px' : '300px'} slidesToShow={1} infinite>
+							arrows={false} centerMode centerPadding={isMobile || isTablet ? '10px' : '200px'} slidesToShow={1} infinite>
 							{[...tour.program.map((day, i) => (
 								<article key={i} className={cn('slide')}>
 									<div className={cn('slideContainer')} style={{
-										background: day.short.image && `linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url(${day.short.image
+										background: day.short.image && `linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(${day.short.image
 											? `https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${day.short.image}/public`
 											: baikalImg.src}) center center` || 'black',
 									}}>
@@ -424,7 +433,7 @@ const TourInner = () => {
 				<Me needPopupButtons={false} />
 			</div>
 			<div id="tour_photo">
-				<Grid content={gridContent} title="Как это было в прошлый раз" />
+				<Grid isTour={true} content={gridContent} title="Как это было в прошлый раз" />
 			</div>
 			<div className={styles.storiesSection}><Stories /></div>
 			<div id="info">
