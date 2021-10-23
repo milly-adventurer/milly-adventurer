@@ -154,7 +154,7 @@ const Stories = () => {
 	return isMobile === null ? <></> : (
 		<section className={styles.section}>
 			<SectionContainer>
-				<h2 className={styles.title}>Истории клиентов</h2>
+				<h2 className={styles.title}>Отзывы гостей</h2>
 				<DivOrSlider options={{ autoplay: isMobile || canEdit ? false : true,
 					swipe: !canEdit,
 							autoplaySpeed: 2500,
