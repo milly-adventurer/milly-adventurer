@@ -247,7 +247,7 @@ const TourInner = () => {
 					? `https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${item}/public`
 					: 'grey'
 			})(),
-			child: i === tour.lastPictures.slice(0, 4).length - 1 && tour.lastPictures.length > 5 ? (
+			child: i === tour.lastPictures.slice(0, 4).length - 1  ? (
 				<div className={styles.gridItem}>
 					<p>+{tour.lastPictures.length} фотографий</p>
 					<Button label="Открыть" onClick={() => setPopup({ content: <Gallery type="lastP" onDeleteImage={(i: number, last: string[]) => deleteLastPicutre(i, last)} onUpload={(base64: string) => addLastPicture(base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />, isOpen: true })} size={Size.MEDIUM} type={Type.OUTLINE} />
