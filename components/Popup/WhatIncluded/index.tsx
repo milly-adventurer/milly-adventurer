@@ -32,7 +32,7 @@ const WhatIncluded = ({
 				<div className={styles.descWrapper}>
 					<p className={styles.desc}>
 						{/* @ts-ignore eslint-disable-next-line */}
-						<EditableText iColor="black" onSave={onUpdate}>{text === 'faq' ? newData?.common.faq : tour[text]}</EditableText>
+						<EditableText iColor="black" onSave={onUpdate}>{tour[text]}</EditableText>
 					</p>
 				</div>
 				<ButtonClose className={styles.buttonClose} onClick={onClose} />

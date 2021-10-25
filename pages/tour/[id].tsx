@@ -168,10 +168,6 @@ const TourInner = () => {
 	const onInfoUpdate = (type: 'price' | 'whatIncluded' | 'expenses' | 'faq', data: string) => {
 		const d: NewDataType = {
 			...newData,
-			common: {
-				...newData.common,
-				faq: type === 'faq' ? data : newData.common.faq,
-			},
 			tours: newData.tours.map((t, i) => {
 				if (Number(router.query.id) === i) {
 					return {
@@ -186,7 +182,7 @@ const TourInner = () => {
 	};
 
 	const popups = useMemo(() => {
-		const info = [tour.price, tour.whatIncluded, tour.expenses, newData.common.faq]
+		const info = [tour.price, tour.whatIncluded, tour.expenses, tour.faq]
 		return [
 			info[0] && {
 				question: 'Какова цена?',
