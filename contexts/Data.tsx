@@ -38,7 +38,7 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
   };
 
 	const updateNewData = (newData: NewData) => {
-		console.log(newData.tours[1].lastPictures, 'int upd');
+		console.log(newData.tours[1]?.lastPictures, 'int upd');
 		setData(newData);
 	};
 
@@ -108,7 +108,7 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
 	};
 
 	useEffect(() => {
-		console.log(data?.tours[1].lastPictures, 'interesting from upd');
+		console.log(data?.tours[1]?.lastPictures, 'interesting from upd');
 	}, [data]);
   return (
     <DataContext.Provider value={{

@@ -66,7 +66,7 @@ const TourInner = () => {
 	const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, newData]) as NewTour;
 	// const isLastOpen = useRef(false);
 	useEffect(() => {
-		console.log(newData.tours[2].lastPictures, 'come back', tour.lastPictures);
+
 	}, [newData]);
 	const [popup, updatePopup] = useState<{
 		isOpen: boolean;
