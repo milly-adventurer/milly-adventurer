@@ -9,10 +9,14 @@ class MyDocument extends Document {
   render() {
     return (
       <Html lang="ru">
-        <Head />
+        <Head>
+					<meta name="facebook-domain-verification" content="jvvth4u3rw7wu53ofbwyi4vmcpqgf8" />
+				</Head>
         <body>
           <Main />
           <NextScript />
+					{/* Yandex.Metrica */}
+          <script type="text/javascript" dangerouslySetInnerHTML={{ __html: `(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)}; m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)}) (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym"); ym(84593284, "init", { clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true });` }}></script>
         </body>
       </Html>
     );
