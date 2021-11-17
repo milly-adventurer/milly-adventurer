@@ -309,8 +309,17 @@ const TourInner = () => {
 				{popup.content}
 			</Popup>
 			<Head>
-				<title>Milly adventurer - туры в России</title>
-				<meta name="description" content="Туры и экспедиции по России" />
+				<title>Milly adventurer - авторский тур в "{tour.code}"</title>
+				<meta name="description" content={`Туры и экспедиции в "${tour.code}"`} />
+				<meta name="title" content={`Milly adventurer - авторский тур в "${tour.code}"`} />
+				<meta name="url" content="https://milly-adventurer.ru" />
+				<meta name="copyright" content="Milly Adventurer" />
+				<meta name="robots" content="index,follow" />
+				<meta property="og:type" content="website" />
+				<meta property="og:locale" content="ru_ru" />
+				<meta property="og:url" content="https://milly-adventurer.ru" />
+				<meta property="og:title" content={`Milly adventurer - авторский тур в "${tour.code}"`} />
+				<meta property="og:description" content={`Туры и экспедиции в "${tour.code}"`}  />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Hero ds backgroundImage={[tour.preview.image
