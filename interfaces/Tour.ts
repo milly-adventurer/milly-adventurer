@@ -64,6 +64,7 @@ export interface NewTour {
 	price: string;
 	whatIncluded: string;
 	expenses: string;
+	qaSectionPics: (string | null)[];
 	faq: string;
 	code: string;
 	lastPictures: string[];

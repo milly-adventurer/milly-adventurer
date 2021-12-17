@@ -42,13 +42,6 @@ import q4 from '../../assets/img/q-4.jpg';
 
 const cn = getClassNames(styles);
 
-const sections: NavBarItems = [
-	[<Link href="/">Главная</Link>, ''],
-	['Программа', 'tour_program'],
-	['Обо мне', 'tour_me'],
-	['Фотографии', 'tour_photo'],
-];
-
 const TourInner = () => {
 	const router = useRouter();
 	const { isMobile, isTablet } = useContext(WindowWidthContext);
@@ -64,10 +57,13 @@ const TourInner = () => {
 	} = useContext(DataContext) as { newData: NewDataType, [key: string]: any };
 	const { canEdit, updateValue } = useContext(UserInfoContext);
 	const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, newData]) as NewTour;
-	// const isLastOpen = useRef(false);
-	useEffect(() => {
 
-	}, [newData]);
+	const sections: NavBarItems = [
+		[<Link href={`/${router.query.edit === "a3JiVn2mj" ? '?edit=a3JiVn2mj' : ''}`}>Главная</Link>, ''],
+		['Программа', 'tour_program'],
+		['Обо мне', 'tour_me'],
+		['Фотографии', 'tour_photo'],
+	];
 	const [popup, updatePopup] = useState<{
 		isOpen: boolean;
 		content: null | ReactNode;
@@ -180,47 +176,63 @@ const TourInner = () => {
 		};
 		updateNewData(d);
 	};
+	const info = [tour.price, tour.whatIncluded, tour.expenses, tour.faq]
 
-	const popups = useMemo(() => {
-		const info = [tour.price, tour.whatIncluded, tour.expenses, tour.faq]
-		return [
-			info[0] && {
-				question: 'Какова цена?',
-				content: (
-					<Price onUpdate={(newPrice: string) => onInfoUpdate('price', newPrice)} onGoClick={() => setPopup({ isOpen: true, content: <BookPopup codeWord={tour.code} onClose={() => setPopup({ ...popup, isOpen: false })} /> })} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какая цена'} text={`Я предлагаю вам незабываемое путешествие, которое навсегда останется в вашей памяти и будет греть вашу душу зимними вечерами.`}
-					/>
-				),
-				img: q1.src,
-			},
-			info[1] && {
-				question: 'Что включено?',
-				content: (
-					<WhatIncluded onUpdate={(newV: string) => onInfoUpdate('whatIncluded', newV)} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Что включено'} text={'whatIncluded'}
-					/>
-				),
-				img: q2.src,
-			},
-			info[2] && {
-				question: 'Какие расходы?',
-				content: (
-					<WhatIncluded onUpdate={(newV: string) => onInfoUpdate('expenses', newV)} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какие расходы'} text={`expenses`}
-					/>
-				),
-				img: q3.src,
-			},
-			info[3] && {
-				question: 'Частые вопросы',
-				content: (
-					<WhatIncluded onUpdate={(newV: string) => onInfoUpdate('faq', newV)} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Частые вопросы'} text={`faq`}
-					/>
-				),
-				img: q4.src,
-			}
-		]
-	}, [tour, newData, popup]);
+	const popups = [
+		info[0] && {
+			question: 'Какова цена?',
+			content: (
+				<Price onUpdate={(newPrice: string) => onInfoUpdate('price', newPrice)} onGoClick={() => setPopup({ isOpen: true, content: <BookPopup codeWord={tour.code} onClose={() => setPopup({ ...popup, isOpen: false })} /> })} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какая цена'} text={`Я предлагаю вам незабываемое путешествие, которое навсегда останется в вашей памяти и будет греть вашу душу зимними вечерами.`}
+				/>
+			),
+			img: tour.qaSectionPics?.[0] || q1.src,
+		},
+		info[1] && {
+			question: 'Что включено?',
+			content: (
+				<WhatIncluded onUpdate={(newV: string) => onInfoUpdate('whatIncluded', newV)} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Что включено'} text={'whatIncluded'}
+				/>
+			),
+			img: tour.qaSectionPics?.[1] || q2.src,
+		},
+		info[2] && {
+			question: 'Какие расходы?',
+			content: (
+				<WhatIncluded onUpdate={(newV: string) => onInfoUpdate('expenses', newV)} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Какие расходы'} text={`expenses`}
+				/>
+			),
+			img: tour.qaSectionPics?.[2] || q3.src,
+		},
+		info[3] && {
+			question: 'Частые вопросы',
+			content: (
+				<WhatIncluded onUpdate={(newV: string) => onInfoUpdate('faq', newV)} onClose={() => setPopup({ ...popup, isOpen: false })} label={'Частые вопросы'} text={`faq`}
+				/>
+			),
+			img: tour.qaSectionPics?.[3] || q4.src,
+		}
+	];
+	const onUploadQaPic = (img: string, i: number) => {;
+		const newQaSecPic = tour.qaSectionPics;
+		newQaSecPic[i] = `https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${img}/public`;
+		const d: NewDataType = {
+			...newData,
+			tours: newData.tours.map((t, tourIndex) => {
+				if (Number(router.query.id) === tourIndex) {
+					return {
+						...t,
+						qaSectionPics: newQaSecPic,
+					}
+				}
+				return t;
+			}),
+		};
+
+		updateNewData(d);
+	};
 
 	// Дополнительная информация
-	const gridProgramContent: Content = useMemo(() => popups.map((item, i) => item ? ({
+	const gridProgramContent: Content = popups.map((item, i) => item ? ({
 		darken: true,
 		child: (
 			<div className={cn('cell')}>
@@ -228,30 +240,33 @@ const TourInner = () => {
 					{item.question}
 				</strong>
 				<Button label="Подробнее" onClick={() => { setPopup({ content: item.content, isOpen: true }) }} type={Type.OUTLINE} size={Size.LARGE} />
+				{canEdit && (
+					<UploadImage onUpload={(img) => onUploadQaPic(img, i)} />
+				)}
 			</div>
 		),
 		className: cn('cellWrapper'),
 		backgroundImage: item.img,
-	}) : {}), [tour, newData, popup]);
+	}) : {});
 
 	const gi = <Grid title="Дополнительная информация" content={gridProgramContent} />
 
 	// Картинки последнего тура
 	const gridContent: Content = (tour.lastPictures || []).slice(0, 4).map((item, i) => ({
-			backgroundImage: (() => {
-				return item
-					? `https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${item}/public`
-					: 'grey'
-			})(),
-			child: i === tour.lastPictures.slice(0, 4).length - 1  ? (
-				<div className={styles.gridItem}>
-					<p>+{tour.lastPictures.length} фотографий</p>
-					<Button label="Открыть" onClick={() => setPopup({ content: <Gallery type="lastP" onDeleteImage={(i: number, last: string[]) => deleteLastPicutre(i, last)} onUpload={(base64: string) => addLastPicture(base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />, isOpen: true })} size={Size.MEDIUM} type={Type.OUTLINE} />
-				</div>
-			) : undefined,
-			className: styles.gridItem,
-			darken: i === tour.lastPictures.slice(0, 4).length - 1,
-		}))
+		backgroundImage: (() => {
+			return item
+				? `https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${item}/public`
+				: 'grey'
+		})(),
+		child: i === tour.lastPictures.slice(0, 4).length - 1 ? (
+			<div className={styles.gridItem}>
+				<p>+{tour.lastPictures.length} фотографий</p>
+				<Button label="Открыть" onClick={() => setPopup({ content: <Gallery type="lastP" onDeleteImage={(i: number, last: string[]) => deleteLastPicutre(i, last)} onUpload={(base64: string) => addLastPicture(base64)} onClose={() => setPopup({ ...popup, isOpen: false })} label="Фотографии" imgs={tour.lastPictures} />, isOpen: true })} size={Size.MEDIUM} type={Type.OUTLINE} />
+			</div>
+		) : undefined,
+		className: styles.gridItem,
+		darken: i === tour.lastPictures.slice(0, 4).length - 1,
+	}))
 
 	const setProgram = (i: number) => {
 		setPopup({ content: <ProgramFull setPopup={setPopup} index={i} />, isOpen: true });
@@ -268,7 +283,7 @@ const TourInner = () => {
 			columnGap: '5px',
 			zIndex: 99999999,
 		}}>
-			<strong  className="eb" style={{ display: 'grid', gridAutoFlow: 'column', columnGap: '5px', padding: '6px 19px' }}>Кодовое слово: <EditableText onSave={(t) => {
+			<strong className="eb" style={{ display: 'grid', gridAutoFlow: 'column', columnGap: '5px', padding: '6px 19px' }}>Кодовое слово: <EditableText onSave={(t) => {
 				updateNewData({
 					...newData,
 					tours: newData.tours.map((to, j) => j === Number(router.query.id) ? ({
@@ -277,7 +292,7 @@ const TourInner = () => {
 					}) : to)
 				})
 			}}>{tour.code}</EditableText></strong>
-			<button 					style={{					zIndex: 999999999}} ref={saveRef} className="eb" onClick={() => {
+			<button style={{ zIndex: 999999999 }} ref={saveRef} className="eb" onClick={() => {
 				sendNewData();
 				if (saveRef.current) {
 					// @ts-ignore
@@ -298,7 +313,7 @@ const TourInner = () => {
 			}}>
 				Сохранить все изменения
 			</button>
-			<button 					style={{zIndex: 999999999}} className="eb" onClick={() => updateValue(!canEdit)}>{canEdit ? 'Редактирование' : 'Просмотр'}</button>
+			<button style={{ zIndex: 999999999 }} className="eb" onClick={() => updateValue(!canEdit)}>{canEdit ? 'Редактирование' : 'Просмотр'}</button>
 		</div>
 	}
 
@@ -319,7 +334,7 @@ const TourInner = () => {
 				<meta property="og:locale" content="ru_ru" />
 				<meta property="og:url" content="https://milly-adventurer.ru" />
 				<meta property="og:title" content={`Milly adventurer - авторский тур в "${tour.code}"`} />
-				<meta property="og:description" content={`Туры и экспедиции в "${tour.code}"`}  />
+				<meta property="og:description" content={`Туры и экспедиции в "${tour.code}"`} />
 				<link rel="icon" href="/favicon.ico" />
 			</Head>
 			<Hero ds backgroundImage={[tour.preview.image
@@ -379,57 +394,57 @@ const TourInner = () => {
 							]}
 						</Slider>
 						{isMobile && (
-						<>
-						<button
-							className={styles.arrowSlider}
-							onClick={sliderRef?.current?.slickPrev || undefined}
-						>
-							<svg
-								version="1.1"
-								width="30"
-								height="30"
-								x="0"
-								y="0"
-								viewBox="0 0 492.004 492.004"
-							>
-								<g transform="matrix(1,0,0,1,0,-1.1368683772161603e-13)">
-									<g xmlns="http://www.w3.org/2000/svg">
-										<g>
-											<path
-												d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"
-												fill="#ffffff"
-											/>
+							<>
+								<button
+									className={styles.arrowSlider}
+									onClick={sliderRef?.current?.slickPrev || undefined}
+								>
+									<svg
+										version="1.1"
+										width="30"
+										height="30"
+										x="0"
+										y="0"
+										viewBox="0 0 492.004 492.004"
+									>
+										<g transform="matrix(1,0,0,1,0,-1.1368683772161603e-13)">
+											<g xmlns="http://www.w3.org/2000/svg">
+												<g>
+													<path
+														d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"
+														fill="#ffffff"
+													/>
+												</g>
+											</g>
 										</g>
-									</g>
-								</g>
-							</svg>
-						</button>
-						<button
-							className={styles.arrowSlider}
-							onClick={sliderRef?.current?.slickNext || undefined}
-						>
-							<svg
-								version="1.1"
-								width="30"
-								height="30"
-								x="0"
-								y="0"
-								viewBox="0 0 492.004 492.004"
-							>
-								<g transform="matrix(1,0,0,1,0,-1.1368683772161603e-13)">
-									<g xmlns="http://www.w3.org/2000/svg">
-										<g>
-											<path
-												d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"
-												fill="#ffffff"
-											/>
+									</svg>
+								</button>
+								<button
+									className={styles.arrowSlider}
+									onClick={sliderRef?.current?.slickNext || undefined}
+								>
+									<svg
+										version="1.1"
+										width="30"
+										height="30"
+										x="0"
+										y="0"
+										viewBox="0 0 492.004 492.004"
+									>
+										<g transform="matrix(1,0,0,1,0,-1.1368683772161603e-13)">
+											<g xmlns="http://www.w3.org/2000/svg">
+												<g>
+													<path
+														d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"
+														fill="#ffffff"
+													/>
+												</g>
+											</g>
 										</g>
-									</g>
-								</g>
-							</svg>
-						</button>
-					</>
-				)}
+									</svg>
+								</button>
+							</>
+						)}
 					</div>
 
 				</SectionContainer>

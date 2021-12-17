@@ -33,12 +33,11 @@ import heroslide2 from "../assets/img/home-slide-3.jpg";
 import heroSlide3 from "../assets/img/home-slide-4.jpg";
 import heroslide4 from "../assets/img/home-slide-5.jpg";
 import heroSlide5 from "../assets/img/home-slide-6.jpg";
-import heroslide2Mob from "../assets/img/home-slide-3-mob.jpg";
-import heroSlide3Mob from "../assets/img/home-slide-4-mob.jpg";
 import { NewData as NewDataType } from "../interfaces/Tour";
 import { UserInfoContext } from "../contexts/UserInfo";
 import UploadImage from "../components/UploadImage";
 import { useRouter } from "next/dist/client/router";
+import ButtonClose from "../components/ButtonClose";
 
 const cn = getClassNames(styles);
 
@@ -88,9 +87,19 @@ const Home = () => {
 		updateNewData(d);
 	};
 
+	const deleteTrip = (i: number) => {
+		const d: NewDataType = {
+			...newData,
+			tours: newData.tours.filter((_, index) => index !== i),
+		};
+
+		updateNewData(d);
+	};
+
 	const toursContent = newData.tours.map(({ preview }, i) => ({
 		child: (
 			<>
+				{canEdit && <ButtonClose className={styles.deleteTrip} width={20} height={20} onClick={() => { const result = confirm('Вы уверены, что хотите удалить тур?'); if (result) { deleteTrip(i) } }}/> }
 				<small className={cn("cellDate")}>
 					<EditableText
 						onSave={(text: string) => onUpdateTourInfo(i, "date", text)}
@@ -190,7 +199,7 @@ const Home = () => {
 			>
 				<button
 					ref={saveRef}
-					style={{					zIndex: 999999999}}
+					style={{ zIndex: 999999999 }}
 					className="eb"
 					onClick={() => {
 						sendNewData();
@@ -215,11 +224,48 @@ const Home = () => {
 				>
 					Сохранить все изменения
 				</button>
-				<button style={{ zIndex: 999999999}} className="eb" onClick={() => updateValue(!canEdit)}>
+				<button style={{ zIndex: 999999999 }} className="eb" onClick={() => updateValue(!canEdit)}>
 					{canEdit ? "Редактирование" : "Просмотр"}
 				</button>
 			</div>
 		);
+	};
+
+	const createNewTrip = () => {
+		const d: NewDataType = {
+			...newData,
+			tours: [...newData.tours, {
+				code: 'Пусто',
+				expenses: '-',
+				faq: '-',
+				lastPictures: [''],
+				qaSectionPics: [],
+				preview: {
+					date: 'Дата',
+					description: 'Описание',
+					image: null,
+					name: 'Название',
+				},
+				price: '-',
+				program: [{
+					day: 1,
+					full: {
+						description: 'Опсиание',
+						image: null,
+						name: 'Название',
+					},
+					short: {
+						description: 'Опсиание',
+						image: null,
+						name: 'Название',
+					}
+				}],
+				whatIncluded: '-',
+			},
+			],
+		};
+
+		updateNewData(d);
 	};
 
 	return (
@@ -264,7 +310,17 @@ const Home = () => {
 				</Link>
 			</Hero>
 			<div id="tours">
-				<Grid title="Какие путешествия нас ждут?" ds content={toursContent} />
+				<Grid title="Какие путешествия нас ждут?" ds content={[...toursContent, canEdit ? {
+					child: (
+						<button onClick={createNewTrip} style={{ fontSize: 80, display: 'grid', justifyContent: 'center', alignContent: 'center', width: '100%', height: '100%' }}>
+							+
+						</button>
+					),
+					backgroundImage: '',
+					darken: true,
+					darkPercent: 0.7,
+					className: styles.tourCard,
+				} : {}]} />
 			</div>
 			<div id="about">
 				<Me />

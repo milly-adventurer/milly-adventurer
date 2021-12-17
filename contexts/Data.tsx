@@ -29,8 +29,7 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
       const response = await fetch(`${BASE_URL}${URL.DATA}`, {
       });
       const data = await response.json();
-			console.log(data,);
-      return { ...data, tours: data.tours.slice(0, 2) };
+      return data;
     } catch (err) {
       console.error(err);
       return null;
