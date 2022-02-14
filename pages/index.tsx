@@ -4,9 +4,8 @@ import Image from "next/image";
 import Hero from "../sections/Hero";
 
 import homeBg from "../assets/img/home-bg.jpg";
-import homeBgMob from "../assets/img/home-bg-mob.jpg";
 import logo from "../assets/img/logo.png";
-import millyBg from "../assets/img/slide_0.jpg";
+import slide1 from "../assets/img/slide_0.jpg";
 import slide2 from "../assets/img/slide_2.jpg";
 import slide3 from "../assets/img/slide_3.jpg";
 import slide4 from "../assets/img/slide_4.jpg";
@@ -33,6 +32,9 @@ import heroslide2 from "../assets/img/home-slide-3.jpg";
 import heroSlide3 from "../assets/img/home-slide-4.jpg";
 import heroslide4 from "../assets/img/home-slide-5.jpg";
 import heroSlide5 from "../assets/img/home-slide-6.jpg";
+import heroSpring1 from  "../assets/img/hero_spring_1.jpg";
+import heroSpring2 from  "../assets/img/hero_spring_2.jpg";
+import heroSpring3 from  "../assets/img/hero_spring_3.jpg";
 import { NewData as NewDataType } from "../interfaces/Tour";
 import { UserInfoContext } from "../contexts/UserInfo";
 import UploadImage from "../components/UploadImage";
@@ -156,7 +158,7 @@ const Home = () => {
 				"Всегда небольшие группы и трепетная забота о каждом госте.",
 			description:
 				"В моих мини-группах от 5 до 10 человек. Для меня очень важно уделить каждому гостю максимум внимания и подарить ощущение комфорта, безопасности и спокойствия.",
-			img: millyBg.src,
+			img: slide1.src,
 			pos: { x: 'bottom' }
 		},
 		{
@@ -240,6 +242,7 @@ const Home = () => {
 				faq: '-',
 				lastPictures: [''],
 				qaSectionPics: [],
+				reviews: newData.common.reviews,
 				preview: {
 					date: 'Дата',
 					description: 'Описание',
@@ -271,6 +274,7 @@ const Home = () => {
 	return (
 		<>
 			<Head>
+				<meta name="language" content="ru" />
 				<title>Milly adventurer - авторские туры в России</title>
 				<meta name="description" content="Туры и экспедиции по России" />
 				<meta name="title" content="Milly adventurer - авторские туры в России" />
@@ -287,11 +291,9 @@ const Home = () => {
 			{router.query.edit === "a3JiVn2mj" && <EditThing />}
 			<Hero
 				backgroundImage={[
-					homeBg.src,
-					heroslide2.src,
-					heroSlide3.src,
-					heroslide4.src,
-					heroSlide5.src,
+					heroSpring1.src,
+					heroSpring2.src,
+					heroSpring3.src,
 				]}
 				navBarItems={sections}
 			>

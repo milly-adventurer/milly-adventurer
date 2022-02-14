@@ -68,6 +68,10 @@ export interface NewTour {
 	faq: string;
 	code: string;
 	lastPictures: string[];
+  reviews: {
+    name: string;
+    text: string;
+  }[];
 	preview: {
 		date: string;
 		name: string;

@@ -10,15 +10,15 @@ import DataProvider from '../contexts/Data';
 import UserInfoProvider from '../contexts/UserInfo';
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
-  return (
+	return (
 		<DataProvider>
-    <UserInfoProvider>
-			<WindowWidthProvider>
-				<Component {...pageProps} />
-			</WindowWidthProvider>
-    </UserInfoProvider>
+			<UserInfoProvider>
+				<WindowWidthProvider>
+					<Component {...pageProps} />
+				</WindowWidthProvider>
+			</UserInfoProvider>
 		</DataProvider>
-  );
+	);
 };
 
 export default MyApp;
