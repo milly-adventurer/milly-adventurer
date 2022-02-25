@@ -40,6 +40,8 @@ import { UserInfoContext } from "../contexts/UserInfo";
 import UploadImage from "../components/UploadImage";
 import { useRouter } from "next/dist/client/router";
 import ButtonClose from "../components/ButtonClose";
+import { GetServerSidePropsContext } from "next";
+import { BASE_URL, URL } from "../constants/url";
 
 const cn = getClassNames(styles);
 
@@ -50,10 +52,10 @@ const sections: [ReactNode, string][] = [
 	["Фотографии", "photos"],
 ];
 
-const Home = () => {
+const Home = ({ newData }: { newData: NewDataType }) => {
 	const { isMobile, isTablet } = useContext(WindowWidthContext);
 
-	const { newData, updateNewData, sendNewData } = useContext(DataContext);
+	const { updateNewData, sendNewData } = useContext(DataContext);
 	const { canEdit, updateValue } = useContext(UserInfoContext);
 
 	const sliderRef = useRef<null | Slider>(null);
@@ -429,6 +431,27 @@ const Home = () => {
 			<Footer />
 		</>
 	);
+};
+
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+	console.log(context, context);
+
+	const getNewData = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}${URL.DATA}`, {
+      });
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  };
+	return {
+		props: {
+			newData: await getNewData(),
+		}
+	}
 };
 
 export default Home;

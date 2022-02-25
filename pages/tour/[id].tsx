@@ -39,17 +39,18 @@ import q1 from '../../assets/img/q-1.jpg';
 import q2 from '../../assets/img/q-2.jpg';
 import q3 from '../../assets/img/q-3.jpg';
 import q4 from '../../assets/img/q-4.jpg';
+import { GetServerSidePropsContext } from 'next';
+import { BASE_URL, URL } from '../../constants/url';
 
 const cn = getClassNames(styles);
 
-const TourInner = () => {
+const TourInner = ({ newData }: { newData: NewDataType }) => {
 	const router = useRouter();
 	const { isMobile, isTablet } = useContext(WindowWidthContext);
 	const sliderRef = useRef<null | Slider>(null);
 
 	const {
 		getTourById,
-		newData,
 		sendNewData,
 		updateNewData,
 		updateDay,
@@ -468,14 +469,35 @@ const TourInner = () => {
 	) : null;
 }
 
-const Tour = () => {
+const Tour = ({ newData }: { newData: NewDataType }) => {
 	const router = useRouter();
-	const { newData, getTourById } = useContext(DataContext);
+	const { getTourById } = useContext(DataContext);
 	const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, newData]);
 
 	return tour ?
-		<TourInner />
+		<TourInner newData={newData} />
 		: <></>
+};
+
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+	console.log(context, context);
+
+	const getNewData = async () => {
+    try {
+      const response = await fetch(`${BASE_URL}${URL.DATA}`, {
+      });
+      const data = await response.json();
+      return data;
+    } catch (err) {
+      console.error(err);
+      return null;
+    }
+  };
+	return {
+		props: {
+			newData: await getNewData(),
+		}
+	}
 };
 
 export default Tour;
