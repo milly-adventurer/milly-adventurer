@@ -5,6 +5,7 @@ import SectionContainer from "../../components/SectionContainer";
 import BackgroundSlider from 'react-background-slider'
 
 import styles from './Hero.module.scss';
+import getLinearGradient from "../../helpers/linearGradient";
 
 interface Props {
   navBarItems: NavBarItems;
@@ -23,10 +24,17 @@ const Hero = ({
 	ds = false,
 }: PropsWithChildren<Props>) => {
   return (
-      <section className={`${styles.section} ${className}`} style={backgroundImage ? {
-        background: backgroundImage.length === 1 ? `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url(${backgroundImage[0]}) center center` : '',
-        ...style,
-        } : style}>
+      <section
+				className={`${styles.section} ${className}`}
+				style={
+					backgroundImage ? {
+       			background: backgroundImage.length === 1
+							? getLinearGradient({ content: `url(${backgroundImage[0]} center center`})
+							: undefined,
+        		...style,
+        	} : style
+				}
+			>
 				{backgroundImage.length > 1 && (
           <BackgroundSlider transition={1} duration={6} images={backgroundImage} />
 				)}

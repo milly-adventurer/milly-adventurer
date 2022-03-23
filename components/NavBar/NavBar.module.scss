@@ -82,6 +82,11 @@
 	}
 }
 
+.social {
+	display: flex;
+	align-items: center;
+}
+
 .burger {
 	display: none;
 	@media (max-width: 768px) {
@@ -103,4 +108,3 @@
 		}
 	}
 }
-

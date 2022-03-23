@@ -28,10 +28,6 @@ import Footer from "../sections/Footer";
 import { Link } from "react-scroll";
 import { DataContext } from "../contexts/Data";
 import EditableText from "../components/EditableText";
-import heroslide2 from "../assets/img/home-slide-3.jpg";
-import heroSlide3 from "../assets/img/home-slide-4.jpg";
-import heroslide4 from "../assets/img/home-slide-5.jpg";
-import heroSlide5 from "../assets/img/home-slide-6.jpg";
 import heroSpring1 from  "../assets/img/hero_spring_1.jpg";
 import heroSpring2 from  "../assets/img/hero_spring_2.jpg";
 import heroSpring3 from  "../assets/img/hero_spring_3.jpg";
@@ -45,21 +41,33 @@ import { BASE_URL, URL } from "../constants/url";
 
 const cn = getClassNames(styles);
 
-const sections: [ReactNode, string][] = [
-	["Мои туры", "tours"],
-	["Обо мне", "about"],
-	["Отзывы клиентов", "reviews"],
-	["Фотографии", "photos"],
+enum SectionId {
+	TOURS = 'tours',
+	ABOUT = 'about',
+	REVIEWS = 'reviews',
+	PHOTOS = 'photos',
+	QA = 'qa',
+}
+
+const sections: [ReactNode, SectionId][] = [
+	["Мои туры", SectionId.TOURS],
+	["Обо мне", SectionId.ABOUT],
+	["Отзывы клиентов", SectionId.REVIEWS],
+	["Фотографии", SectionId.PHOTOS],
 ];
 
 const Home = ({ newData }: { newData: NewDataType }) => {
+
 	const { isMobile, isTablet } = useContext(WindowWidthContext);
 
 	const { updateNewData, sendNewData } = useContext(DataContext);
+
 	const { canEdit, updateValue } = useContext(UserInfoContext);
 
 	const sliderRef = useRef<null | Slider>(null);
+
 	const router = useRouter();
+
 	if (!newData) return <></>;
 
 	const onUpdateTourInfo = async (
@@ -313,7 +321,7 @@ const Home = ({ newData }: { newData: NewDataType }) => {
 					/>
 				</Link>
 			</Hero>
-			<div id="tours">
+			<div id={SectionId.TOURS}>
 				<Grid title="Какие путешествия нас ждут?" ds content={[...toursContent, canEdit ? {
 					child: (
 						<button onClick={createNewTrip} style={{ fontSize: 80, display: 'grid', justifyContent: 'center', alignContent: 'center', width: '100%', height: '100%' }}>
@@ -326,7 +334,7 @@ const Home = ({ newData }: { newData: NewDataType }) => {
 					className: styles.tourCard,
 				} : {}]} />
 			</div>
-			<div id="about">
+			<div id={SectionId.ABOUT}>
 				<Me />
 			</div>
 			<section className={cn("slideSection")}>
@@ -419,10 +427,10 @@ const Home = ({ newData }: { newData: NewDataType }) => {
 					</div>
 				</SectionContainer>
 			</section>
-			<div id="photos">
+			<div id={SectionId.ABOUT}>
 				<Tabs />
 			</div>
-			<div className={styles.storiesSection} id="reviews">
+			<div className={styles.storiesSection} id={SectionId.REVIEWS}>
 				<Stories />
 			</div>
 			<div id="qa">
@@ -438,8 +446,7 @@ export const getServerSideProps = async (context: GetServerSidePropsContext) => 
 
 	const getNewData = async () => {
     try {
-      const response = await fetch(`${BASE_URL}${URL.DATA}`, {
-      });
+      const response = await fetch(`${BASE_URL}${URL.DATA}`);
       const data = await response.json();
       return data;
     } catch (err) {
