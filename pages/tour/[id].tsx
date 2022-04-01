@@ -469,35 +469,14 @@ const TourInner = ({ newData }: { newData: NewDataType }) => {
 	) : null;
 }
 
-const Tour = ({ newData }: { newData: NewDataType }) => {
+const Tour = () => {
 	const router = useRouter();
-	const { getTourById } = useContext(DataContext);
+	const { getTourById, newData } = useContext(DataContext);
 	const tour = useMemo(() => getTourById(Number(router.query.id)), [router.query, newData]);
 
-	return tour ?
+	return tour && newData ?
 		<TourInner newData={newData} />
 		: <></>
-};
-
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-	console.log(context, context);
-
-	const getNewData = async () => {
-    try {
-      const response = await fetch(`${BASE_URL}${URL.DATA}`, {
-      });
-      const data = await response.json();
-      return data;
-    } catch (err) {
-      console.error(err);
-      return null;
-    }
-  };
-	return {
-		props: {
-			newData: await getNewData(),
-		}
-	}
 };
 
 export default Tour;

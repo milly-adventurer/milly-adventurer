@@ -37,7 +37,6 @@ const DataProvider = ({ children }: PropsWithChildren<{}>) => {
   };
 
 	const updateNewData = (newData: NewData) => {
-		console.log(newData.tours[1]?.lastPictures, 'int upd');
 		setData(newData);
 	};
 

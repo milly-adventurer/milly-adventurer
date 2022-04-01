@@ -56,11 +56,11 @@ const sections: [ReactNode, SectionId][] = [
 	["Фотографии", SectionId.PHOTOS],
 ];
 
-const Home = ({ newData }: { newData: NewDataType }) => {
+const Home = () => {
 
 	const { isMobile, isTablet } = useContext(WindowWidthContext);
 
-	const { updateNewData, sendNewData } = useContext(DataContext);
+	const { updateNewData, sendNewData, newData } = useContext(DataContext);
 
 	const { canEdit, updateValue } = useContext(UserInfoContext);
 
@@ -244,6 +244,7 @@ const Home = ({ newData }: { newData: NewDataType }) => {
 	};
 
 	const createNewTrip = () => {
+		console.log(newData, 'db')
 		const d: NewDataType = {
 			...newData,
 			tours: [...newData.tours, {
@@ -277,7 +278,7 @@ const Home = ({ newData }: { newData: NewDataType }) => {
 			},
 			],
 		};
-
+		console.log(d, 'da')
 		updateNewData(d);
 	};
 
@@ -439,26 +440,6 @@ const Home = ({ newData }: { newData: NewDataType }) => {
 			<Footer />
 		</>
 	);
-};
-
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-	console.log(context, context);
-
-	const getNewData = async () => {
-    try {
-      const response = await fetch(`${BASE_URL}${URL.DATA}`);
-      const data = await response.json();
-      return data;
-    } catch (err) {
-      console.error(err);
-      return null;
-    }
-  };
-	return {
-		props: {
-			newData: await getNewData(),
-		}
-	}
 };
 
 export default Home;
