@@ -29,7 +29,7 @@ const Hero = ({
 				style={
 					backgroundImage ? {
        			background: backgroundImage.length === 1
-							? getLinearGradient({ content: `url(${backgroundImage[0]} center center`})
+							? `linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.1)), url(${backgroundImage[0]}) center center`
 							: undefined,
         		...style,
         	} : style
