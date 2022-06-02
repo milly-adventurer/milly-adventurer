@@ -213,7 +213,8 @@ const TourInner = ({ newData }: { newData: NewDataType }) => {
 			img: tour.qaSectionPics?.[3] || q4.src,
 		}
 	];
-	const onUploadQaPic = (img: string, i: number) => {;
+	const onUploadQaPic = (img: string, i: number) => {
+		;
 		const newQaSecPic = tour.qaSectionPics;
 		newQaSecPic[i] = `https://imagedelivery.net/mJnGC39eOdMDhMEQde3rlw/${img}/public`;
 		const d: NewDataType = {
@@ -284,7 +285,7 @@ const TourInner = ({ newData }: { newData: NewDataType }) => {
 			columnGap: '5px',
 			zIndex: 99999999,
 		}}>
-			<strong className="eb" style={{ display: 'grid', gridAutoFlow: 'column', columnGap: '5px', padding: '6px 19px' }}>Кодовое слово: <EditableText onSave={(t) => {
+			<strong className="eb" style={{ display: 'flex', flexWrap: 'wrap', padding: '6px 19px' }}>Кодовое слово: <EditableText onSave={(t) => {
 				updateNewData({
 					...newData,
 					tours: newData.tours.map((to, j) => j === Number(router.query.id) ? ({
@@ -320,7 +321,7 @@ const TourInner = ({ newData }: { newData: NewDataType }) => {
 
 	return tour ? (
 		<>
-			{!isMobile && router.query.edit === 'a3JiVn2mj' && <EditThing />}
+			{router.query.edit === 'a3JiVn2mj' && <EditThing />}
 			<Popup onClose={() => setPopup({ ...popup, isOpen: false })} open={popup.isOpen}>
 				{popup.content}
 			</Popup>
