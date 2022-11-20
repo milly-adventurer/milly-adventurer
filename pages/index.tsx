@@ -31,6 +31,8 @@ import EditableText from "../components/EditableText";
 import heroSpring1 from  "../assets/img/hero_spring_1.jpg";
 import heroSpring2 from  "../assets/img/hero_spring_2.jpg";
 import heroSpring3 from  "../assets/img/hero_spring_3.jpg";
+import heroSpring4 from  "../assets/img/hero_spring_4.jpg";
+import heroSpring5 from  "../assets/img/hero_spring_5.jpg";
 import { NewData as NewDataType } from "../interfaces/Tour";
 import { UserInfoContext } from "../contexts/UserInfo";
 import UploadImage from "../components/UploadImage";
@@ -305,6 +307,8 @@ const Home = () => {
 					heroSpring1.src,
 					heroSpring2.src,
 					heroSpring3.src,
+					heroSpring4.src,
+					heroSpring5.src,
 				]}
 				navBarItems={sections}
 			>
@@ -312,7 +316,7 @@ const Home = () => {
 					<Image src={logo} alt="Logo" />
 				</div>
 				<h1 className={styles.title}>
-					Душевные авторские туры и экспедиции по России
+					 Индивидуальные туры и экскурсии по Горному Алтаю
 				</h1>
 				<Link to="tours" spy smooth color="white">
 					<Button

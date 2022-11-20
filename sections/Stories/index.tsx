@@ -183,18 +183,23 @@ const Stories = () => {
 		updateNewData(d);
 	};
 
+	const tripadvisorWidgetId = "elfsight-app-0c1a9455-5c01-4d58-9b62-4be82ad23521"
+
 	return isMobile === null ? <></> : (
 		<section className={styles.section}>
 			<SectionContainer>
 				<h2 className={styles.title}>Отзывы гостей</h2>
-				<DivOrSlider options={{
+
+				<div className={tripadvisorWidgetId}></div>
+
+				{/*<DivOrSlider options={{
 					autoplay: isMobile || canEdit ? false : true,
 					swipe: !canEdit,
 					autoplaySpeed: 10000000,
 					speed: 200, waitForAnimate: false, infinite: true, slidesPerRow: 1, arrows: false, centerMode: true, centerPadding: '0px'
 				}} isSlider={!!isMobile} className={styles.content}>
 					{[...(newData?.tours[Number(router.query.id)] || newData?.common).reviews.map(({ name, text }, i) => <div className={styles.cardWrapper}><Comment deleteComment={deleteComment} i={i} name={name} text={text} key={i} /></div>), canEdit && <div className={styles.cardWrapper}><Button label="Добавить" className={styles.addNewSmth} type={Type.FILLED} onClick={onAdd} /></div>]}
-				</DivOrSlider>
+				</DivOrSlider>*/}
 			</SectionContainer>
 		</section>
 	);
