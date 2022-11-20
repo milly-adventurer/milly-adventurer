@@ -44,6 +44,7 @@ const Hero = ({
 							{children}
 						</div>
 					</SectionContainer>
+					1
       </section>
   );
 };
