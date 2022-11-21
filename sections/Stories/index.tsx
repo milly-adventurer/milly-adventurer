@@ -55,7 +55,7 @@ const Comment = ({ name, text, i, deleteComment }: { name: string, text: string,
 	);
 };
 
-const DivOrSlider = ({
+/*const DivOrSlider = ({
 	isSlider,
 	children,
 	options,
@@ -122,7 +122,7 @@ const DivOrSlider = ({
 			</button>
 		</div>
 	);
-};
+};*/
 
 const Stories = () => {
 	const { isMobile } = useContext(WindowWidthContext);
