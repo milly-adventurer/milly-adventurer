@@ -12,7 +12,7 @@ import ButtonClose from '../../components/ButtonClose';
 import Button, { Type } from '../../components/Button';
 import { useRouter } from 'next/dist/client/router';
 
-const Comment = ({ name, text, i, deleteComment }: { name: string, text: string, i: number, deleteComment(i: number): void; }) => {
+/*const Comment = ({ name, text, i, deleteComment }: { name: string, text: string, i: number, deleteComment(i: number): void; }) => {
 	const { newData, updateNewData } = useContext(DataContext);
 	const { canEdit } = useContext(UserInfoContext);
 	const router = useRouter();
@@ -53,7 +53,7 @@ const Comment = ({ name, text, i, deleteComment }: { name: string, text: string,
 			)}
 		</article>
 	);
-};
+};*/
 
 /*const DivOrSlider = ({
 	isSlider,
@@ -133,7 +133,7 @@ const Stories = () => {
 
 	if (!newData) return <></>;
 
-	const deleteComment = (i: number) => {
+	/*const deleteComment = (i: number) => {
 		const d: NewDataType = {
 			...newData,
 			common: id ? newData.common : {
@@ -181,7 +181,7 @@ const Stories = () => {
 		};
 
 		updateNewData(d);
-	};
+	};*/
 
 	const tripadvisorWidgetId = "elfsight-app-0c1a9455-5c01-4d58-9b62-4be82ad23521"
 
