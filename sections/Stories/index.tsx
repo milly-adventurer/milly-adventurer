@@ -2,17 +2,17 @@ import SectionContainer from '../../components/SectionContainer';
 import styles from './Stories.module.scss';
 
 import { PropsWithChildren, useContext, useMemo, useRef } from 'react';
-import Slider, { Settings } from 'react-slick';
+// import Slider, { Settings } from 'react-slick';
 import { WindowWidthContext } from '../../contexts/WindowWidth';
 import { DataContext } from '../../contexts/Data';
-import EditableText from '../../components/EditableText';
+// import EditableText from '../../components/EditableText';
 import { NewData as NewDataType } from '../../interfaces/Tour';
 import { UserInfoContext } from '../../contexts/UserInfo';
-import ButtonClose from '../../components/ButtonClose';
-import Button, { Type } from '../../components/Button';
+// import ButtonClose from '../../components/ButtonClose';
+// import Button, { Type } from '../../components/Button';
 import { useRouter } from 'next/dist/client/router';
 
-const Comment = ({ name, text, i, deleteComment }: { name: string, text: string, i: number, deleteComment(i: number): void; }) => {
+/*const Comment = ({ name, text, i, deleteComment }: { name: string, text: string, i: number, deleteComment(i: number): void; }) => {
 	const { newData, updateNewData } = useContext(DataContext);
 	const { canEdit } = useContext(UserInfoContext);
 	const router = useRouter();
@@ -53,9 +53,9 @@ const Comment = ({ name, text, i, deleteComment }: { name: string, text: string,
 			)}
 		</article>
 	);
-};
+};*/
 
-const DivOrSlider = ({
+/*const DivOrSlider = ({
 	isSlider,
 	children,
 	options,
@@ -122,18 +122,18 @@ const DivOrSlider = ({
 			</button>
 		</div>
 	);
-};
+};*/
 
 const Stories = () => {
 	const { isMobile } = useContext(WindowWidthContext);
-	const { newData, updateNewData } = useContext(DataContext);
-	const { canEdit } = useContext(UserInfoContext);
-	const router = useRouter();
-	const id = router.query.id || null;
+	// const { newData, updateNewData } = useContext(DataContext);
+	// const { canEdit } = useContext(UserInfoContext);
+	// const router = useRouter();
+	// const id = router.query.id || null;
+	//
+	// if (!newData) return <></>;
 
-	if (!newData) return <></>;
-
-	const deleteComment = (i: number) => {
+	/*const deleteComment = (i: number) => {
 		const d: NewDataType = {
 			...newData,
 			common: id ? newData.common : {
@@ -181,7 +181,9 @@ const Stories = () => {
 		};
 
 		updateNewData(d);
-	};
+	};*/
+
+	const text = "elfsight-app-0c1a9455-5c01-4d58-9b62-4be82ad23521"
 
 	return isMobile === null ? <></> : (
 		<section className={styles.section}>
