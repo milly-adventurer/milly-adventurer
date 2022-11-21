@@ -53,9 +53,9 @@ import { useRouter } from 'next/dist/client/router';
 			)}
 		</article>
 	);
-};
+};*/
 
-const DivOrSlider = ({
+/*const DivOrSlider = ({
 	isSlider,
 	children,
 	options,
@@ -126,14 +126,14 @@ const DivOrSlider = ({
 
 const Stories = () => {
 	const { isMobile } = useContext(WindowWidthContext);
-	const { newData, updateNewData } = useContext(DataContext);
-	const { canEdit } = useContext(UserInfoContext);
-	const router = useRouter();
-	const id = router.query.id || null;
+	// const { newData, updateNewData } = useContext(DataContext);
+	// const { canEdit } = useContext(UserInfoContext);
+	// const router = useRouter();
+	// const id = router.query.id || null;
+	//
+	// if (!newData) return <></>;
 
-	if (!newData) return <></>;
-
-	const deleteComment = (i: number) => {
+	/*const deleteComment = (i: number) => {
 		const d: NewDataType = {
 			...newData,
 			common: id ? newData.common : {
@@ -181,7 +181,7 @@ const Stories = () => {
 		};
 
 		updateNewData(d);
-	};
+	};*/
 
 	const text = "elfsight-app-0c1a9455-5c01-4d58-9b62-4be82ad23521"
 
