@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9913ddd1-8ed6-417d-afb2-c294c84e62e6" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/img/hero_spring_4.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/img/hero_spring_5.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/img/hero_spring_1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/hero_spring_1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/img/hero_spring_2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/hero_spring_2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/img/hero_spring_3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/hero_spring_3.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/_document.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_document.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.tsx" afterDir="false" />
+    <list default="true" id="f2a06f21-ef48-44ab-afd6-2c9ce41dcbb7" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/next-env.d.ts" beforeDir="false" afterPath="$PROJECT_DIR$/next-env.d.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sections/Stories/index.later.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/sections/Stories/index.later.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sections/Tabs/TabInfo/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/sections/Tabs/TabInfo/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

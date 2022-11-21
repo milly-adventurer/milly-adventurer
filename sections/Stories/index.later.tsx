@@ -22,7 +22,7 @@ const Comment = ({ isMobile }: { isMobile: boolean }) => <article className={sty
         marginLeft: '10px',
         display: 'flex',
       }}>
-        <Image src={arrow} width={isMobile ? undefined : 30} height={isMobile ? undefined : 20}/>
+        <Image src={arrow} alt={""} width={isMobile ? undefined : 30} height={isMobile ? undefined : 20}/>
       </div>
     </a>
   </Link>
