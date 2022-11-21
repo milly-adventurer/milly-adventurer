@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
+
     <list default="true" id="9913ddd1-8ed6-417d-afb2-c294c84e62e6" name="Default Changelist" comment="">
+
       <change afterPath="$PROJECT_DIR$/assets/img/hero_spring_4.jpg" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/assets/img/hero_spring_5.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/img/hero_spring_1.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/hero_spring_1.jpg" afterDir="false" />
@@ -9,6 +11,7 @@
       <change beforePath="$PROJECT_DIR$/assets/img/hero_spring_3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/hero_spring_3.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/_document.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/_document.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.tsx" afterDir="false" />
+
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -32,6 +35,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/assets" />
+
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
@@ -39,9 +43,11 @@
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
+
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\OpenServer\domains\milly-adventurer\assets" />
     </key>
+
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\OpenServer\domains\milly-adventurer\assets\img" />
     </key>
@@ -71,6 +77,8 @@
         </entry>
       </map>
     </option>
+
     <option name="oldMeFiltersMigrated" value="true" />
+
   </component>
 </project>
