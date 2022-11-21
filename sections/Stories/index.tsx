@@ -2,17 +2,17 @@ import SectionContainer from '../../components/SectionContainer';
 import styles from './Stories.module.scss';
 
 import { PropsWithChildren, useContext, useMemo, useRef } from 'react';
-import Slider, { Settings } from 'react-slick';
+// import Slider, { Settings } from 'react-slick';
 import { WindowWidthContext } from '../../contexts/WindowWidth';
 import { DataContext } from '../../contexts/Data';
-import EditableText from '../../components/EditableText';
+// import EditableText from '../../components/EditableText';
 import { NewData as NewDataType } from '../../interfaces/Tour';
 import { UserInfoContext } from '../../contexts/UserInfo';
-import ButtonClose from '../../components/ButtonClose';
-import Button, { Type } from '../../components/Button';
+// import ButtonClose from '../../components/ButtonClose';
+// import Button, { Type } from '../../components/Button';
 import { useRouter } from 'next/dist/client/router';
 
-const Comment = ({ name, text, i, deleteComment }: { name: string, text: string, i: number, deleteComment(i: number): void; }) => {
+/*const Comment = ({ name, text, i, deleteComment }: { name: string, text: string, i: number, deleteComment(i: number): void; }) => {
 	const { newData, updateNewData } = useContext(DataContext);
 	const { canEdit } = useContext(UserInfoContext);
 	const router = useRouter();
@@ -122,7 +122,7 @@ const DivOrSlider = ({
 			</button>
 		</div>
 	);
-};
+};*/
 
 const Stories = () => {
 	const { isMobile } = useContext(WindowWidthContext);
@@ -183,18 +183,23 @@ const Stories = () => {
 		updateNewData(d);
 	};
 
+	const text = "elfsight-app-0c1a9455-5c01-4d58-9b62-4be82ad23521"
+
 	return isMobile === null ? <></> : (
 		<section className={styles.section}>
 			<SectionContainer>
 				<h2 className={styles.title}>Отзывы гостей</h2>
-				<DivOrSlider options={{
+
+				<div className={text}></div>
+
+				{/*<DivOrSlider options={{
 					autoplay: isMobile || canEdit ? false : true,
 					swipe: !canEdit,
 					autoplaySpeed: 10000000,
 					speed: 200, waitForAnimate: false, infinite: true, slidesPerRow: 1, arrows: false, centerMode: true, centerPadding: '0px'
 				}} isSlider={!!isMobile} className={styles.content}>
 					{[...(newData?.tours[Number(router.query.id)] || newData?.common).reviews.map(({ name, text }, i) => <div className={styles.cardWrapper}><Comment deleteComment={deleteComment} i={i} name={name} text={text} key={i} /></div>), canEdit && <div className={styles.cardWrapper}><Button label="Добавить" className={styles.addNewSmth} type={Type.FILLED} onClick={onAdd} /></div>]}
-				</DivOrSlider>
+				</DivOrSlider>*/}
 			</SectionContainer>
 		</section>
 	);
