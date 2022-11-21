@@ -28,13 +28,13 @@ import Footer from "../sections/Footer";
 import {Link} from "react-scroll";
 import {DataContext} from "../contexts/Data";
 import EditableText from "../components/EditableText";
-import heroSpring1 from  "../assets/img/hero_spring_1.jpg";
-import heroSpring2 from  "../assets/img/hero_spring_2.jpg";
-import heroSpring3 from  "../assets/img/hero_spring_3.jpg";
-import heroSpring4 from  "../assets/img/hero_spring_4.jpg";
-import heroSpring5 from  "../assets/img/hero_spring_5.jpg";
-import { NewData as NewDataType } from "../interfaces/Tour";
-import { UserInfoContext } from "../contexts/UserInfo";
+import heroSpring1 from "../assets/img/hero_spring_1.jpg";
+import heroSpring2 from "../assets/img/hero_spring_2.jpg";
+import heroSpring3 from "../assets/img/hero_spring_3.jpg";
+import heroSpring4 from "../assets/img/hero_spring_4.jpg";
+import heroSpring5 from "../assets/img/hero_spring_5.jpg";
+import {NewData as NewDataType} from "../interfaces/Tour";
+import {UserInfoContext} from "../contexts/UserInfo";
 import UploadImage from "../components/UploadImage";
 import {useRouter} from "next/dist/client/router";
 import ButtonClose from "../components/ButtonClose";
@@ -291,166 +291,173 @@ const Home = () => {
         updateNewData(d);
     };
 
-	return (
-		<>
-			<Head>
-				<meta name="language" content="ru" />
-				<title>Milly adventurer - авторские туры в России</title>
-				<meta name="description" content="Туры и экспедиции по России" />
-				<meta name="title" content="Milly adventurer - авторские туры в России" />
-				<meta name="url" content="https://milly-adventurer.ru" />
-				<meta name="copyright" content="Milly Adventurer" />
-				<meta name="robots" content="index,follow" />
-				<meta property="og:type" content="website" />
-				<meta property="og:locale" content="ru_ru" />
-				<meta property="og:url" content="https://milly-adventurer.ru" />
-				<meta property="og:title" content="Milly adventurer - авторские туры в России" />
-				<meta property="og:description" content="Milly adventurer - авторские туры в России" />
-				<link rel="icon" href="/favicon.ico" />
-			</Head>
-			{router.query.edit === "a3JiVn2mj" && <EditThing />}
-			<Hero
-				backgroundImage={[
-					heroSpring1.src,
-					heroSpring2.src,
-					heroSpring3.src,
-					heroSpring4.src,
-					heroSpring5.src,
-				]}
-				navBarItems={sections}
-			>
-				<div className={styles.logo}>
-					<Image src={logo} alt="Logo" />
-				</div>
-				<h1 className={styles.title}>
-					Индивидуальные туры и экскурсии по Горному Алтаю
-				</h1>
-				<Link to="tours" spy smooth color="white">
-					<Button
-						onClick={onSeeToursClick}
-						label="Посмотреть туры"
-						size={Size.LARGE}
-					/>
-				</Link>
-			</Hero>
-			<div id={SectionId.TOURS}>
-				<Grid title="Какие путешествия нас ждут?" ds content={[...toursContent, canEdit ? {
-					child: (
-						<button onClick={createNewTrip} style={{ fontSize: 80, display: 'grid', justifyContent: 'center', alignContent: 'center', width: '100%', height: '100%' }}>
-							+
-						</button>
-					),
-					backgroundImage: '',
-					darken: true,
-					darkPercent: 0.7,
-					className: styles.tourCard,
-				} : {}]} />
-			</div>
-			<div id={SectionId.ABOUT}>
-				<Me />
-			</div>
-			<section className={cn("slideSection")}>
-				<SectionContainer paddings={true}>
-					<h2 className={cn("slideSectionTitle")}>
-						Мои душевные авторские <br /> путешествия это:
-					</h2>
-					<div className={cn("content")}>
-						<Slider
-							ref={sliderRef}
-							autoplay={isMobile || canEdit ? false : true}
-							autoplaySpeed={2500}
-							swipe={!canEdit}
-							speed={200}
-							dots
-							waitForAnimate={false}
-							arrows={false}
-							centerMode
-							centerPadding={isMobile || isTablet ? "20px" : "300px"}
-							slidesToShow={1}
-							infinite
-						>
-							{aboutTours.map(({ title, description, img, pos }, i) => (
-								<article key={i} className={cn("slide")}>
-									<div
-										style={{
-											background: `url(${img}) ${pos?.x || ''}`,
-										}}
-										className={cn("slideImg")}
-									></div>
-									<div className={cn("slideTextContainer")}>
-										<p className={cn("slideTitle")}>{title}</p>
-										<p className={cn("slideDescription")}>{description}</p>
-									</div>
-								</article>
-							))}
-						</Slider>
-						{isMobile && (
-							<>
-								<button
-									className={styles.arrowSlider}
-									onClick={sliderRef?.current?.slickPrev || undefined}
-								>
-									<svg
-										version="1.1"
-										width="30"
-										height="30"
-										x="0"
-										y="0"
-										viewBox="0 0 492.004 492.004"
-									>
-										<g transform="matrix(1,0,0,1,0,-1.1368683772161603e-13)">
-											<g xmlns="http://www.w3.org/2000/svg">
-												<g>
-													<path
-														d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"
-														fill="#ffffff"
-													/>
-												</g>
-											</g>
-										</g>
-									</svg>
-								</button>
-								<button
-									className={styles.arrowSlider}
-									onClick={sliderRef?.current?.slickNext || undefined}
-								>
-									<svg
-										version="1.1"
-										width="30"
-										height="30"
-										x="0"
-										y="0"
-										viewBox="0 0 492.004 492.004"
-									>
-										<g transform="matrix(1,0,0,1,0,-1.1368683772161603e-13)">
-											<g xmlns="http://www.w3.org/2000/svg">
-												<g>
-													<path
-														d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"
-														fill="#ffffff"
-													/>
-												</g>
-											</g>
-										</g>
-									</svg>
-								</button>
-							</>
-						)}
-					</div>
-				</SectionContainer>
-			</section>
-			<div id={SectionId.ABOUT}>
-				<Tabs />
-			</div>
-			<div className={styles.storiesSection} id={SectionId.REVIEWS}>
-				<Stories />
-			</div>
-			<div id="qa">
-				<Questions />
-			</div>
-			<Footer />
-		</>
-	);
+    return (
+        <>
+            <Head>
+                <meta name="language" content="ru"/>
+                <title>Milly adventurer - авторские туры в России</title>
+                <meta name="description" content="Туры и экспедиции по России"/>
+                <meta name="title" content="Milly adventurer - авторские туры в России"/>
+                <meta name="url" content="https://milly-adventurer.ru"/>
+                <meta name="copyright" content="Milly Adventurer"/>
+                <meta name="robots" content="index,follow"/>
+                <meta property="og:type" content="website"/>
+                <meta property="og:locale" content="ru_ru"/>
+                <meta property="og:url" content="https://milly-adventurer.ru"/>
+                <meta property="og:title" content="Milly adventurer - авторские туры в России"/>
+                <meta property="og:description" content="Milly adventurer - авторские туры в России"/>
+                <link rel="icon" href="/favicon.ico"/>
+            </Head>
+            {router.query.edit === "a3JiVn2mj" && <EditThing/>}
+            <Hero
+                backgroundImage={[
+                    heroSpring1.src,
+                    heroSpring2.src,
+                    heroSpring3.src,
+                    heroSpring4.src,
+                    heroSpring5.src,
+                ]}
+                navBarItems={sections}
+            >
+                <div className={styles.logo}>
+                    <Image src={logo} alt="Logo"/>
+                </div>
+                <h1 className={styles.title}>
+                    Индивидуальные туры и экскурсии по Горному Алтаю
+                </h1>
+                <Link to="tours" spy smooth color="white">
+                    <Button
+                        onClick={onSeeToursClick}
+                        label="Посмотреть туры"
+                        size={Size.LARGE}
+                    />
+                </Link>
+            </Hero>
+            <div id={SectionId.TOURS}>
+                <Grid title="Какие путешествия нас ждут?" ds content={[...toursContent, canEdit ? {
+                    child: (
+                        <button onClick={createNewTrip} style={{
+                            fontSize: 80,
+                            display: 'grid',
+                            justifyContent: 'center',
+                            alignContent: 'center',
+                            width: '100%',
+                            height: '100%'
+                        }}>
+                            +
+                        </button>
+                    ),
+                    backgroundImage: '',
+                    darken: true,
+                    darkPercent: 0.7,
+                    className: styles.tourCard,
+                } : {}]}/>
+            </div>
+            <div id={SectionId.ABOUT}>
+                <Me/>
+            </div>
+            <section className={cn("slideSection")}>
+                <SectionContainer paddings={true}>
+                    <h2 className={cn("slideSectionTitle")}>
+                        Мои душевные авторские <br/> путешествия это:
+                    </h2>
+                    <div className={cn("content")}>
+                        <Slider
+                            ref={sliderRef}
+                            autoplay={isMobile || canEdit ? false : true}
+                            autoplaySpeed={2500}
+                            swipe={!canEdit}
+                            speed={200}
+                            dots
+                            waitForAnimate={false}
+                            arrows={false}
+                            centerMode
+                            centerPadding={isMobile || isTablet ? "20px" : "300px"}
+                            slidesToShow={1}
+                            infinite
+                        >
+                            {aboutTours.map(({title, description, img, pos}, i) => (
+                                <article key={i} className={cn("slide")}>
+                                    <div
+                                        style={{
+                                            background: `url(${img}) ${pos?.x || ''}`,
+                                        }}
+                                        className={cn("slideImg")}
+                                    ></div>
+                                    <div className={cn("slideTextContainer")}>
+                                        <p className={cn("slideTitle")}>{title}</p>
+                                        <p className={cn("slideDescription")}>{description}</p>
+                                    </div>
+                                </article>
+                            ))}
+                        </Slider>
+                        {isMobile && (
+                            <>
+                                <button
+                                    className={styles.arrowSlider}
+                                    onClick={sliderRef?.current?.slickPrev || undefined}
+                                >
+                                    <svg
+                                        version="1.1"
+                                        width="30"
+                                        height="30"
+                                        x="0"
+                                        y="0"
+                                        viewBox="0 0 492.004 492.004"
+                                    >
+                                        <g transform="matrix(1,0,0,1,0,-1.1368683772161603e-13)">
+                                            <g xmlns="http://www.w3.org/2000/svg">
+                                                <g>
+                                                    <path
+                                                        d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"
+                                                        fill="#ffffff"
+                                                    />
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </button>
+                                <button
+                                    className={styles.arrowSlider}
+                                    onClick={sliderRef?.current?.slickNext || undefined}
+                                >
+                                    <svg
+                                        version="1.1"
+                                        width="30"
+                                        height="30"
+                                        x="0"
+                                        y="0"
+                                        viewBox="0 0 492.004 492.004"
+                                    >
+                                        <g transform="matrix(1,0,0,1,0,-1.1368683772161603e-13)">
+                                            <g xmlns="http://www.w3.org/2000/svg">
+                                                <g>
+                                                    <path
+                                                        d="M382.678,226.804L163.73,7.86C158.666,2.792,151.906,0,144.698,0s-13.968,2.792-19.032,7.86l-16.124,16.12    c-10.492,10.504-10.492,27.576,0,38.064L293.398,245.9l-184.06,184.06c-5.064,5.068-7.86,11.824-7.86,19.028    c0,7.212,2.796,13.968,7.86,19.04l16.124,16.116c5.068,5.068,11.824,7.86,19.032,7.86s13.968-2.792,19.032-7.86L382.678,265    c5.076-5.084,7.864-11.872,7.848-19.088C390.542,238.668,387.754,231.884,382.678,226.804z"
+                                                        fill="#ffffff"
+                                                    />
+                                                </g>
+                                            </g>
+                                        </g>
+                                    </svg>
+                                </button>
+                            </>
+                        )}
+                    </div>
+                </SectionContainer>
+            </section>
+            <div id={SectionId.ABOUT}>
+                <Tabs/>
+            </div>
+            <div className={styles.storiesSection} id={SectionId.REVIEWS}>
+                <Stories/>
+            </div>
+            <div id="qa">
+                <Questions/>
+            </div>
+            <Footer/>
+        </>
+    );
 };
 
 export default Home;
