@@ -141,7 +141,6 @@ const Home = () => {
                     </EditableText>
                 </p>
                 <NextLink href={`/tour/${i}${router.query.edit === "a3JiVn2mj" ? '?edit=a3JiVn2mj' : ''}`}>
-                    <a>
                         <Button
                             className={styles.cellButton}
                             label="Узнать больше"
@@ -150,7 +149,6 @@ const Home = () => {
                             type={Type.OUTLINE}
                             size={Size.LARGE}
                         />
-                    </a>
                 </NextLink>
                 {canEdit && (
                     <UploadImage
