@@ -5,7 +5,7 @@ import Hero from "../sections/Hero";
 
 import homeBg from "../assets/img/home-bg.jpg";
 import logo from "../assets/img/logo.png";
-import slide1 from "../assets/img/slide_0.jpg";
+import slide1 from "../assets/img/slide_1.jpg";
 import slide2 from "../assets/img/slide_2.jpg";
 import slide3 from "../assets/img/slide_3.jpg";
 import slide4 from "../assets/img/slide_4.jpg";

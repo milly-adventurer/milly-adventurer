@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f2a06f21-ef48-44ab-afd6-2c9ce41dcbb7" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/img/slide_1.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/img/slide_2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/slide_2.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/img/slide_3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/slide_3.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/img/slide_4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/slide_4.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/styles/Home.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/Home.module.scss" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/slide_0.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +53,7 @@
       <workItem from="1669066802694" duration="454000" />
       <workItem from="1669120730618" duration="8000" />
       <workItem from="1669196366107" duration="618000" />
+      <workItem from="1669229281339" duration="389000" />
     </task>
     <servers />
   </component>
