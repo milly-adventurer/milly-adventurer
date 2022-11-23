@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f2a06f21-ef48-44ab-afd6-2c9ce41dcbb7" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/pages/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/img/slide_1.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/slide_2.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/slide_2.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/slide_3.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/slide_3.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/img/slide_4.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/assets/img/slide_4.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/styles/Home.module.scss" beforeDir="false" afterPath="$PROJECT_DIR$/styles/Home.module.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +30,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/img" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="yarn" />
@@ -33,6 +39,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\OpenServer\domains\milly-adventurer\assets\img" />
       <recent name="C:\OpenServer\domains\milly-adventurer\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
@@ -42,12 +49,14 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="1aab9d78-4330-4c6e-919c-2fb03964128d" name="Default Changelist" comment="" />
+      <changelist id="f2a06f21-ef48-44ab-afd6-2c9ce41dcbb7" name="Default Changelist" comment="" />
       <created>1669066799642</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1669066799642</updated>
       <workItem from="1669066802694" duration="454000" />
+      <workItem from="1669120730618" duration="8000" />
+      <workItem from="1669196366107" duration="618000" />
     </task>
     <servers />
   </component>
